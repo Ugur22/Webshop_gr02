@@ -304,7 +304,7 @@ namespace Webshop_gr02.DatabaseControllers
                     brutoOmzet = dataReader.GetDouble("BRUTO_omzet");
                     nettoOmzet = dataReader.GetDouble("NETTO_omzet");
 
-                    Product product = new Product { ID = productId, naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
+                    Product product = new Product { naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
 
                     producten.Add(product);
                 }
@@ -349,7 +349,7 @@ namespace Webshop_gr02.DatabaseControllers
                     naamProduct = dataReader.GetString("Naam");
                     prijsProduct = dataReader.GetDouble("Prijs");
                     afzet = dataReader.GetInt32("Afzet");
-                    Product product = new Product { ID = productID, naam = naamProduct, afzet = afzet, prijs = prijsProduct};
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct};
 
                     producten.Add(product);
                     //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
@@ -399,7 +399,7 @@ namespace Webshop_gr02.DatabaseControllers
                     naamProduct = dataReader.GetString("Naam");
                     prijsProduct = dataReader.GetDouble("Prijs");
                     afzet = dataReader.GetInt32("Afzet");
-                    Product product = new Product { ID = productID, naam = naamProduct, afzet = afzet, prijs = prijsProduct };
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
 
                     producten.Add(product);
                     //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
@@ -460,7 +460,7 @@ namespace Webshop_gr02.DatabaseControllers
                     brutoOmzet = dataReader.GetDouble("BRUTO_omzet");
                     nettoOmzet = dataReader.GetDouble("NETTO_omzet");
 
-                    Product product = new Product { ID = productId, naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
+                    Product product = new Product { naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
 
                     producten.Add(product);
                 }
