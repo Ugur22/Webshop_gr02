@@ -246,6 +246,7 @@
     <Content Include="Views\Manager\ManagerHomepage.cshtml" />
     <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
+    <Content Include="Views\Product\ToevoegenProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -37,7 +37,27 @@ namespace Webshop_gr02.Controllers
             return View();
         }
 
+        public ActionResult ToevoegenProduct()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult ToevoegenProduct(Product product)
+        {
+            try
+            {
+                authDBController.InsertProduct(product);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
+
+
+            }
+            return RedirectToAction("LogOn", "Account");
+        }
         
 
     }
