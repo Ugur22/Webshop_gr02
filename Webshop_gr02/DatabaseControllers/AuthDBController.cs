@@ -260,6 +260,9 @@ namespace Webshop_gr02.DatabaseControllers
         
         public List<Product> getTotalOmzet()
         {
+            DateTime today = DateTime.Now;
+            DateTime answer = today.AddMonths(-12);
+
             List<Product> producten = new List<Product>();
             int productId = 0;
             string productName = "";
@@ -274,9 +277,21 @@ namespace Webshop_gr02.DatabaseControllers
                                                     (pt.verkoop_prijs*count(vp.ID_PT)) as BRUTO_omzet, 
                                                     ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_PT)) as NETTO_omzet
                                                     FROM product_type pt left join verkocht_product vp on pt.ID_PT = vp.ID_PT
-                                                    where vp.verkoop_datum between '2014/06/01' and '2014/06//31'
+                                                    where vp.verkoop_datum between @firstDate and @secondDate
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
+
+                MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
+                MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+                
+                firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
+                secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
+
+                cmd.Parameters.Add(firstDateParam);
+                cmd.Parameters.Add(secondDateParam);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -290,7 +305,6 @@ namespace Webshop_gr02.DatabaseControllers
                     Product product = new Product { ID = productId, naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
 
                     producten.Add(product);
-                    //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
                 }
             }
             catch (Exception e)
@@ -406,14 +420,12 @@ namespace Webshop_gr02.DatabaseControllers
 
         public List<Product> getMonthlyOmzet(string date)
         {
-            Console.WriteLine(date);
-
             List<Product> producten = new List<Product>();
             int productId = 0;
             string productName = "";
             double brutoOmzet = 0;
             double nettoOmzet = 0;
-            //string div = "";
+
             try
             {
                 conn.Open();
@@ -422,20 +434,20 @@ namespace Webshop_gr02.DatabaseControllers
                                                     (pt.verkoop_prijs*count(vp.ID_PT)) as BRUTO_omzet, 
                                                     ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_PT)) as NETTO_omzet
                                                     FROM product_type pt left join verkocht_product vp on pt.ID_PT = vp.ID_PT
-                                                    where vp.verkoop_datum between '@date/01' and '@date/31'
+                                                    where vp.verkoop_datum between @firstDate and @secondDate
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
-                MySqlParameter dateParam = new MySqlParameter("@date", MySqlDbType.VarChar);
-                dateParam.Value = date;
-                cmd.Parameters.Add(dateParam);
+                MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
+                MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+                firstDateParam.Value = date+"/01";
+                secondDateParam.Value = date+"/31";
+
+                cmd.Parameters.Add(firstDateParam);
+                cmd.Parameters.Add(secondDateParam);
                 cmd.Prepare();
 
-                Console.WriteLine(cmd);
-
                 cmd.ExecuteNonQuery();
-
-                Console.WriteLine(cmd);
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -449,7 +461,6 @@ namespace Webshop_gr02.DatabaseControllers
                     Product product = new Product { ID = productId, naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
 
                     producten.Add(product);
-                    //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
                 }
             }
             catch (Exception e)
