@@ -10,7 +10,7 @@ namespace Webshop_gr02.Controllers
     public class PromotieController : Controller
     {
 
-              //
+        //
         // GET: /Promotie/
    
            public ActionResult PromotieToevoegen()
@@ -18,8 +18,8 @@ namespace Webshop_gr02.Controllers
             return View();
         }
 
-        ///Post Methode uploaden bestanden
-        ///
+        //Post Methode uploaden bestanden
+        //
         [HttpPost]
         public ActionResult PromotieToevoegen(HttpPostedFileBase file)
 

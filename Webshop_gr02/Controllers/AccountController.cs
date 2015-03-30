@@ -23,7 +23,6 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             return View();
         }
 
-       
         [HttpPost]
         public ActionResult ToevoegenRegistratie(Registratie registratie)
         {
@@ -45,8 +44,6 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
         {
             return View();
         }
-
-
 
         [HttpPost]
         public ActionResult LogOn(LogOnViewModel viewModel, String returnUrl)
@@ -80,6 +77,5 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
                 return View();
             }
         }
-
     }
 }
