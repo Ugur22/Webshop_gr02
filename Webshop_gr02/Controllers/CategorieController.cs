@@ -10,8 +10,6 @@ using Webshop_gr02.DatabaseControllers;
 using Webshop_gr02.Models;
 using WorkshopASPNETMVC3_IV_.Models;
 
-
-
 namespace Webshop_gr02.Controllers
 {
     public class CategorieController : Controller

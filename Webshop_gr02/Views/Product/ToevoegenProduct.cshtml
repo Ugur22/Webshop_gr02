@@ -3,8 +3,6 @@
     ViewBag.Title = "ToevoegenProduct";
 }
 
-
-{
 <div class="content_wrap">
     <form method="post" action="/Product/ToevoegenProduct">
     <span style="color:red">@Html.ValidationMessage("Toevoegen is niet gelukt")</span>
@@ -14,7 +12,6 @@
         <div class="editor-label">
             Naam product:
         </div>
-
         <div class="editor-field">
             @Html.TextBoxFor(model => model.naam)
             @Html.ValidationMessageFor(model => model.naam)
@@ -23,7 +20,6 @@
         <div class="editor-label">
             Voorraad:
         </div>
-
         <div class="editor-field">
             @Html.TextBoxFor(model => model.voorraad)
             @Html.ValidationMessageFor(model => model.voorraad) 
@@ -32,12 +28,9 @@
         <div class="editor-label">
             Zichtbaar:
         </div>
-
         @Html.RadioButtonFor(Model => Model.zichtbaar, "1") Ja
         @Html.RadioButtonFor(Model => Model.zichtbaar, "0", new { Checked = "checked" }) Nee
         @Html.ValidationMessageFor(Model => Model.zichtbaar)    
-        
-
         
         <p>
             <input type="submit" value="Toevoegen" />
@@ -45,4 +38,3 @@
     </fieldset>
     </form>
 </div>
-}
