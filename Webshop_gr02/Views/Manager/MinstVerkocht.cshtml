@@ -13,7 +13,7 @@
                 @for (int i = 0; i < 13; i++)
                 {
                     DateTime answer = today.AddMonths(-i);
-                    <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM")</option>
+                    <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM/yy")</option>
                 }
             </select>
            <input type="submit" value="check" />
