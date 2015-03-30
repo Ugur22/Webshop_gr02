@@ -221,22 +221,22 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs, omschrijving, image_name, zichtbaar, aanbieding)
-                values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_name, @zichtbaar, @aanbieding)";
+                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs , omschrijving, image_path, zichtbaar, aanbieding)
+                values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_path, @zichtbaar, @aanbieding)";
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter inkoopPrijsParam = new MySqlParameter("@inkoop_prijs", MySqlDbType.Float);
                 MySqlParameter verkoopPrijsParam = new MySqlParameter("@verkoop_prijs", MySqlDbType.Float);
                 MySqlParameter omschrijvingParam = new MySqlParameter("@omschrijving", MySqlDbType.VarChar);
-                MySqlParameter afbeeldingNaamParam = new MySqlParameter("@image_name", MySqlDbType.VarChar);
+                MySqlParameter image_path = new MySqlParameter("@image_path", MySqlDbType.VarChar);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.VarChar);
                 MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.VarChar);
 
                 naamParam.Value = productType.Naam;
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
-                verkoopPrijsParam.Value = productType.VerkoopPrijs;
+                verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
-                afbeeldingNaamParam.Value = productType.ImageName;
+                image_path.Value = productType.image_path;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
 
@@ -244,7 +244,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(inkoopPrijsParam);
                 cmd.Parameters.Add(verkoopPrijsParam);
                 cmd.Parameters.Add(omschrijvingParam);
-                cmd.Parameters.Add(afbeeldingNaamParam);
+                cmd.Parameters.Add(image_path);
                 cmd.Parameters.Add(zichtbaarParam);
                 cmd.Parameters.Add(aanbiedingParam);
 
@@ -330,9 +330,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_P as Product_ID, p.Naam as Naam, count(vp.ID_P) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product p left join verkocht_product vp on p.ID_P = vp.ID_P
-                                        GROUP BY p.ID_P
+                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
+                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
+                                        GROUP BY p.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;"
                                         ;
