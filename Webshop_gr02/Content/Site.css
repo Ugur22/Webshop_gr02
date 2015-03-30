@@ -1,0 +1,337 @@
+﻿body
+{
+    
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+a {
+    color:#21aee5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+	list-style: none;
+}
+
+.contentToevoegen ul li {
+    padding: 10px;
+}
+
+.page-wrap {
+	position:relative;
+	width:880px;
+	margin: 0 auto;
+	min-height: 100%;
+	/* equal to footer height */
+	margin-bottom: -253px; 
+	-webkit-transition: all .4s ease-in-out;
+	-moz-transition: all .4s ease-in-out;
+	-ms-transition: all .4s ease-in-out;
+	-o-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+}
+
+#header_wrap {
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	position: fixed;
+	background-color:white;
+	width: 100%;
+	height: 116px;
+	margin-top: 0px;
+	z-index: 999;
+	left:0px;
+	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 1);
+	-moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 1);
+	box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.3);
+    margin-top:-8px;
+}
+
+#header_content {
+	position: relative;
+	width: 960px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#logoz_zonder_tekst{
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;  
+	margin-top:68px;
+	margin-left:36px;
+	float:left;
+}
+
+#nav {
+	float:left;
+	font-family: arial, sans-serif;
+	font-weight: bold;
+	position: relative;
+	width: 600px;
+	height:56px;
+	font-size:14px;
+	color:#999;
+    margin-left:57px;
+	margin-top:46px;
+}
+ 
+#nav ul li {
+	float: left;
+	position: relative;
+}
+ 
+#nav ul li a {
+	text-align: center;
+	padding:20px;
+	display:block;
+	text-decoration:none;
+	color:black;
+}
+
+#nav li:hover {
+	background-color:rgba(0,156,0,0.7);
+	-webkit-border-top-left-radius: 12px;
+	-webkit-border-top-right-radius: 12px;
+	-moz-border-radius-topleft: 12px;
+	-moz-border-radius-topright: 12px;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+}
+
+#nav a:hover {
+	color:white;
+}
+ 
+#nav ul li ul {
+	display: none;
+}
+ 
+#nav ul li:hover ul {
+	display: block;
+	position: absolute;
+	margin-left:-70px;
+}
+ 
+#nav ul li:hover ul li a {
+	display:block;
+	color:#0093d6;
+	background-color:rgba(0,156,0,0.7);
+	color:#ffffff;
+	width: 110px;
+	text-align: center;
+	border-bottom: 1px solid #f2f2f2;
+	border-right: none;
+}
+ 
+#nav ul li:hover ul li a:hover {
+	background:#1d7200;
+	color:white;
+}
+
+.content_wrap {
+	position: absolute;
+	float: left;
+	width: 100%;
+	height: auto;
+	/* top: -43px; */
+	z-index:10;
+	padding-top: 120px;
+	padding-bottom: 30px;
+}
+
+/*************************************************************
+*****
+***** MANAGER PAGES STYLE
+*****
+*************************************************************/
+
+.table_wrap {
+    padding: 100px 50px 0 50px;
+}
+
+.table_wrap .table_content {
+    border: 1px solid black;
+}
+
+.table_wrap .table_content .table_left {
+    border-right: 1px solid black;
+    float: left;
+    width: 75px;
+}
+
+.table_wrap .table_content .table_middle {
+    border-right: 1px solid black;
+    float: left;
+    width: 250px;
+}
+
+.table_wrap .table_content .row {
+    border-bottom: 1px solid black;
+}
+
+.dropdown_month {
+    float: right;
+    margin-right: 50px;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+      min-height: 112px;
+      width: 313px;
+    
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+.editor-area {
+
+
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/* Style for MeestVerkocht
+------------------------------------------------------*/
+
+#titel 
+{
+    position:relative;
+    top:25px;
+}
+
+div#banner {
+    position: relative;
+    margin-left: 373px;
+    width: 300px;
+    top: 41px;
+}
+
+#TopAndBottom10Table 
+{
+    position:relative;
+    width:100%;
+    top:50px;
+    border-style:solid;
+    border-width:1px;
+    border-color:black;
+}
+
+/* Style fot MinstVerkocht
+ ---------------------------------------------------------*/
+#ManagerHomepage 
+{
+    padding-top:150px;
+}
+
+.buttons {
+    width: 100%;
+}
+
+.button_left {
+    float: left;
+}
+
+.button_middle {
+    float:left;
+    margin-left: 100px
+}
+
+.button_right {
+    float:left;
+    margin-left: 100px
+}
+
+.buttonManager {
+    width:auto;
+    background-color: #134a01;
+    color:white;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    padding:10px;
+}
+
+.buttonManager:hover {
+    background-color: #1d7200;
+    text-decoration:underline;
+}
+
+/* Styles for Categorieën table
+-----------------------------------------------------------*/
+#table, td, th {
+    border: 1px solid #175801;
+     width: 80px;
+     
+}
+
+th {
+    background-color:#175801;
+    color: white;
+     width: 80px;
+     
+}

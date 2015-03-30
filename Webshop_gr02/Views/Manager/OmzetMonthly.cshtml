@@ -1,0 +1,75 @@
+﻿@model List<Webshop_gr02.Models.Product>
+@{
+    ViewBag.Title = "Omzet_Monthly";
+}
+<div class="content_wrap">
+    <div class="dropdown_month">
+        <form method="post" action="/Manager/OmzetMonthly">
+            @{DateTime today = DateTime.Now;}
+            <select>
+                @for (int i = 0; i < 13; i++)
+                {
+                    DateTime answer = today.AddMonths(-i);
+                    <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM")</option>
+                }
+            </select>
+            <input type="submit" value="Check" />
+        </form>
+    </div>
+    <div class="table_wrap">
+        <div class="table_content">
+            <div class="row">
+                <div class="table_left">
+                    <b>Product ID</b>
+                </div>
+                <div class="table_middle">
+                    <b>Product Naam</b>
+                </div>
+                <div class="table_middle">
+                    <b>Bruto Omzet</b>
+                </div>
+                <div class="table_right">
+                    <b>Netto Omzet</b>
+                </div>
+            </div>
+            @for(int i = 0; i < Model.Count; i++){
+                {   var count = Model.Count-1;
+                    if (i == count)
+                    {
+                        <div class="row_last">
+                            <div class="table_left">
+                                @Model[i].ID
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].BrutoOmzet
+                            </div>
+                            <div class="table_right">
+                                @Model[i].NettoOmzet
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="table_left">
+                                @Model[i].ID
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].BrutoOmzet
+                            </div>
+                            <div class="table_right">
+                                @Model[i].NettoOmzet
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>

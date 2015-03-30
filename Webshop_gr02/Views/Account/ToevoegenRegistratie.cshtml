@@ -1,0 +1,87 @@
+﻿@model WorkshopASPNETMVC3_IV_.Models.Registratie
+
+@{
+    ViewBag.Title = "ToevoegenRegistratie";
+}
+
+{
+<div class="content_wrap">   
+    
+    <form method="post"  action="/Account/ToevoegenRegistratie">
+    <span style="color:red">@Html.ValidationMessage("toevoegen is niet gelukt")</span> 
+    <fieldset>
+        <legend>Registratie toevoegen</legend>
+
+
+        <div class="editor-label">
+            Voornaam:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Voornaam)
+            @Html.ValidationMessageFor(model => model.Voornaam) 
+        </div>
+
+        <div class="editor-label">
+            Tussenvoegsels:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Tussenvoegsel)
+            @Html.ValidationMessageFor(model => model.Tussenvoegsel) 
+        </div>
+
+        <div class="editor-label">
+            Achternaam:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Achternaam)
+            @Html.ValidationMessageFor(model => model.Achternaam) 
+        </div>
+
+        <div class="editor-label">
+            Username:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Username)
+            @Html.ValidationMessageFor(model => model.Username) 
+        </div>
+
+        <div class="editor-label">
+            Password:
+        </div>
+       
+        <div class="editor-field"> 
+           
+        
+            @Html.PasswordFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password) 
+
+            
+        </div>
+
+        <div class="editor-label">
+            Email:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email) 
+        </div>
+
+        <div class="editor-label">
+            Geslacht:
+        </div>
+       
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Geslacht)
+            @Html.ValidationMessageFor(model => model.Geslacht) 
+        </div>
+        <p>
+            <input type="submit" value="Toevoegen" />
+        </p>
+    </fieldset>
+        </form> 
+</div>

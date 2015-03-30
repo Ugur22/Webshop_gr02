@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Cookie example</h2>
+
+@using (Html.BeginForm("Index", "Cookie", FormMethod.Post))
+{
+     <fieldset>
+        <legend>Voer naam in</legend>
+
+        <div class="editor-label">
+           Naam
+        </div>
+        <div class="editor-field">
+            <input type="text" name="naam" id="naam" value="@ViewBag.Naam" />
+        </div>
+        <p>
+            <input type="submit" value="Go!" />
+        </p>
+    </fieldset>
+}

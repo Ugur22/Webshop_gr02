@@ -1,0 +1,33 @@
+﻿@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel
+
+@{
+    ViewBag.Title = "Logon";
+}
+
+@using (Html.BeginForm("Logon", "Account"))
+{
+<div class="content_wrap">    
+    <span style="color:red">@Html.ValidationMessage("loginfout")</span> 
+    <fieldset>
+        <legend>Inloggen</legend>
+
+        <div class="editor-label">
+           Gebruikersnaam
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.UserName)   
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+        <div class="editor-label">
+            Wachtwoord
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.PassWord)
+            @Html.ValidationMessageFor(model => model.PassWord) 
+        </div>
+        <p>
+            <input type="submit" value="log in" />
+        </p>
+    </fieldset>
+</div>
+}
