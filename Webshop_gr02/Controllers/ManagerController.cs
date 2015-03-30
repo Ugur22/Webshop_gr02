@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Webshop_gr02.DatabaseControllers;
 using Webshop_gr02.Models;
-
 using MySql.Data.MySqlClient;
 
 namespace Webshop_gr02.Controllers
@@ -38,6 +37,14 @@ namespace Webshop_gr02.Controllers
             return View(producten);
         }
 
+        [HttpPost]
+        public ActionResult OmzetMonthly(string date)
+        {
+            List<Product> producten = authDBController.getMonthlyOmzet(date);
+
+            return View(producten);
+        }
+
         public ActionResult MeestVerkocht()
         {
             List<Product> producten = authDBController.GetProductTop10();
@@ -46,6 +53,14 @@ namespace Webshop_gr02.Controllers
             {
                 Console.WriteLine(p);
             }
+
+            return View(producten);
+        }
+
+        [HttpPost]
+        public ActionResult MeestVerkocht(string date)
+        {
+            List<Product> producten = authDBController.getMonthlyProductTop10(date);
 
             return View(producten);
         }
@@ -61,12 +76,12 @@ namespace Webshop_gr02.Controllers
 
             return View(producten);
         }
-		
+
         [HttpPost]
-        public ActionResult OmzetMonthly(string date)
+        public ActionResult MinstVerkocht(string date)
         {
-            List<Product> producten = authDBController.getMonthlyOmzet(date);
-            
+            List<Product> producten = authDBController.GetMonthlyProductBottom10(date);
+
             return View(producten);
         }
     }
