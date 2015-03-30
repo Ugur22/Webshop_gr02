@@ -39,6 +39,5 @@ C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.Razor
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.xml
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Deployment.xml
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Razor.xml
-C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb

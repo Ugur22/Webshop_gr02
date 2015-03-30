@@ -129,9 +129,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryStudent = @"select * from categorie";
+                string selectQuery = @"select * from categorie";
 
-                MySqlCommand cmd = new MySqlCommand(selectQueryStudent, conn);
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
@@ -207,7 +207,8 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public void InsertProductType(ProductType productType) {
+        public void InsertProductType(ProductType productType)
+        {
 
             MySqlTransaction trans = null;
             try
@@ -231,7 +232,11 @@ namespace Webshop_gr02.DatabaseControllers
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
+<<<<<<< HEAD
+                afbeeldingNaamParam.Value = productType.ImagePath;
+=======
                 image_path.Value = productType.image_path;
+>>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
 
@@ -266,8 +271,16 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
+<<<<<<< HEAD
+
+
+
+        }
+
+=======
         }
         
+>>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
         public List<Product> getTotalOmzet()
         {
             DateTime today = DateTime.Now;
@@ -346,7 +359,7 @@ namespace Webshop_gr02.DatabaseControllers
                                         order by afzet desc, Product_ID 
                                         limit 10;"
                                         ;
-                
+
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -357,7 +370,11 @@ namespace Webshop_gr02.DatabaseControllers
                     naamProduct = dataReader.GetString("Naam");
                     prijsProduct = dataReader.GetDouble("Prijs");
                     afzet = dataReader.GetInt32("Afzet");
+<<<<<<< HEAD
+                    Product product = new Product { ID = productID, naam = naamProduct, afzet = afzet, prijs = prijsProduct };
+=======
                     Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct};
+>>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
 
                     producten.Add(product);
                     //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
@@ -377,7 +394,13 @@ namespace Webshop_gr02.DatabaseControllers
 
             return producten;
         }
+<<<<<<< HEAD
+
+
+
+=======
 		
+>>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
         public List<Product> GetProductBottom10()
         {
             List<Product> producten = new List<Product>();
@@ -483,5 +506,55 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return producten;
         }
-    }
+
+        public List<ProductType> GetProductTypeOverzicht()
+        {
+            List<ProductType> productenType = new List<ProductType>();
+            string naamProduct;
+            String omschrijving;
+            String imagePath;
+            String zichtbaar;
+            String aanbieding;
+            float inkoopPrijs;
+            float verkoopPrijs;
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT * FROM product_type";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    naamProduct = dataReader.GetString("naam");
+                    inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
+                    verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
+                    omschrijving = dataReader.GetString("omschrijving");
+                    imagePath = dataReader.GetString("image_path");
+                    zichtbaar = dataReader.GetString("zichtbaar");
+                    aanbieding = dataReader.GetString("aanbieding");
+
+                    ProductType productType = new ProductType { Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar };
+                    //Console.WriteLine("" + naamProduct + inkoopPrijs + omschrijving);
+                    productenType.Add(productType);
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return productenType;
+
+        }
+
+    }     
 }
