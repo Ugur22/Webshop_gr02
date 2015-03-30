@@ -65,8 +65,6 @@ namespace Webshop_gr02.Controllers
         [HttpPost]
         public ActionResult OmzetMonthly(string date)
         {
-            Console.WriteLine(date);
-            
             List<Product> producten = authDBController.getMonthlyOmzet(date);
             
             return View(producten);

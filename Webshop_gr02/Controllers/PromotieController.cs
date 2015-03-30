@@ -29,7 +29,7 @@ namespace Webshop_gr02.Controllers
 
             if (file.ContentLength > 0)
             {
-                var fileName = Path.GetFileName("banner.png");
+                var fileName = Path.GetFileName(file.FileName);
                 var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
                 file.SaveAs(path);
             }
