@@ -221,7 +221,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs, omschrijving, image_name, zichtbaar, aanbieding)
+                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs, omschrijving, image_path, zichtbaar, aanbieding)
                 values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_name, @zichtbaar, @aanbieding)";
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
@@ -229,8 +229,11 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter verkoopPrijsParam = new MySqlParameter("@verkoop_prijs", MySqlDbType.Float);
                 MySqlParameter omschrijvingParam = new MySqlParameter("@omschrijving", MySqlDbType.VarChar);
                 MySqlParameter afbeeldingNaamParam = new MySqlParameter("@image_name", MySqlDbType.VarChar);
-                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.VarChar);
-                MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.VarChar);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.Double);
+
+
+                
 
                 naamParam.Value = productType.Naam;
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
@@ -239,6 +242,14 @@ namespace Webshop_gr02.DatabaseControllers
                 afbeeldingNaamParam.Value = productType.ImageName;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
+
+
+
+                if (productType.Aanbieding > 0)
+                {
+                    Console.Write("gelukt");
+                verkoopPrijsParam.Value = ((100-productType.Aanbieding)/100) * productType.VerkoopPrijs;
+                }
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(inkoopPrijsParam);
@@ -266,6 +277,12 @@ namespace Webshop_gr02.DatabaseControllers
         
         
         
+        }
+
+        public double berekenPrijsMetKorting(double aanbiedingParam)
+        {
+
+            return aanbiedingParam;
         }
         
         public List<Product> getTotalOmzet()

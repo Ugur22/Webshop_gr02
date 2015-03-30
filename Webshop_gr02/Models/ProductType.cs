@@ -13,8 +13,8 @@ namespace Webshop_gr02.Models
         public double VerkoopPrijs { get; set; }
         public String Omschrijving { get; set; }
         public String ImageName { get; set; }
-        public String Zichtbaar { get; set; }
-        public String Aanbieding { get; set; }
+        public int Zichtbaar { get; set; }
+        public double Aanbieding { get; set; }
 
 
 

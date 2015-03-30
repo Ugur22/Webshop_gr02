@@ -4,7 +4,7 @@
 }
 
 
-{
+
 <div class="content_wrap">   
     
     <form method="post"  action="/Product/ToevoegenProductType">
@@ -68,18 +68,26 @@
         <div class="editor-label">
             Zichtbaar:
         </div>
+        <br>
+
+        @Html.RadioButtonFor(model => model.Zichtbaar, "1") Ja
+        @Html.RadioButtonFor(model => model.Zichtbaar, "0", new { Checked = "checked" }) Nee 
+        @Html.ValidationMessageFor(model => model.Zichtbaar)
+
+      
+
        
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Zichtbaar)
-            @Html.ValidationMessageFor(model => model.Zichtbaar) 
-        </div>
+        
+            
+          
+    
 
         <div class="editor-label">
             Aanbieding:
         </div>
        
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Aanbieding)
+            @Html.TextBoxFor(model => model.Aanbieding) %
             @Html.ValidationMessageFor(model => model.Aanbieding) 
         </div>
         <p>
