@@ -280,12 +280,12 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryOmzetMonthly = @"SELECT p.ID_P as Product_ID, p.Naam as Naam,
-                                                    (p.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
-                                                    ((p.verkoop_prijs-p.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
-                                                    FROM product p left join verkocht_product vp on p.ID_P = vp.ID_P
+                string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
+                                                    (pt.verkoop_prijs*count(vp.ID_PT)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_PT)) as NETTO_omzet
+                                                    FROM product_type pt left join verkocht_product vp on pt.ID_PT = vp.ID_PT
                                                     where vp.verkoop_datum between '2014/06/01' and '2014/06//31'
-                                                    GROUP BY p.ID_P;";
+                                                    GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
