@@ -41,3 +41,6 @@ C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPa
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Razor.xml
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
+C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
+C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
+C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
