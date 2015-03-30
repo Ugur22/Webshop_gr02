@@ -43,10 +43,10 @@
             </div>
 
             <div class="editor-label">
-                image_path:
+                Selecteer een afbeelding wanneer gewenst:
             </div>
             <div class="editor-field">
-                Select Image
+                
                 @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.TextBoxFor(model => model.image_path, new { type = "file" })
