@@ -246,7 +246,11 @@
     <Content Include="Views\Manager\ManagerHomepage.cshtml" />
     <Content Include="Views\Session\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
+=======
+    <Content Include="Views\Product\ToevoegenProduct.cshtml" />
+>>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
