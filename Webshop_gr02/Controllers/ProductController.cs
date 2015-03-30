@@ -37,8 +37,31 @@ namespace Webshop_gr02.Controllers
             return View();
         }
 
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
-        
+
+
+      
+        public ActionResult ProductTypeOverzicht()
+        {
+            try
+            {
+                List<ProductType> producten = authDBController.GetProductTypeOverzicht();
+                return View(producten);
+
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+
+
+        }
 
     }
 }

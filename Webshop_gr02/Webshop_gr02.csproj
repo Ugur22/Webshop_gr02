@@ -244,8 +244,9 @@
     <Content Include="Views\Categorie\Overzichtcategorie.cshtml" />
     <Content Include="Views\Manager\MinstVerkocht.cshtml" />
     <Content Include="Views\Manager\ManagerHomepage.cshtml" />
-    <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
+    <Content Include="Views\Session\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
+    <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -270,7 +271,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4049</DevelopmentServerPort>
+          <DevelopmentServerPort>4120</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
