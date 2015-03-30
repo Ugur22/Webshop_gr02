@@ -25,6 +25,9 @@ $RECYCLE.BIN/
 # =========================
 
 .DS_Store
+/Webshop_gr02/Webshop_gr02/obj/
+/Webshop_gr02/Webshop_gr02/bin/
+
 .AppleDouble
 .LSOverride
 
