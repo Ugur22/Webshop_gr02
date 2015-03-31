@@ -3,7 +3,7 @@
     ViewBag.Title = "ProductTypeOverzicht";
 }
 
-<<<<<<< HEAD
+
 
 
 <div class="content_wrap">
@@ -23,14 +23,15 @@ grid.Column(columnName: "VerkoopPrijs", header: "VerkoopPrijs"),
 grid.Column(columnName: "Omschrijving", header: "Omschrijving"),
 grid.Column(columnName: "Zichtbaar", header: "Zichtbaar"),
 grid.Column(columnName: "Aanbieding", header: "Aanbieding"),
+grid.Column(columnName: "Merk", header: "Merk"),
 grid.Column(header: "Verwijderen", format: (item) => Html.ActionLink("Verwijderen", "ActionName", new { param1 = "hello", param2 = "bye" })),
 grid.Column(header: "Wijzigen", format: (item) => Html.ActionLink("Wijzigen", "ActionName", new { param1 = "hello", param2 = "bye" }))
 ))
 
 
 </div>
-=======
-<div class="content_wrap"> 
+
+@*<div class="content_wrap"> 
    <h2>Overzicht Producten</h2>
     <table id="categorie">
         <thead>
@@ -52,12 +53,12 @@ grid.Column(header: "Wijzigen", format: (item) => Html.ActionLink("Wijzigen", "A
                         <td>@Model[i].InkoopPrijs</td>
                         <td>@Model[i].VerkoopPrijs</td>
                         <td>@Model[i].Omschrijving</td>
-                        <td>@Model[i].image_path</td>
+                        <td>@Model[i].ImagePath</td>
                         <td>@Model[i].Zichtbaar</td>
                         <td>@Model[i].Aanbieding</td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
->>>>>>> origin/master
+</div>*@
+

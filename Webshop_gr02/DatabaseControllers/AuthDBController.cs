@@ -232,7 +232,7 @@ namespace Webshop_gr02.DatabaseControllers
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
-                image_path.Value = productType.image_path;
+                image_path.Value = productType.ImagePath;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
 
@@ -601,6 +601,7 @@ namespace Webshop_gr02.DatabaseControllers
         public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
+            int ID_PT;
             string naamProduct;
             String omschrijving;
             String imagePath;
@@ -608,6 +609,8 @@ namespace Webshop_gr02.DatabaseControllers
             double aanbieding;
             float inkoopPrijs;
             float verkoopPrijs;
+            String merk;
+
 
             try
             {
@@ -620,6 +623,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
+                    ID_PT = dataReader.GetInt16("ID_PT");
                     naamProduct = dataReader.GetString("naam");
                     inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
                     verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
@@ -627,8 +631,9 @@ namespace Webshop_gr02.DatabaseControllers
                     imagePath = dataReader.GetString("image_path");
                     zichtbaar = dataReader.GetInt32("zichtbaar");
                     aanbieding = dataReader.GetDouble("aanbieding");
+                    merk = dataReader.GetString("merk");
 
-                    ProductType productType = new ProductType { Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, image_path = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar };
+                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
                     productenType.Add(productType);
                 }
             }
