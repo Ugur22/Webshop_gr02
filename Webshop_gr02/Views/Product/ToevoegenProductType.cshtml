@@ -19,6 +19,14 @@
             </div>
 
             <div class="editor-label">
+                Merk:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Merk)
+                @Html.ValidationMessageFor(model => model.Merk)
+            </div>
+
+            <div class="editor-label">
                 Inkoopprijs:
             </div>
             <div class="editor-field">
@@ -46,7 +54,7 @@
                 Selecteer een afbeelding wanneer gewenst:
             </div>
             <div class="editor-field">
-                Select Image
+             
 
                 @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
