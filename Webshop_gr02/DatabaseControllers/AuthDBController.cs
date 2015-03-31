@@ -342,11 +342,13 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_PT)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_PT)) as NETTO_omzet
-                                                    FROM product_type pt left join verkocht_product vp on pt.ID_PT = vp.ID_PT
-                                                    where vp.verkoop_datum between @firstDate and @secondDate
-                                                    GROUP BY pt.ID_PT;";
+                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+
+                                                   left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                   where  vp.verkoop_datum between @firstDate and @secondDate                                                   
+                                                   GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
@@ -397,9 +399,10 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
-                                        GROUP BY p.ID_PT
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                        GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
 
@@ -441,10 +444,13 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
-                                        WHERE vp.verkoop_datum between @firstDate and @secondDate
-                                        GROUP BY p.ID_PT
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt 
+                                        
+                                                             left join product p on pt.ID_PT = p.ID_PT
+                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                        GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
 
@@ -497,9 +503,10 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
-                                        GROUP BY p.ID_PT
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                        GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
 
@@ -541,11 +548,14 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
-                                        WHERE vp.verkoop_datum between @firstDate and @secondDate
-                                        GROUP BY p.ID_PT
-                                        order by afzet asc, Product_ID 
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt 
+                                        
+                                                             left join product p on pt.ID_PT = p.ID_PT
+                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                        GROUP BY pt.ID_PT
+                                        order by afzet desc, Product_ID 
                                         limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
