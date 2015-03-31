@@ -7,10 +7,26 @@
 <div class="content_wrap"> 
    <h2>Overzichtcategorieën</h2>
 <h2></h2>
- @{
-     var grid = new WebGrid(Model);
-    }
-    @grid.GetHtml()
 
-   
+         <table id="hor-minimalist-b">
+        <thead>
+    	    <tr>
+                <th>ID catagorie</th>
+        	    <th>Naam</th>
+                 <th>Wijzigen</th>
+                  <th>Verwijderen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr> 
+                    <td>@Model[i].ID_C</td>
+                    <td>@Model[i].Naam</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { genreId = @Model[i].ID_C})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { genreId = @Model[i].ID_C})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

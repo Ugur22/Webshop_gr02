@@ -7,22 +7,38 @@
     <h2>Overzicht Producttypes</h2>
   <p>@Html.ActionLink("Producttype Toevoegen", "ToevoegenProductType")</p>
 
-    
- 
-    @{
-        var grid = new WebGrid(Model);
-    }
-    @grid.GetHtml(columns: grid.Columns(
-grid.Column(columnName: "ID_PT", header: "ID product"),
-grid.Column(columnName: "Naam", header: "Naam"),
-grid.Column(columnName: "InkoopPrijs", header: "InkoopPrijs"),
-grid.Column(columnName: "VerkoopPrijs", header: "VerkoopPrijs"),
-grid.Column(columnName: "Omschrijving", header: "Omschrijving"),
-grid.Column(columnName: "Zichtbaar", header: "Zichtbaar"),
-grid.Column(columnName: "Aanbieding", header: "Aanbieding"),
-grid.Column(header: "Verwijderen", format: (item) => Html.ActionLink("Verwijderen", "ActionName", new { param1 = "hello", param2 = "bye" })),
-grid.Column(header: "Wijzigen", format: (item) => Html.ActionLink("Wijzigen", "ActionName", new { param1 = "hello", param2 = "bye" }))
-))
+
+     <table id="hor-minimalist-b">
+        <thead>
+    	    <tr>
+                <th>ID_PT</th>
+        	    <th>Naam</th>
+                <th>InkoopPrijs</th>
+                <th>VerkoopPrijs</th>
+                <th>Omschrijving</th>
+                <th>Zichtbaar</th>
+                <th>Aanbieding</th>
+                 <th>Wijzigen</th>
+                 <th>Verwijderen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr> 
+                    <td>@Model[i].ID_PT</td>
+                    <td>@Model[i].Naam</td>
+                    <td>@Model[i].InkoopPrijs</td>
+                    <td>@Model[i].VerkoopPrijs</td>
+                    <td>@Model[i].Omschrijving</td>
+                    <td>@Model[i].Zichtbaar</td>
+                    <td>@Model[i].Aanbieding</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { genreId = @Model[i].ID_PT})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { genreId = @Model[i].ID_PT})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
 </div>
