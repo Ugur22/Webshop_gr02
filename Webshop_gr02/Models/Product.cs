@@ -17,7 +17,7 @@ namespace Webshop_gr02.Models
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7}", naam, voorraad, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet);
+            return String.Format("{0} {1} {2} {3} {4} {5} {6}", naam, voorraad, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet);
         }
     }
 }
