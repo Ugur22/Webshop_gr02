@@ -11,7 +11,6 @@ namespace Webshop_gr02.DatabaseControllers
 {
     public class AuthDBController
     {
-
         private MySqlConnection conn;
 
         public AuthDBController()
@@ -122,6 +121,7 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
+
         public List<Categorie> GetCategorieën()
         {
             List<Categorie> categorieën = new List<Categorie>();
@@ -215,27 +215,39 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
+				
                 String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs , omschrijving, image_path, zichtbaar, aanbieding)
                 values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_path, @zichtbaar, @aanbieding)";
+
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter inkoopPrijsParam = new MySqlParameter("@inkoop_prijs", MySqlDbType.Float);
                 MySqlParameter verkoopPrijsParam = new MySqlParameter("@verkoop_prijs", MySqlDbType.Float);
                 MySqlParameter omschrijvingParam = new MySqlParameter("@omschrijving", MySqlDbType.VarChar);
                 MySqlParameter image_path = new MySqlParameter("@image_path", MySqlDbType.VarChar);
-                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.VarChar);
-                MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.VarChar);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.Double);
 
                 naamParam.Value = productType.Naam;
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
+<<<<<<< HEAD
 
                 image_path.Value = productType.ImagePath;
 
                 image_path.Value = productType.ImagePath;
+=======
+                image_path.Value = productType.image_path;
+>>>>>>> origin/master
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
+
+                if (productType.Aanbieding > 0)
+                {
+                    Console.Write("gelukt");
+                verkoopPrijsParam.Value = ((100-productType.Aanbieding)/100) * productType.VerkoopPrijs;
+                }
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(inkoopPrijsParam);
@@ -260,6 +272,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
+<<<<<<< HEAD
 
 
 
@@ -270,11 +283,74 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
+=======
+        }
+
+>>>>>>> origin/master
         public List<Product> getTotalOmzet()
         {
             DateTime today = DateTime.Now;
             DateTime answer = today.AddMonths(-12);
 
+            List<Product> producten = new List<Product>();
+            int productId = 0;
+            string productName = "";
+            double brutoOmzet = 0;
+            double nettoOmzet = 0;
+
+            try
+            {
+                conn.Open();
+
+                string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
+                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+
+                                                   left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                   where  vp.verkoop_datum between @firstDate and @secondDate                                                   
+                                                   GROUP BY pt.ID_PT;";
+                MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
+
+                MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
+                MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+                
+                firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
+                secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
+
+                cmd.Parameters.Add(firstDateParam);
+                cmd.Parameters.Add(secondDateParam);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    productId = dataReader.GetInt32("Product_ID");
+                    productName = dataReader.GetString("Naam");
+                    brutoOmzet = dataReader.GetDouble("BRUTO_omzet");
+                    nettoOmzet = dataReader.GetDouble("NETTO_omzet");
+
+                    Product product = new Product { naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
+
+                    producten.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return producten;
+        }
+
+        public List<Product> getMonthlyOmzet(string date)
+        {
             List<Product> producten = new List<Product>();
             int productId = 0;
             string productName = "";
@@ -295,9 +371,14 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
                 MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+<<<<<<< HEAD
 
                 firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
                 secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
+=======
+                firstDateParam.Value = date + "/01";
+                secondDateParam.Value = date + "/31";
+>>>>>>> origin/master
 
                 cmd.Parameters.Add(firstDateParam);
                 cmd.Parameters.Add(secondDateParam);
@@ -345,8 +426,7 @@ namespace Webshop_gr02.DatabaseControllers
                                         FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
                                         GROUP BY p.ID_PT
                                         order by afzet desc, Product_ID 
-                                        limit 10;"
-                                        ;
+                                        limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
 
@@ -358,13 +438,16 @@ namespace Webshop_gr02.DatabaseControllers
                     naamProduct = dataReader.GetString("Naam");
                     prijsProduct = dataReader.GetDouble("Prijs");
                     afzet = dataReader.GetInt32("Afzet");
+<<<<<<< HEAD
 
 
 
                     Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
+=======
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct};
+>>>>>>> origin/master
 
                     producten.Add(product);
-                    //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
                 }
             }
             catch (Exception e)
@@ -375,14 +458,10 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
-
-            //string x = ProductId.ToString() + ProductName + BrutoOmzet.ToString() + NettoOmzet.ToString();
-
-
             return producten;
         }
 
-        public List<Product> GetProductBottom10()
+        public List<Product> getMonthlyProductTop10(string date)
         {
             List<Product> producten = new List<Product>();
             int productID = 0;
@@ -394,63 +473,16 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT p.ID_P as Product_ID, p.Naam as Naam, count(vp.ID_P) as Afzet, p.verkoop_prijs as Prijs
-                                        FROM product p left join verkocht_product vp on p.ID_P = vp.ID_P
-                                        GROUP BY p.ID_P
-                                        order by afzet asc, Product_ID 
-                                        limit 10;"
-                                        ;
+<<<<<<< HEAD
+=======
+                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
+                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
+                                        WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                        GROUP BY p.ID_PT
+                                        order by afzet desc, Product_ID 
+                                        limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
-
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    productID = dataReader.GetInt32("Product_ID");
-                    naamProduct = dataReader.GetString("Naam");
-                    prijsProduct = dataReader.GetDouble("Prijs");
-                    afzet = dataReader.GetInt32("Afzet");
-                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
-
-                    producten.Add(product);
-                    //Console.WriteLine("" + ProductId + ProductName + BrutoOmzet + NettoOmzet);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            finally
-            {
-                conn.Close();
-            }
-
-            //string x = ProductId.ToString() + ProductName + BrutoOmzet.ToString() + NettoOmzet.ToString();
-
-
-            return producten;
-        }
-
-        public List<Product> getMonthlyOmzet(string date)
-        {
-            List<Product> producten = new List<Product>();
-            int productId = 0;
-            string productName = "";
-            double brutoOmzet = 0;
-            double nettoOmzet = 0;
-
-            try
-            {
-                conn.Open();
-
-                string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_PT)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_PT)) as NETTO_omzet
-                                                    FROM product_type pt left join verkocht_product vp on pt.ID_PT = vp.ID_PT
-                                                    where vp.verkoop_datum between @firstDate and @secondDate
-                                                    GROUP BY pt.ID_PT;";
-                MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
                 MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
@@ -467,12 +499,112 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
-                    productId = dataReader.GetInt32("Product_ID");
-                    productName = dataReader.GetString("Naam");
-                    brutoOmzet = dataReader.GetDouble("BRUTO_omzet");
-                    nettoOmzet = dataReader.GetDouble("NETTO_omzet");
+                    productID = dataReader.GetInt32("Product_ID");
+                    naamProduct = dataReader.GetString("Naam");
+                    prijsProduct = dataReader.GetDouble("Prijs");
+                    afzet = dataReader.GetInt32("Afzet");
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
 
-                    Product product = new Product { naam = productName, BrutoOmzet = brutoOmzet, NettoOmzet = nettoOmzet };
+                    producten.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+>>>>>>> origin/master
+            return producten;
+        }
+
+        public List<Product> GetProductBottom10()
+        {
+            List<Product> producten = new List<Product>();
+            int productID = 0;
+            string naamProduct = "";
+            double prijsProduct = 0;
+            int afzet = 0;
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
+                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
+                                        GROUP BY p.ID_PT
+                                        order by afzet asc, Product_ID 
+                                        limit 10;";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    productID = dataReader.GetInt32("Product_ID");
+                    naamProduct = dataReader.GetString("Naam");
+                    prijsProduct = dataReader.GetDouble("Prijs");
+                    afzet = dataReader.GetInt32("Afzet");
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
+
+                    producten.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return producten;
+        }
+
+        public List<Product> GetMonthlyProductBottom10(string date)
+        {
+            List<Product> producten = new List<Product>();
+            int productID = 0;
+            string naamProduct = "";
+            double prijsProduct = 0;
+            int afzet = 0;
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT p.ID_PT as Product_ID, p.Naam as Naam, count(vp.ID_PT) as Afzet, p.verkoop_prijs as Prijs
+                                        FROM product_type p left join verkocht_product vp on p.ID_PT = vp.ID_PT
+                                        WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                        GROUP BY p.ID_PT
+                                        order by afzet asc, Product_ID 
+                                        limit 10;";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
+                MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+                firstDateParam.Value = date + "/01";
+                secondDateParam.Value = date + "/31";
+
+                cmd.Parameters.Add(firstDateParam);
+                cmd.Parameters.Add(secondDateParam);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    productID = dataReader.GetInt32("Product_ID");
+                    naamProduct = dataReader.GetString("Naam");
+                    prijsProduct = dataReader.GetDouble("Prijs");
+                    afzet = dataReader.GetInt32("Afzet");
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
 
                     producten.Add(product);
                 }
@@ -492,7 +624,19 @@ namespace Webshop_gr02.DatabaseControllers
 
         public List<ProductType> GetTypeLijst()
         {
+<<<<<<< HEAD
             List<ProductType> producttypen = new List<ProductType>();
+=======
+            List<ProductType> productenType = new List<ProductType>();
+            string naamProduct;
+            String omschrijving;
+            String imagePath;
+            int zichtbaar;
+            double aanbieding;
+            float inkoopPrijs;
+            float verkoopPrijs;
+
+>>>>>>> origin/master
             try
             {
                 conn.Open();
@@ -504,6 +648,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
+<<<<<<< HEAD
                     int ID_PT = dataReader.GetInt32("ID_PT");
                     string naam = dataReader.GetString("naam");
                     float inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
@@ -515,6 +660,18 @@ namespace Webshop_gr02.DatabaseControllers
 
                     ProductType typeProduct = new ProductType { ID_PT = ID_PT, Naam = naam, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, Zichtbaar = zichtbaar, Aanbieding = aanbieding };
                     producttypen.Add(typeProduct);
+=======
+                    naamProduct = dataReader.GetString("naam");
+                    inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
+                    verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
+                    omschrijving = dataReader.GetString("omschrijving");
+                    imagePath = dataReader.GetString("image_path");
+                    zichtbaar = dataReader.GetInt32("zichtbaar");
+                    aanbieding = dataReader.GetDouble("aanbieding");
+
+                    ProductType productType = new ProductType { Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, image_path = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar };
+                    productenType.Add(productType);
+>>>>>>> origin/master
                 }
             }
             catch (Exception e)
@@ -526,8 +683,14 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
+<<<<<<< HEAD
             return producttypen;
         }
 
     }
+=======
+            return productenType;
+        }
+    }     
+>>>>>>> origin/master
 }

@@ -15,6 +15,11 @@ namespace Webshop_gr02.Controllers
 
         private AuthDBController authDBController = new AuthDBController();
 
+        public ActionResult ToevoegenProductType()
+        {
+            return View();
+        }
+        
         [HttpPost]
         public ActionResult ToevoegenProductType(ProductType productType)
         {
@@ -32,6 +37,7 @@ namespace Webshop_gr02.Controllers
             return RedirectToAction("LogOn", "Account");
         }
 
+<<<<<<< HEAD
         public ActionResult ToevoegenProductType()
         {
             return View();
@@ -46,19 +52,45 @@ namespace Webshop_gr02.Controllers
 
 
       
+=======
+>>>>>>> origin/master
         public ActionResult ProductTypeOverzicht()
         {
             try
             {
                 List<ProductType> producten = authDBController.GetTypeLijst();
                 return View(producten);
-
-               }
+            }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
                 return View();
             }
+        }
+
+<<<<<<< HEAD
+               }
+=======
+        public ActionResult ToevoegenProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ToevoegenProduct(Product product)
+        {
+            try
+            {
+                //authDBController.InsertProduct(product);
+                return View();
+            }
+>>>>>>> origin/master
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+<<<<<<< HEAD
 
         }
 
@@ -94,5 +126,8 @@ namespace Webshop_gr02.Controllers
    //     }
 
 
+=======
+        }
+>>>>>>> origin/master
     }
 }

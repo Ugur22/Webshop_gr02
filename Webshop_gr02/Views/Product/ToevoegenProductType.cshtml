@@ -3,8 +3,11 @@
     ViewBag.Title = "ToevoegenProductType";
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 <div class="content_wrap">
 
     <form method="post" action="/Product/ToevoegenProductType">
@@ -12,13 +15,10 @@
         <fieldset>
             <legend>Producttype toevoegen</legend>
 
-
             <div class="editor-label">
                 Naam:
             </div>
-
             <div class="editor-field">
-
                 @Html.TextBoxFor(model => model.Naam)
                 @Html.ValidationMessageFor(model => model.Naam)
             </div>
@@ -26,7 +26,6 @@
             <div class="editor-label">
                 Inkoopprijs:
             </div>
-
             <div class="editor-field">
                 €    @Html.TextBoxFor(model => model.InkoopPrijs)
                 @Html.ValidationMessageFor(model => model.InkoopPrijs)
@@ -35,7 +34,6 @@
             <div class="editor-label">
                 Verkoopprijs:
             </div>
-
             <div class="editor-field">
                 €   @Html.TextBoxFor(model => model.VerkoopPrijs)
                 @Html.ValidationMessageFor(model => model.VerkoopPrijs)
@@ -44,17 +42,16 @@
             <div class="editor-label">
                 Omschrijving:
             </div>
-
             <div class="editor-area">
                 @Html.TextAreaFor(model => model.Omschrijving)
                 @Html.ValidationMessageFor(model => model.Omschrijving)
             </div>
 
             <div class="editor-label">
-                image_path:
+                Selecteer een afbeelding wanneer gewenst:
             </div>
-
             <div class="editor-field">
+<<<<<<< HEAD
                 Select Image
  
               
@@ -95,15 +92,42 @@
 
                 <div>
                 </div>
+=======
+                
+                @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.TextBoxFor(model => model.image_path, new { type = "file" })
+                    @Html.ValidationMessageFor(model => model.image_path)
+                }
+>>>>>>> origin/master
                 <div>
                     @ViewBag.Message
                 </div>
-
-
             </div>
 
+<<<<<<< HEAD
             <input type="submit" value="Toevoegen" name="Command" />
 
+=======
+            <div class="editor-label">
+				Zichtbaar:
+			</div>
+			<br>
+			@Html.RadioButtonFor(model => model.Zichtbaar, "1") Ja
+			@Html.RadioButtonFor(model => model.Zichtbaar, "0", new { Checked = "checked" }) Nee 
+			@Html.ValidationMessageFor(model => model.Zichtbaar)
+
+            <div class="editor-label">
+                Aanbieding:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Aanbieding) %
+                @Html.ValidationMessageFor(model => model.Aanbieding)
+            </div>
+            <p>
+                <input type="submit" value="Toevoegen" name="Command" />
+            </p>
+>>>>>>> origin/master
         </fieldset>
     </form>
 </div>

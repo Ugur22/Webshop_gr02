@@ -159,7 +159,7 @@ ul {
 *************************************************************/
 
 .table_wrap {
-    padding: 50px 50px 0 50px;
+    padding: 0 50px;
 }
 
 .table_wrap .table_content {
@@ -169,13 +169,13 @@ ul {
 .table_wrap .table_content .table_left {
     border-right: 1px solid black;
     float: left;
-    width: 100px;
+    width: 250px;
 }
 
 .table_wrap .table_content .table_middle {
     border-right: 1px solid black;
     float: left;
-    width: 250px;
+    width: 175px;
 }
 
 .table_wrap .table_content .row {

@@ -11,18 +11,25 @@
                 @for (int i = 0; i < 13; i++)
                 {
                     DateTime answer = today.AddMonths(-i);
-                    <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM")</option>
+                    <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM/yy")</option>
                 }
             </select>
             <input type="submit" value="check" />
         }
     </div>
     <div class="table_wrap">
+        <h2>Maandelijkse omzet</h2>
         <div class="table_content">
             <div class="row">
+<<<<<<< HEAD
 
-                <div class="table_middle">
+=======
+                <div class="table_left">
                     <b>Product Naam</b>
+                </div>
+>>>>>>> origin/master
+                <div class="table_middle">
+                    <b>Product Afzet</b>
                 </div>
                 <div class="table_middle">
                     <b>Bruto Omzet</b>
@@ -37,6 +44,7 @@
                     var count = Model.Count - 1;
                     if (i == count)
                     {
+<<<<<<< HEAD
                 <div class="row_last">
 
                     <div class="table_middle">
@@ -64,6 +72,39 @@
                         @String.Format("{0:0.00}", Model[i].NettoOmzet)
                     </div>
                 </div>
+=======
+                        <div class="row_last">
+                            <div class="table_left">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @String.Format("{0:0.00}", Model[i].BrutoOmzet)
+                            </div>
+                            <div class="table_right">
+                                @String.Format("{0:0.00}", Model[i].NettoOmzet)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="table_left">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @Model[i].naam
+                            </div>
+                            <div class="table_middle">
+                                @String.Format("{0:0.00}", Model[i].BrutoOmzet)
+                            </div>
+                            <div class="table_right">
+                                @String.Format("{0:0.00}", Model[i].NettoOmzet)
+                            </div>
+                        </div>
+>>>>>>> origin/master
                     }
                 }
             }
