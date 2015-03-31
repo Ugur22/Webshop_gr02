@@ -554,7 +554,7 @@ namespace Webshop_gr02.DatabaseControllers
                                                              left join verkocht_product vp on p.ID_P = vp.ID_P
                                          WHERE vp.verkoop_datum between @firstDate and @secondDate
                                         GROUP BY pt.ID_PT
-                                        order by afzet desc, Product_ID 
+                                        order by afzet asc, Product_ID 
                                         limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
