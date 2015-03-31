@@ -85,5 +85,11 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+        public ActionResult verwijderenProductType(string ProductId)
+        {
+            Console.WriteLine(ProductId);
+            return View();
+        }
     }
 }

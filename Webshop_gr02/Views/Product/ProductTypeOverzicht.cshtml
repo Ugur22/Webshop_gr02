@@ -32,8 +32,8 @@
                     <td>@Model[i].Omschrijving</td>
                     <td>@Model[i].Zichtbaar</td>
                     <td>@Model[i].Aanbieding</td>
-                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { genreId = @Model[i].ID_PT})</td>
-                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { genreId = @Model[i].ID_PT})</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { ProductId = @Model[i].ID_PT})</td>
+                    <td>@Html.ActionLink("verwijder", "verwijderenProductType", new { ProductId = @Model[i].ID_PT})</td>
                 </tr>
             }
         </tbody>
