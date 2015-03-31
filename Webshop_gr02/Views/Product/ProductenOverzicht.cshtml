@@ -9,35 +9,33 @@
   <p>@Html.ActionLink("Product Toevoegen", "ToevoegenProduct")</p>
 
     
-   @if (Model != null)
-{
-    <table id="hor-minimalist-b">
+ <table id="hor-minimalist-b">
         <thead>
     	    <tr>
-        	    <th>Naam</th>
-                <th>Voorraad</th>
+                <th>Naam</th>
+        	    <th>Voorraad</th>
                 <th>Zichtbaar</th>
                 <th>ID Producttype</th>
                 <th>Naam Producttype</th>
+                 <th>Wijzigen</th>
+                 <th>Verwijderen</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (Product product in Model)
+            @for (int i = 0; i < Model.Count; i++)
             {
                 <tr> 
-                    <td>@product.naam</td>
-                    <td>@product.voorraad</td>
-                    <td>@product.zichtbaar</td>
-                    <td>@product.productType.ID_PT</td>
-                    <td>@product.productType.Naam</td>
-                 
-                    <td> </td>
+                    <td>@Model[i].naam</td>
+                    <td>@Model[i].voorraad</td>
+                    <td>@Model[i].zichtbaar</td>
+                    <td>@Model[i].productType.ID_PT</td>
+                    <td>@Model[i].productType.Naam</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { ID_P = @Model[i].ID_P})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { ID_P = @Model[i].ID_P})</td>
                 </tr>
             }
         </tbody>
     </table>
-}
-
 
 
 </div>

@@ -721,7 +721,7 @@ group by p.ID_P;
                     
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT};
-                    Product product = new Product {naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    Product product = new Product { naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
                     productenLijst.Add(product);
                 }
             }
