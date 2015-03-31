@@ -1,0 +1,76 @@
+﻿@model Webshop_gr02.Models.ProductType
+@{
+    ViewBag.Title = "WijzigProductTpe";
+}
+
+<h2>WijzigProductTpe</h2>
+
+<h2>Wijzig Product type</h2>
+
+
+<form method="post" action="/Product/WijzigProductType/">   
+    <fieldset>
+        <legend>Product Type</legend>
+
+        <input type="hidden" value="@Model.ID_PT" name="id" />
+        <div class="editor-label">
+           Naam
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.Naam" name="naam" />
+        </div>
+         <div class="editor-label">
+           Inkoop prijs
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.InkoopPrijs" name="inkoop_prijs" />
+        </div>
+         <div class="editor-label">
+           Verkoop prijs
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.VerkoopPrijs" name="verkoop_prijs" />
+        </div>
+         <div class="editor-label">
+           Omschrijving
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.Omschrijving" name="omschrijving" />
+        </div>
+         <div class="editor-label">
+           Image
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.ImagePath" name="image_path" />
+        </div>
+         <div class="editor-label">
+           Zichtbaar
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.Zichtbaar" name="zichtbaar" />
+        </div>
+         <div class="editor-label">
+           Aanbieding
+        </div>
+        <div class="editor-field">
+            <input type="text" value="@Model.Aanbieding" name="aanbieding" />
+        </div>
+        <div class="editor-label">
+          Zichtbaar
+        </div>
+        @*<div class="editor-field">
+            @if (@Model.Zichtbaar)
+            {
+                <input checked="checked" type="checkbox"  name="Zichtbaar"  value="true" />
+            }
+            else
+            {
+                <input type="checkbox" name="Zichtbaar" value="true" />
+            }
+            <input type="hidden" value="false" name="Zichtbaar"/>
+         </div>*@
+        <p>
+            <input type="submit" value="Wijzig" />
+        </p>
+    </fieldset>
+</form>

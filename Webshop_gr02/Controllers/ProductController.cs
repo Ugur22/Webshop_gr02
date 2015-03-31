@@ -71,5 +71,85 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+
+        public ActionResult CreateProductType(int ID_PT, String naamProduct, float inkoop_prijs, float verkoopPrijs, String omschrijving, String imagePath, int zichtbaar, double aanbieding, String merk)
+        {
+           // bool isZichtbaar = zichtbaar == 1;
+            ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoop_prijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Zichtbaar = zichtbaar, Aanbieding = aanbieding, Merk = merk };
+            try
+            {
+                authDBController.InsertProductType(productType);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+            }
+            return RedirectToAction("Index", "Genre");
+        }
+
+        //public ActionResult CreateGenreParameterBinding(String name, String verslavend)
+        //{
+        //    bool isVerslavend = verslavend == "on";
+        //    Genre genre = new Genre { Naam = name, Verslavend = isVerslavend };
+        //    try
+        //    {
+        //        genreDBController.InsertGenre(genre);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+        //    }
+        //    return RedirectToAction("Index", "Genre");
+        //}
+
+
+
+
+        //public ActionResult WijzigGenre(int genreId)
+        //{
+        //    try
+        //    {
+        //        Genre genre = genreDBController.GetGenre(genreId);
+        //        return View(genre);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+        //        return View();
+        //    }
+        //}
+
+        //public ActionResult WijzigGenre(Genre genre)
+        //{
+        //    try
+        //    {
+        //        genreDBController.UpdateGenre(genre);
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+
+        //    }
+        //    return RedirectToAction("Index", "Genre");
+
+
+        //}
+
+
+        public ActionResult WijzigProductType(ProductType productType)
+        {
+            try
+            {
+                authDBController.UpdateProductType(productType);
+                return View(productType);
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
     }
 }

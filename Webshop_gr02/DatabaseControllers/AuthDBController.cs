@@ -215,7 +215,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-				
+
                 String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs , omschrijving, image_path, zichtbaar, aanbieding, merk)
                 values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_path, @zichtbaar, @aanbieding, @merk)";
 
@@ -241,7 +241,7 @@ namespace Webshop_gr02.DatabaseControllers
                 if (productType.Aanbieding > 0)
                 {
                     Console.Write("gelukt");
-                verkoopPrijsParam.Value = ((100-productType.Aanbieding)/100) * productType.VerkoopPrijs;
+                    verkoopPrijsParam.Value = ((100 - productType.Aanbieding) / 100) * productType.VerkoopPrijs;
                 }
 
                 cmd.Parameters.Add(naamParam);
@@ -274,7 +274,7 @@ namespace Webshop_gr02.DatabaseControllers
         {
             MySqlTransaction trans = null;
             try
-            { 
+            {
                 conn.Open();
                 trans = conn.BeginTransaction();
 
@@ -337,7 +337,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
                 MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
-                
+
                 firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
                 secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
 
@@ -674,7 +674,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aanbieding = dataReader.GetDouble("aanbieding");
                     merk = dataReader.GetString("merk");
 
-                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
                     productenType.Add(productType);
                 }
             }
@@ -687,6 +687,124 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
             return productenType;
+        }
+
+
+        public void UpdateProductType(ProductType productType)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"update product_type set naam=@naam, inkoop_prijs=@inkookp_prijs,verkoop_prijs=@verkoop_prijs,omschrijving=@omschrijving,image_path=@image_path,zichtbaar=@zichtbaar,aanbieding=@aanbieding,merk=@merk where ID_PT=@ID_PT";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter productTypeNaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter inkoopPrijsParam = new MySqlParameter("@inkoop_prijs", MySqlDbType.Float);
+                MySqlParameter verkoopPrijsParam = new MySqlParameter("@verkoop_prijs", MySqlDbType.Float);
+                MySqlParameter omschrijvingParam = new MySqlParameter("@omschrijving", MySqlDbType.VarChar);
+                MySqlParameter image_pathNaamParam = new MySqlParameter("@image_path", MySqlDbType.VarChar);
+                MySqlParameter zichbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int16);
+                MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.VarChar);
+                MySqlParameter idParam = new MySqlParameter("@ID_PT", MySqlDbType.Int16);
+
+                productTypeNaamParam.Value = productType.Naam;
+                inkoopPrijsParam.Value = productType.InkoopPrijs;
+                verkoopPrijsParam.Value = productType.VerkoopPrijs;
+                omschrijvingParam.Value = productType.Omschrijving;
+                image_pathNaamParam.Value = productType.ImagePath;
+                zichbaarParam.Value = productType.Zichtbaar;
+                aanbiedingParam.Value = productType.Aanbieding;
+
+                idParam.Value = productType.ID_PT;
+
+                cmd.Parameters.Add(productTypeNaamParam);
+                cmd.Parameters.Add(inkoopPrijsParam);
+                cmd.Parameters.Add(verkoopPrijsParam);
+                cmd.Parameters.Add(omschrijvingParam);
+                cmd.Parameters.Add(image_pathNaamParam);
+                cmd.Parameters.Add(zichbaarParam);
+                cmd.Parameters.Add(aanbiedingParam);
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Genre niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+
+
+            //protected Product GetProducTypeFromDataReader(MySqlDataReader dataReader)
+            //{
+            //    int ID_PT;
+            //    string naamProduct;
+            //    String omschrijving;
+            //    String imagePath;
+            //    int zichtbaar;
+            //    double aanbieding;
+            //    float inkoopPrijs;
+            //    float verkoopPrijs;
+            //    String merk;
+
+            //    ID_PT = dataReader.GetInt16("ID_PT");
+            //    naamProduct = dataReader.GetString("naam");
+            //    inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
+            //    verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
+            //    omschrijving = dataReader.GetString("omschrijving");
+            //    imagePath = dataReader.GetString("image_path");
+            //    zichtbaar = dataReader.GetInt16("zichtbaar");
+            //    aanbieding = dataReader.GetDouble("aanbieding");
+            //    merk = dataReader.GetString("merk");
+
+            //    ProductType product = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
+            //   // product.Add(product);
+            //    //Product product = new Product { ID = genreId, Naam = genreNaam, Verslavend = verslavend };
+
+            //    return product;
+            //}
+
+            //public List<Product> GetProduct(int ID_PT)
+            //{
+            //    List<Product> producten = new List<Product>();
+            //    try
+            //    {
+            //        conn.Open();
+
+            //        string selectQuery = "select * from product_type";
+            //        MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+            //        MySqlDataReader dataReader = cmd.ExecuteReader();
+
+            //        while (dataReader.Read())
+            //        {
+            //            Product product = GetProducTypeFromDataReader(dataReader);
+            //            producten.Add(product);
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.Write("Ophalen van genres mislukt " + e);
+            //        throw e;
+            //    }
+            //    finally
+            //    {
+            //        conn.Close();
+            //    }
+
+            //    return producten;
+            //}
+
         }
     }
 }

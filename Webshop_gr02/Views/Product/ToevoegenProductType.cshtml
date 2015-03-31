@@ -58,8 +58,8 @@
 
                 @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    @Html.TextBoxFor(model => model.image_path, new { type = "file" })
-                    @Html.ValidationMessageFor(model => model.image_path)
+                    @Html.TextBoxFor(model => model.ImagePath, new { type = "file" })
+                    @Html.ValidationMessageFor(model => model.ImagePath)
                 }
                 <div>
                     @ViewBag.Message
