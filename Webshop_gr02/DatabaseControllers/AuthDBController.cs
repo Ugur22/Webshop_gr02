@@ -354,9 +354,6 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
                 MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
 
-                firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
-                secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
-
                 firstDateParam.Value = date + "/01";
                 secondDateParam.Value = date + "/31";
 
