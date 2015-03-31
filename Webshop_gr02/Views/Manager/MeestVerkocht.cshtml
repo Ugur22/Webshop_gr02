@@ -4,6 +4,16 @@
 }
 
 <div class="content_wrap">
+<<<<<<< HEAD
+    <br>
+         <h2>Meest verkochte producten</h2>
+
+     @{
+        var grid = new WebGrid(Model, defaultSort: "Name");
+    }
+    @grid.GetHtml()
+        
+=======
     <div class="dropdown_month">
         @using (Html.BeginForm("MeestVerkocht", "Manager"))
         {
@@ -69,6 +79,7 @@
             }
         </div>
     </div>
+>>>>>>> origin/master
     </div>
     
     

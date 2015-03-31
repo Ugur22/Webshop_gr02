@@ -353,6 +353,10 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
                 MySqlParameter secondDateParam = new MySqlParameter("@secondDate", MySqlDbType.VarChar);
+
+                firstDateParam.Value = answer.ToString("yyyy/MM") + "/01";
+                secondDateParam.Value = today.ToString("yyyy/MM") + "/01";
+
                 firstDateParam.Value = date + "/01";
                 secondDateParam.Value = date + "/31";
 
@@ -390,7 +394,6 @@ namespace Webshop_gr02.DatabaseControllers
         public List<Product> GetProductTop10()
         {
             List<Product> producten = new List<Product>();
-            int productID = 0;
             string naamProduct = "";
             double prijsProduct = 0;
             int afzet = 0;
@@ -412,11 +415,12 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
-                    productID = dataReader.GetInt32("Product_ID");
+
                     naamProduct = dataReader.GetString("Naam");
                     prijsProduct = dataReader.GetDouble("Prijs");
                     afzet = dataReader.GetInt32("Afzet");
-                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct};
+
+                    Product product = new Product { naam = naamProduct, afzet = afzet, prijs = prijsProduct };
 
                     producten.Add(product);
                 }
@@ -595,7 +599,9 @@ namespace Webshop_gr02.DatabaseControllers
             return producten;
         }
 
-        public List<ProductType> GetProductTypeOverzicht()
+
+
+        public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
             string naamProduct;
@@ -610,10 +616,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT * FROM product_type";
+                string selectQuery = @"select * from product_type";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
-
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
@@ -632,7 +637,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Ophalen van typeProduct mislukt" + e);
             }
             finally
             {
@@ -640,5 +645,5 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productenType;
         }
-    }     
+    }
 }

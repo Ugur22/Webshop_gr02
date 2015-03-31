@@ -37,11 +37,28 @@ namespace Webshop_gr02.Controllers
             return RedirectToAction("LogOn", "Account");
         }
 
+<<<<<<< HEAD
+        public ActionResult ToevoegenProductType()
+        {
+            return View();
+        }
+
+
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+
+
+
+      
+=======
+>>>>>>> origin/master
         public ActionResult ProductTypeOverzicht()
         {
             try
             {
-                List<ProductType> producten = authDBController.GetProductTypeOverzicht();
+                List<ProductType> producten = authDBController.GetTypeLijst();
                 return View(producten);
             }
             catch (Exception e)
@@ -51,6 +68,9 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+<<<<<<< HEAD
+               }
+=======
         public ActionResult ToevoegenProduct()
         {
             return View();
@@ -64,11 +84,50 @@ namespace Webshop_gr02.Controllers
                 //authDBController.InsertProduct(product);
                 return View();
             }
+>>>>>>> origin/master
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
                 return View();
             }
+<<<<<<< HEAD
+
         }
+
+
+        public ActionResult ToevoegenProduct()
+        {
+            return View();
+        }
+
+   //     [HttpPost]
+   //     public ActionResult ToevoegenProduct(Product product)
+   //     {
+   //         try
+   //         {
+   //             authDBController.InsertProduct(product);
+
+
+   //         }
+   //         catch (Exception e)
+   //         {
+   //ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+   //             return View();  
+   //         }
+
+
+   //     }
+
+   //             ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
+
+
+   //         }
+   //         return RedirectToAction("LogOn", "Account");
+   //     }
+
+
+=======
+        }
+>>>>>>> origin/master
     }
 }

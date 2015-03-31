@@ -6,7 +6,7 @@
     <div class="dropdown_month">
         @using (Html.BeginForm("OmzetMonthly", "Manager"))
         {
-           DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now;
             <select name="date">
                 @for (int i = 0; i < 13; i++)
                 {
@@ -14,7 +14,7 @@
                     <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM/yy")</option>
                 }
             </select>
-           <input type="submit" value="check" />
+            <input type="submit" value="check" />
         }
     </div>
     <div class="table_wrap">
@@ -24,7 +24,6 @@
                 <div class="table_left">
                     <b>Product Naam</b>
                 </div>
-                
                 <div class="table_middle">
                     <b>Bruto Omzet</b>
                 </div>
@@ -32,15 +31,16 @@
                     <b>Netto Omzet</b>
                 </div>
             </div>
-            @for(int i = 0; i < Model.Count; i++){
-                {   var count = Model.Count-1;
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                {
+                    var count = Model.Count - 1;
                     if (i == count)
                     {
                         <div class="row_last">
                             <div class="table_left">
                                 @Model[i].naam
-                            </div>
-                            
+                            </div>      
                             <div class="table_middle">
                                 @String.Format("{0:0.00}", Model[i].BrutoOmzet)
                             </div>
