@@ -75,7 +75,7 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                //authDBController.InsertProduct(product);
+                authDBController.InsertProduct(product);
                 return View();
             }
 

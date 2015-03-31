@@ -233,7 +233,7 @@ namespace Webshop_gr02.DatabaseControllers
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
-                image_path.Value = productType.image_path;
+                image_path.Value = productType.ImagePath;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
                 merkParam.Value = productType.Merk;
@@ -252,6 +252,46 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(zichtbaarParam);
                 cmd.Parameters.Add(aanbiedingParam);
                 cmd.Parameters.Add(merkParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void InsertProduct(Product product)
+        {
+            MySqlTransaction trans = null;
+            try
+            { 
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String insertString = @"INSERT INTO product(naam, voorraad, zichtbaar) values (@naam, @voorraad, @zichtbaar)";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+
+                naamParam.Value = product.naam;
+                voorraadParam.Value = product.voorraad;
+                zichtbaarParam.Value = product.zichtbaar;
+
+                cmd.Parameters.Add(naamParam);
+                cmd.Parameters.Add(voorraadParam);
+                cmd.Parameters.Add(zichtbaarParam);
 
                 cmd.Prepare();
 
@@ -602,6 +642,7 @@ namespace Webshop_gr02.DatabaseControllers
         public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
+            int ID_PT;
             string naamProduct;
             String omschrijving;
             String imagePath;
@@ -609,6 +650,8 @@ namespace Webshop_gr02.DatabaseControllers
             double aanbieding;
             float inkoopPrijs;
             float verkoopPrijs;
+            String merk;
+
 
             try
             {
@@ -621,6 +664,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
+                    ID_PT = dataReader.GetInt16("ID_PT");
                     naamProduct = dataReader.GetString("naam");
                     inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
                     verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
@@ -628,8 +672,9 @@ namespace Webshop_gr02.DatabaseControllers
                     imagePath = dataReader.GetString("image_path");
                     zichtbaar = dataReader.GetInt32("zichtbaar");
                     aanbieding = dataReader.GetDouble("aanbieding");
+                    merk = dataReader.GetString("merk");
 
-                    ProductType productType = new ProductType { Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, image_path = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar };
+                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
                     productenType.Add(productType);
                 }
             }

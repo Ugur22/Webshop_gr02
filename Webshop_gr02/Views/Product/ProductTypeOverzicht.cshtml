@@ -2,10 +2,6 @@
 @{
     ViewBag.Title = "ProductTypeOverzicht";
 }
-
-
-
-
 <div class="content_wrap">
     <h2>Overzicht Producttypes</h2>
   <p>@Html.ActionLink("Producttype Toevoegen", "ToevoegenProductType")</p>
@@ -23,10 +19,9 @@ grid.Column(columnName: "VerkoopPrijs", header: "VerkoopPrijs"),
 grid.Column(columnName: "Omschrijving", header: "Omschrijving"),
 grid.Column(columnName: "Zichtbaar", header: "Zichtbaar"),
 grid.Column(columnName: "Aanbieding", header: "Aanbieding"),
+grid.Column(columnName: "Merk", header: "Merk"),
 grid.Column(header: "Verwijderen", format: (item) => Html.ActionLink("Verwijderen", "ActionName", new { param1 = "hello", param2 = "bye" })),
 grid.Column(header: "Wijzigen", format: (item) => Html.ActionLink("Wijzigen", "ActionName", new { param1 = "hello", param2 = "bye" }))
 ))
 
-
 </div>
-
