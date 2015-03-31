@@ -216,8 +216,8 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 				
-                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs , omschrijving, image_path, zichtbaar, aanbieding)
-                values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_path, @zichtbaar, @aanbieding)";
+                String insertString = @"insert into product_type(naam, inkoop_prijs, verkoop_prijs , omschrijving, image_path, zichtbaar, aanbieding, merk)
+                values (@naam, @inkoop_prijs, @verkoop_prijs, @omschrijving, @image_path, @zichtbaar, @aanbieding, @merk)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
@@ -227,6 +227,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter image_path = new MySqlParameter("@image_path", MySqlDbType.VarChar);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
                 MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.Double);
+                MySqlParameter merkParam = new MySqlParameter("@merk", MySqlDbType.VarChar);
 
                 naamParam.Value = productType.Naam;
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
@@ -235,6 +236,7 @@ namespace Webshop_gr02.DatabaseControllers
                 image_path.Value = productType.image_path;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
+                merkParam.Value = productType.Merk;
 
                 if (productType.Aanbieding > 0)
                 {
@@ -249,6 +251,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(image_path);
                 cmd.Parameters.Add(zichtbaarParam);
                 cmd.Parameters.Add(aanbiedingParam);
+                cmd.Parameters.Add(merkParam);
 
                 cmd.Prepare();
 
@@ -486,9 +489,7 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
-                                        FROM product_type pt 
-                                        
-                                                             left join product p on pt.ID_PT = p.ID_PT
+                                        FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join verkocht_product vp on p.ID_P = vp.ID_P
                                          WHERE vp.verkoop_datum between @firstDate and @secondDate
                                         GROUP BY pt.ID_PT
@@ -596,7 +597,7 @@ namespace Webshop_gr02.DatabaseControllers
                                                              left join verkocht_product vp on p.ID_P = vp.ID_P
                                          WHERE vp.verkoop_datum between @firstDate and @secondDate
                                         GROUP BY pt.ID_PT
-                                        order by afzet desc, Product_ID 
+                                        order by afzet asc, Product_ID 
                                         limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
