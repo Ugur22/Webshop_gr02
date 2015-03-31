@@ -122,6 +122,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Providers.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\Webshop_gr02.dll" />
+    <Content Include="bin\Webshop_gr02.pdb" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -244,8 +263,9 @@
     <Content Include="Views\Categorie\Overzichtcategorie.cshtml" />
     <Content Include="Views\Manager\MinstVerkocht.cshtml" />
     <Content Include="Views\Manager\ManagerHomepage.cshtml" />
-    <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
+    <Content Include="Views\Session\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
+    <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
     <Content Include="Views\Product\ToevoegenProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -271,7 +291,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4049</DevelopmentServerPort>
+          <DevelopmentServerPort>4120</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:51000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
