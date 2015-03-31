@@ -4,7 +4,7 @@
 }
 
 
-{
+
 <div class="content_wrap">
 
     <form method="post" action="/Product/ToevoegenProductType">
@@ -60,13 +60,12 @@
               
     @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        
-<<<<<<< HEAD
-            @Html.TextBoxFor(model => model.ImagePath)
-            @Html.ValidationMessageFor(model => model.ImagePath) 
+
+        @Html.TextBoxFor(model => model.ImagePath)
+        @Html.ValidationMessageFor(model => model.ImagePath) 
 
             
-        </div>
+
 
         <div class="editor-label">
             Zichtbaar:
@@ -74,7 +73,7 @@
        
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Zichtbaar)
-            @Html.ValidationMessageFor(model => model.Zichtbaar) 
+            @Html.ValidationMessageFor(model => model.Zichtbaar)
         </div>
 
         <div class="editor-label">
@@ -83,16 +82,15 @@
        
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Aanbieding)
-            @Html.ValidationMessageFor(model => model.Aanbieding) 
+            @Html.ValidationMessageFor(model => model.Aanbieding)
         </div>
         <p>
             <input type="submit" value="Toevoegen" />
         </p>
-    </fieldset>
-        </form> 
-=======
-        @Html.TextBoxFor(model => model.image_path, new { type = "file" })
-        @Html.ValidationMessageFor(model => model.image_path)
+    
+     
+        @Html.TextBoxFor(model => model.ImagePath, new { type = "file" })
+        @Html.ValidationMessageFor(model => model.ImagePath)
     }
 
                 <div>
@@ -104,28 +102,8 @@
 
             </div>
 
-            <div class="editor-label">
-                Zichtbaar:
-            </div>
+            <input type="submit" value="Toevoegen" name="Command" />
 
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Zichtbaar)
-                @Html.ValidationMessageFor(model => model.Zichtbaar)
-            </div>
-
-            <div class="editor-label">
-                Aanbieding:
-            </div>
-
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Aanbieding)
-                @Html.ValidationMessageFor(model => model.Aanbieding)
-            </div>
-            <p>
-
-                <input type="submit" value="Toevoegen" name="Command" />
-            </p>
         </fieldset>
     </form>
->>>>>>> 32ea57dd55f2293eea07c970c860fddffed1467b
 </div>
