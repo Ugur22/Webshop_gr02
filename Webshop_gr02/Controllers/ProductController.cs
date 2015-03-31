@@ -50,6 +50,20 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+        public ActionResult ProductenOverzicht()
+        {
+            try
+            {
+                List<Product> productenLijst = authDBController.GetProductLijst();
+                return View(productenLijst);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
  
         public ActionResult ToevoegenProduct()
         {
