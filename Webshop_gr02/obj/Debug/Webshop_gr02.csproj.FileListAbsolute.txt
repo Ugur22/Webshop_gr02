@@ -45,3 +45,15 @@ C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_g
 C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.xml
 C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Sebastiaan\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.dll
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.pdb
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\EntityFramework.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.Helpers.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.Mvc.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.Razor.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb

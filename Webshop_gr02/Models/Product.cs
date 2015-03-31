@@ -14,7 +14,6 @@ namespace Webshop_gr02.Models
         public int afzet { get; set; }
         public double BrutoOmzet { get; set; }
         public double NettoOmzet { get; set; }
-        public ProductType productType { get; set; }
 
         public override string ToString()
         {
