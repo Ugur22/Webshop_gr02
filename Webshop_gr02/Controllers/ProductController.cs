@@ -88,8 +88,17 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult verwijderenProductType(string ProductId)
         {
-            Console.WriteLine(ProductId);
-            return View();
+            try
+            {
+                authDBController.verwijderProductType(ProductId);
+                return RedirectToAction("ProductTypeOverzicht", "Product");
+            }
+
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
         }
     }
 }
