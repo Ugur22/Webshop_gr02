@@ -19,7 +19,7 @@ namespace Webshop_gr02.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult ToevoegenProductType(ProductType productType)
         {
@@ -64,7 +64,7 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
- 
+
         public ActionResult ToevoegenProduct()
         {
             return View();
@@ -76,7 +76,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 authDBController.InsertProduct(product);
-                return View();
+                 return RedirectToAction("ProductenOverzicht", "Product");
             }
 
             catch (Exception e)
@@ -100,5 +100,39 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+
+        public ActionResult ProductWijzigen(string productId)
+        {
+            try
+            {
+                Product Product = authDBController.GetProduct(productId);
+                return View(Product);
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
+
+
+         [HttpPost]
+        public ActionResult ProductWijzigen(Product product)
+        {
+            try
+            {
+                authDBController.UpdateProduct(product);
+                return RedirectToAction("ProductenOverzicht", "Product");
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
+
+
+
     }
 }
