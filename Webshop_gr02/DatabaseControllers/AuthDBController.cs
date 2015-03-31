@@ -688,5 +688,52 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productenType;
         }
+
+        public List<Product> GetProductLijst()
+        {
+            List<Product> productenLijst = new List<Product>();
+            string naam = "";
+            int voorraad = 0;
+            int zichtbaar = 0;
+            int ID_PT = 0;
+            string naamPT = "";
+           
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
+left join product_type pt on p.ID_PT = pt.ID_PT
+group by p.ID_P;
+";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    naam = dataReader.GetString("naam");
+                    voorraad = dataReader.GetInt32("voorraad");
+                    zichtbaar = dataReader.GetInt32("zichtbaar");
+                    ID_PT = dataReader.GetInt32("ID_PT");
+                    naamPT = dataReader.GetString("naam_producttype");
+                    
+
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT};
+                    Product product = new Product {naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    productenLijst.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ophalen van typeProduct mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return productenLijst;
+        }
     }
 }
