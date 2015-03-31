@@ -233,7 +233,7 @@ namespace Webshop_gr02.DatabaseControllers
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
-                image_path.Value = productType.ImagePath;
+                image_path.Value = productType.image_path;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
                 merkParam.Value = productType.Merk;
@@ -637,8 +637,6 @@ namespace Webshop_gr02.DatabaseControllers
             return producten;
         }
 
-
-
         public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
@@ -674,7 +672,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aanbieding = dataReader.GetDouble("aanbieding");
                     merk = dataReader.GetString("merk");
 
-                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
+                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, image_path = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
                     productenType.Add(productType);
                 }
             }
@@ -704,9 +702,9 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQuery = @"select p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
-left join product_type pt on p.ID_PT = pt.ID_PT
-group by p.ID_P;
-";
+                                        left join product_type pt on p.ID_PT = pt.ID_PT
+                                        group by p.ID_P;
+                                        ";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -721,7 +719,7 @@ group by p.ID_P;
                     
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT};
-                    Product product = new Product {naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    Product product = new Product { naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
                     productenLijst.Add(product);
                 }
             }
@@ -734,6 +732,41 @@ group by p.ID_P;
                 conn.Close();
             }
             return productenLijst;
+        }
+
+        public void verwijderProductType(string ProductId)
+        {
+            Console.WriteLine(ProductId);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteProductTypeString = @"DELETE FROM product_type WHERE ID_PT = @productID";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@productID", MySqlDbType.Int32);
+
+                IdParam.Value = ProductId;
+
+                cmd.Parameters.Add(IdParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

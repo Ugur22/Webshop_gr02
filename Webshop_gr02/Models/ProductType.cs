@@ -17,7 +17,7 @@ namespace Webshop_gr02.Models
 
 
 
-        public String ImagePath { get; set; }
+        public String image_path { get; set; }
         public int Zichtbaar { get; set; }
         public double Aanbieding { get; set; }
 
