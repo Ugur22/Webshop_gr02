@@ -1,0 +1,44 @@
+﻿@model Webshop_gr02.Models.Product
+
+@{
+    ViewBag.Title = "ProductWijzigen";
+}
+
+<div class="content_wrap">
+    <form method="post" action="/Product/ProductWijzigen">
+    <span style="color:red">@Html.ValidationMessage("Wijzigen is niet gelukt")</span>
+    <fieldset>
+        <legend>Product Wijzigen</legend>
+
+        <div class="editor-label">
+            Naam product:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.naam)
+            @Html.ValidationMessageFor(model => model.naam)
+        </div>
+
+        <div class="editor-label">
+            Voorraad:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.voorraad)
+            @Html.ValidationMessageFor(model => model.voorraad) 
+        </div>
+
+        <div class="editor-label">
+            Zichtbaar:
+        </div>
+        @Html.RadioButtonFor(Model => Model.zichtbaar, "1") Ja
+        @Html.RadioButtonFor(Model => Model.zichtbaar, "0", new { Checked = "checked" }) Nee
+        @Html.ValidationMessageFor(Model => Model.zichtbaar)    
+        
+        <p>
+            <input type="submit" value="Wijzigen" />
+        </p>
+    </fieldset>
+    </form>
+
+
+     
+ </div>
