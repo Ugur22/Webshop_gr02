@@ -1,0 +1,43 @@
+﻿@using Webshop_gr02.Models;
+@model List<Webshop_gr02.Models.Product>
+@{
+    ViewBag.Title = "ProductenOverzicht";
+}
+
+<div class="content_wrap">
+    <h2>Overzicht Producttypes</h2>
+  <p>@Html.ActionLink("Product Toevoegen", "ToevoegenProduct")</p>
+
+    
+   @if (Model != null)
+{
+    <table id="hor-minimalist-b">
+        <thead>
+    	    <tr>
+        	    <th>Naam</th>
+                <th>Voorraad</th>
+                <th>Zichtbaar</th>
+                <th>ID Producttype</th>
+                <th>Naam Producttype</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product product in Model)
+            {
+                <tr> 
+                    <td>@product.naam</td>
+                    <td>@product.voorraad</td>
+                    <td>@product.zichtbaar</td>
+                    <td>@product.productType.ID_PT</td>
+                    <td>@product.productType.Naam</td>
+                 
+                    <td> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+</div>
