@@ -267,6 +267,46 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+        public void InsertProduct(Product product)
+        {
+            MySqlTransaction trans = null;
+            try
+            { 
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String insertString = @"INSERT INTO product(naam, voorraad, zichtbaar) values (@naam, @voorraad, @zichtbaar)";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+
+                naamParam.Value = product.naam;
+                voorraadParam.Value = product.voorraad;
+                zichtbaarParam.Value = product.zichtbaar;
+
+                cmd.Parameters.Add(naamParam);
+                cmd.Parameters.Add(voorraadParam);
+                cmd.Parameters.Add(zichtbaarParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         public List<Product> getTotalOmzet()
         {
             DateTime today = DateTime.Now;
