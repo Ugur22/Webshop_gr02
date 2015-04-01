@@ -18,6 +18,100 @@ namespace Webshop_gr02.DatabaseControllers
             conn = new MySqlConnection("Server=localhost;Database=intosport;Uid=root;Pwd=;");
         }
 
+
+        protected Product GetproductFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int productId = dataReader.GetInt32("ID_P");
+            string productNaam = dataReader.GetString("naam");
+            int voorraad = dataReader.GetInt32("voorraad");
+            int zichtbaar = dataReader.GetInt32("zichtbaar");
+            Product product = new Product {   ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar };
+
+            return product;
+        }
+
+        public Product GetProduct(string ProductID)
+        {
+            Product Product = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"select * from product where ID_P = @ID_P";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                productidParam.Value = ProductID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Product = GetproductFromDataReader(dataReader);
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return Product;
+        }
+
+        public void UpdateProduct(Product Product)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar  where ID_P=@ID_P";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter productnaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+
+                productnaamParam.Value = Product.naam;
+                voorraadParam.Value = Product.voorraad;
+                zichtbaarParam.Value = Product.zichtbaar;
+                idParam.Value = Product.ID_P;
+
+                cmd.Parameters.Add(productnaamParam);
+                cmd.Parameters.Add(voorraadParam);
+                cmd.Parameters.Add(zichtbaarParam);
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Product niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
         public void InsertCategorie(Categorie categorie)
         {
             MySqlTransaction trans = null;
@@ -233,7 +327,7 @@ namespace Webshop_gr02.DatabaseControllers
                 inkoopPrijsParam.Value = productType.InkoopPrijs;
                 verkoopPrijsParam.Value = (productType.VerkoopPrijs);
                 omschrijvingParam.Value = productType.Omschrijving;
-                image_path.Value = productType.image_path;
+                image_path.Value = productType.ImagePath;
                 zichtbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
                 merkParam.Value = productType.Merk;
@@ -672,7 +766,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aanbieding = dataReader.GetDouble("aanbieding");
                     merk = dataReader.GetString("merk");
 
-                    ProductType productType = new ProductType { ID_PT= ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, image_path = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk= merk };
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
                     productenType.Add(productType);
                 }
             }

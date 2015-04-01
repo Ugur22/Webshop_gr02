@@ -14,10 +14,7 @@ namespace Webshop_gr02.Models
         public float VerkoopPrijs { get; set; }
         public String Omschrijving { get; set; }
         public String Merk { get; set; }
-
-
-
-        public String image_path { get; set; }
+        public String ImagePath { get; set; }
         public int Zichtbaar { get; set; }
         public double Aanbieding { get; set; }
 
