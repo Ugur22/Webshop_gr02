@@ -1,0 +1,41 @@
+﻿@using Webshop_gr02.Models;
+@model List<Webshop_gr02.Models.Product>
+@{
+    ViewBag.Title = "ProductenOverzicht";
+}
+
+<div class="content_wrap">
+    <h2>Overzicht Producttypes</h2>
+  <p>@Html.ActionLink("Product Toevoegen", "ToevoegenProduct")</p>
+
+    
+ <table id="hor-minimalist-b">
+        <thead>
+    	    <tr>
+                <th>Naam</th>
+        	    <th>Voorraad</th>
+                <th>Zichtbaar</th>
+                <th>ID Producttype</th>
+                <th>Naam Producttype</th>
+                 <th>Wijzigen</th>
+                 <th>Verwijderen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr> 
+                    <td>@Model[i].naam</td>
+                    <td>@Model[i].voorraad</td>
+                    <td>@Model[i].zichtbaar</td>
+                    <td>@Model[i].productType.ID_PT</td>
+                    <td>@Model[i].productType.Naam</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { ID_P = @Model[i].ID_P})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { ID_P = @Model[i].ID_P})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
