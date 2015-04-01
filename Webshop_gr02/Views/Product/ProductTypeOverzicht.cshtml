@@ -23,5 +23,13 @@ grid.Column(columnName: "Merk", header: "Merk"),
 grid.Column(header: "Verwijderen", format: (item) => Html.ActionLink("Verwijderen", "ActionName", new { param1 = "hello", param2 = "bye" })),
 grid.Column(header: "Wijzigen", format: (item) => Html.ActionLink("Wijzigen", "WijzigProductType", new { param1 = "hello", param2 = "bye" }))
 ))
-
+@* @foreach (ProductType pro in Model)
+            {
+                <tr> 
+                    <td>@pro.Naam</td>
+                    <td>@pro.Genre</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigGame",  new { ID_PT = pro.ID_TP})</td>
+                    <td> </td>
+                </tr>
+            }*@
 </div>
