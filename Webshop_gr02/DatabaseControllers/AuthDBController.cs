@@ -433,10 +433,9 @@ namespace Webshop_gr02.DatabaseControllers
                                                     (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
                                                     ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-
-                                                   left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                   where  vp.verkoop_datum between @firstDate and @secondDate                                                   
-                                                   GROUP BY pt.ID_PT;";
+                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);
@@ -492,10 +491,9 @@ namespace Webshop_gr02.DatabaseControllers
                                                     (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
                                                     ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-
-                                                   left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                   where  vp.verkoop_datum between @firstDate and @secondDate                                                   
-                                                   GROUP BY pt.ID_PT;";
+                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
                 MySqlParameter firstDateParam = new MySqlParameter("@firstDate", MySqlDbType.VarChar);

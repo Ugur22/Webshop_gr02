@@ -36,15 +36,21 @@
 				<ul>
 					<li class="first"><a href="/">Home</a></li>
                   
-					<li><a href="#">Sporten</a>
+					<li><a href="#">Manager</a>
 						<ul>
-							<li><a href="#">Voetbal</a></li>
-							<li><a href="#">Tennis</a></li>
-							<li><a href="#">Golf</a></li>
-							<li><a href="#">American Football</a></li>
+							<li>@Html.ActionLink("Homepage", "../Manager/ManagerHomepage")</li>
+							<li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
+							<li>@Html.ActionLink("Minstverkocht", "../Manager/Minstverkocht")</li>
+							<li>@Html.ActionLink("Maandelijkse Omzet", "../Manager/OmzetMonthly")</li>
 						</ul>
 					</li>
-					<li><a href="#">Mannen</a></li>
+					<li><a href="#">Beheerder</a>
+                        <ul>
+							<li>@Html.ActionLink("Producten overzicht", "../Product/ProductenOverzicht")</li>
+							<li>@Html.ActionLink("Producttype overzicht", "../Product/ProductTypeOverzicht")</li>
+                            <li>@Html.ActionLink("Categorieën overzicht", "../Categorie/Overzichtcategorie")</li>
+						</ul>
+					</li>
 					<li><a href="#">Vrouwen</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>

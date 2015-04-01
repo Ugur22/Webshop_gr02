@@ -31,10 +31,8 @@ namespace Webshop_gr02.Controllers
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
-
-
             }
-            return RedirectToAction("LogOn", "Account");
+            return RedirectToAction("ProductTypeOverzicht", "Product");
         }
 
         public ActionResult ProductTypeOverzicht()
