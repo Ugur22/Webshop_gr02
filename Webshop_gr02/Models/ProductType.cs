@@ -20,7 +20,7 @@ namespace Webshop_gr02.Models
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7}", Naam, InkoopPrijs, VerkoopPrijs, Omschrijving, ImagePath, Zichtbaar, Aanbieding, Merk);
+            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",ID_PT, Naam, InkoopPrijs, VerkoopPrijs, Omschrijving, ImagePath, Zichtbaar, Aanbieding, Merk);
         }
 
     }
