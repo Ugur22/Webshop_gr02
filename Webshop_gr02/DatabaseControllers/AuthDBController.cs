@@ -270,6 +270,22 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+        protected Product GetproductFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int productId = dataReader.GetInt32("ID_P");
+            string productNaam = dataReader.GetString("naam");
+            int voorraad = dataReader.GetInt32("voorraad");
+            int zichtbaar = dataReader.GetInt32("zichtbaar");
+            int ID_PT = dataReader.GetInt32("ID_PT");
+            ProductType productType = new ProductType { ID_PT = ID_PT };
+            Product product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+
+            return product;
+        }
+
+
+
         public Product GetProduct(string ProductID)
         {
             Product Product = null;
@@ -306,6 +322,8 @@ namespace Webshop_gr02.DatabaseControllers
             return Product;
         }
 
+
+
         public void UpdateProduct(Product Product)
         {
 
@@ -314,22 +332,25 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar  where ID_P=@ID_P";
+                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar, ID_PT=@ID_PT  where ID_P=@ID_P";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter productnaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
                 MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
 
                 productnaamParam.Value = Product.naam;
                 voorraadParam.Value = Product.voorraad;
                 zichtbaarParam.Value = Product.zichtbaar;
+                ID_PTParam.Value = Product.productType.ID_PT;
                 idParam.Value = Product.ID_P;
 
                 cmd.Parameters.Add(productnaamParam);
                 cmd.Parameters.Add(voorraadParam);
                 cmd.Parameters.Add(zichtbaarParam);
+                cmd.Parameters.Add(ID_PTParam);
                 cmd.Parameters.Add(idParam);
 
                 cmd.Prepare();
@@ -389,18 +410,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        protected Product GetproductFromDataReader(MySqlDataReader dataReader)
-        {
 
-            int productId = dataReader.GetInt32("ID_P");
-            string productNaam = dataReader.GetString("naam");
-            int voorraad = dataReader.GetInt32("voorraad");
-            int zichtbaar = dataReader.GetInt32("zichtbaar");
-            Product product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar };
-
-            return product;
-        }
-        
         public List<Product> getTotalOmzet()
         {
             DateTime today = DateTime.Now;
@@ -738,7 +748,7 @@ namespace Webshop_gr02.DatabaseControllers
             int zichtbaar = 0;
             int ID_PT = 0;
             string naamPT = "";
-           
+
 
             try
             {
@@ -874,7 +884,7 @@ namespace Webshop_gr02.DatabaseControllers
                 IdParam.Value = ProductId;
 
                 cmd.Parameters.Add(IdParam);
-                
+
                 cmd.Prepare();
 
                 cmd.ExecuteNonQuery();
@@ -977,36 +987,8 @@ namespace Webshop_gr02.DatabaseControllers
             //    return product;
             //}
 
-            //public List<Product> GetProduct(int ID_PT)
-            //{
-            //    List<Product> producten = new List<Product>();
-            //    try
-            //    {
-            //        conn.Open();
-
-            //        string selectQuery = "select * from product_type";
-            //        MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
-            //        MySqlDataReader dataReader = cmd.ExecuteReader();
-
-            //        while (dataReader.Read())
-            //        {
-            //            Product product = GetProducTypeFromDataReader(dataReader);
-            //            producten.Add(product);
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.Write("Ophalen van genres mislukt " + e);
-            //        throw e;
-            //    }
-            //    finally
-            //    {
-            //        conn.Close();
-            //    }
-
-            //    return producten;
-            //}
-
         }
     }
+
 }
+

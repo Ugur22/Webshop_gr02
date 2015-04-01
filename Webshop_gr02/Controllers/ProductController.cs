@@ -133,6 +133,7 @@ namespace Webshop_gr02.Controllers
         [HttpPost]
         public ActionResult ProductWijzigen(Product product)
         {
+            Console.WriteLine(product);
             try
             {
                 authDBController.UpdateProduct(product);
