@@ -741,16 +741,19 @@ namespace Webshop_gr02.DatabaseControllers
             int zichtbaar = 0;
             int ID_PT = 0;
             string naamPT = "";
-           
+            string maat = "";
 
             try
             {
                 conn.Open();
 
-                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
-                                        left join product_type pt on p.ID_PT = pt.ID_PT
-                                        group by p.ID_P;
-                                        ";
+                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
+                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype,  e.waarde as waarde
+                                       from product p
+                                       left join product_type pt on p.ID_PT = pt.ID_PT
+                                       left join eigenschap e on e.ID_P = p.ID_P
+                                       WHERE e.naam = 'maat'
+                                       group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -762,10 +765,10 @@ namespace Webshop_gr02.DatabaseControllers
                     zichtbaar = dataReader.GetInt32("zichtbaar");
                     ID_PT = dataReader.GetInt32("ID_PT");
                     naamPT = dataReader.GetString("naam_producttype");
-
+                    maat = dataReader.GetString("waarde");
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
-                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
                     productenLijst.Add(product);
                 }
             }
