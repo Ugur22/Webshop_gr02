@@ -7,6 +7,7 @@ namespace Webshop_gr02.Models
 {
     public class Product
     {
+        public int ID_P { get; set; }
         public string naam { get; set; }
         public int voorraad { get; set; }
         public int zichtbaar { get; set; }

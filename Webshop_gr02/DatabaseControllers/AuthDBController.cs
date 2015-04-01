@@ -270,7 +270,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public void InsertProduct(Product product)
+        public void InsertProduct(Product product, ProductType productType)
         {
             MySqlTransaction trans = null;
             try
@@ -278,20 +278,23 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String insertString = @"INSERT INTO product(naam, voorraad, zichtbaar) values (@naam, @voorraad, @zichtbaar)";
+                String insertString = @"INSERT INTO product p join product_type pt on p.ID_PT = pt.ID_PT (p.naam, p.voorraad, p.zichtbaar, pt.ID_PT) values (@p.naam, @p.voorraad, @p.zichtbaar, @pt.ID_PT)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
-                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
-                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
-                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter naamParam = new MySqlParameter("@p.naam", MySqlDbType.VarChar);
+                MySqlParameter voorraadParam = new MySqlParameter("@p.voorraad", MySqlDbType.Int32);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@p.zichtbaar", MySqlDbType.Int32);
+                MySqlParameter ID_PTParam = new MySqlParameter("@pt.ID_PT", MySqlDbType.Int32);
 
                 naamParam.Value = product.naam;
                 voorraadParam.Value = product.voorraad;
                 zichtbaarParam.Value = product.zichtbaar;
+                ID_PTParam.Value = productType.ID_PT;
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(voorraadParam);
                 cmd.Parameters.Add(zichtbaarParam);
+                cmd.Parameters.Add(ID_PTParam);
 
                 cmd.Prepare();
 
