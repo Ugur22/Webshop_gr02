@@ -45,7 +45,10 @@
            Zichtbaar
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Zichtbaar)
+          
+        @Html.RadioButtonFor(model => model.Zichtbaar, "1") Ja
+        @Html.RadioButtonFor(model => model.Zichtbaar, "0", new { Checked = "checked" }) Nee
+        @Html.ValidationMessageFor(model => model.Zichtbaar)   
         </div>
          <div class="editor-label">
            Aanbieding
