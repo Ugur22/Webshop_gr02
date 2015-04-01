@@ -286,7 +286,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
 
                 naamParam.Value = product.naam;
-                voorraadParam.Value = product.voorraad;
+                voorraadParam.Value = product.ID_P;
                 zichtbaarParam.Value = product.zichtbaar;
 
                 cmd.Parameters.Add(naamParam);
