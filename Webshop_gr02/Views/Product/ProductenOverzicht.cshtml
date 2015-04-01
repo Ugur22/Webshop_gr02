@@ -5,7 +5,7 @@
 }
 
 <div class="content_wrap">
-    <h2>Overzicht Producttypes</h2>
+    <h2>Overzicht Product</h2>
   <p>@Html.ActionLink("Product Toevoegen", "ToevoegenProduct")</p>
 
     
@@ -31,7 +31,7 @@
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
                     <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { ID_P = @Model[i].ID_P})</td>
-                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { ID_P = @Model[i].ID_P})</td>
+                    <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ID_P = @Model[i].ID_P})</td>
                 </tr>
             }
         </tbody>
