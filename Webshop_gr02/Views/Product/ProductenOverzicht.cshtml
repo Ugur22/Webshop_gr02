@@ -31,8 +31,11 @@
                     <td>@Model[i].zichtbaar</td>
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
+                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { productId = @Model[i].ID_P})</td>
+
                     <td>@Model[i].Maat</td>
-                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { ID_P = @Model[i].ID_P})</td>
+                 
+
                     <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductID = @Model[i].ID_P})</td>
                 </tr>
             }
