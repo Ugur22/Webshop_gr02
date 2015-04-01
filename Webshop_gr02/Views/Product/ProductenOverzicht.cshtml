@@ -17,8 +17,9 @@
                 <th>Zichtbaar</th>
                 <th>ID Producttype</th>
                 <th>Naam Producttype</th>
-                 <th>Wijzigen</th>
-                 <th>Verwijderen</th>
+                <th>Maat</th>
+                <th>Wijzigen</th>
+                <th>Verwijderen</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +28,14 @@
                 <tr> 
                     <td>@Model[i].naam</td>
                     <td>@Model[i].voorraad</td>
-                   <td>@Model[i].zichtbaar</td>
+                    <td>@Model[i].zichtbaar</td>
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
                     <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { productId = @Model[i].ID_P})</td>
+
+                    <td>@Model[i].Maat</td>
+                 
+
                     <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductID = @Model[i].ID_P})</td>
                 </tr>
             }

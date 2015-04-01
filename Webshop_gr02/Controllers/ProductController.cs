@@ -71,11 +71,14 @@ namespace Webshop_gr02.Controllers
         }
 
         [HttpPost]
-        public ActionResult ToevoegenProduct(Product product)
+        public ActionResult ToevoegenProduct(Product product, ProductType productType)
         {
             try
             {
-                authDBController.InsertProduct(product);
+
+                authDBController.InsertProduct(product, productType);
+
+               
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
 
@@ -97,6 +100,7 @@ namespace Webshop_gr02.Controllers
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+
                 return View();
             }
         }

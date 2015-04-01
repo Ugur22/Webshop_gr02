@@ -32,6 +32,14 @@
         @Html.RadioButtonFor(Model => Model.zichtbaar, "0", new { Checked = "checked" }) Nee
         @Html.ValidationMessageFor(Model => Model.zichtbaar)    
         
+        <div class="editor-label">
+            ID producttype:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.productType.ID_PT)
+            @Html.ValidationMessageFor(model => model.productType.ID_PT)
+        </div>
+
         <p>
             <input type="submit" value="Toevoegen" />
         </p>

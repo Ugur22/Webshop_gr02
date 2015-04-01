@@ -370,7 +370,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public void InsertProduct(Product product)
+        public void InsertProduct(Product product, ProductType productType)
         {
             MySqlTransaction trans = null;
             try
@@ -378,20 +378,23 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String insertString = @"INSERT INTO product(naam, voorraad, zichtbaar) values (@naam, @voorraad, @zichtbaar)";
+                String insertString = @"INSERT INTO product (naam, voorraad, zichtbaar, ID_PT) values (@naam, @voorraad, @zichtbaar, @ID_PT)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
 
                 naamParam.Value = product.naam;
                 voorraadParam.Value = product.voorraad;
                 zichtbaarParam.Value = product.zichtbaar;
+                ID_PTParam.Value = productType.ID_PT;
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(voorraadParam);
                 cmd.Parameters.Add(zichtbaarParam);
+                cmd.Parameters.Add(ID_PTParam);
 
                 cmd.Prepare();
 
@@ -748,16 +751,23 @@ namespace Webshop_gr02.DatabaseControllers
             int zichtbaar = 0;
             int ID_PT = 0;
             string naamPT = "";
+<<<<<<< HEAD
 
+=======
+            string maat = "";
+>>>>>>> origin/master
 
             try
             {
                 conn.Open();
 
-                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
-                                        left join product_type pt on p.ID_PT = pt.ID_PT
-                                        group by p.ID_P;
-                                        ";
+                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
+                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype,  e.waarde as waarde
+                                       from product p
+                                       left join product_type pt on p.ID_PT = pt.ID_PT
+                                       left join eigenschap e on e.ID_P = p.ID_P
+                                       WHERE e.naam = 'maat'
+                                       group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -769,10 +779,10 @@ namespace Webshop_gr02.DatabaseControllers
                     zichtbaar = dataReader.GetInt32("zichtbaar");
                     ID_PT = dataReader.GetInt32("ID_PT");
                     naamPT = dataReader.GetString("naam_producttype");
-
+                    maat = dataReader.GetString("waarde");
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
-                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
                     productenLijst.Add(product);
                 }
             }
@@ -955,38 +965,6 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
-
-
-
-            //protected Product GetProducTypeFromDataReader(MySqlDataReader dataReader)
-            //{
-            //    int ID_PT;
-            //    string naamProduct;
-            //    String omschrijving;
-            //    String imagePath;
-            //    int zichtbaar;
-            //    double aanbieding;
-            //    float inkoopPrijs;
-            //    float verkoopPrijs;
-            //    String merk;
-
-            //    ID_PT = dataReader.GetInt16("ID_PT");
-            //    naamProduct = dataReader.GetString("naam");
-            //    inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
-            //    verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
-            //    omschrijving = dataReader.GetString("omschrijving");
-            //    imagePath = dataReader.GetString("image_path");
-            //    zichtbaar = dataReader.GetInt16("zichtbaar");
-            //    aanbieding = dataReader.GetDouble("aanbieding");
-            //    merk = dataReader.GetString("merk");
-
-            //    ProductType product = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
-            //   // product.Add(product);
-            //    //Product product = new Product { ID = genreId, Naam = genreNaam, Verslavend = verslavend };
-
-            //    return product;
-            //}
-
         }
     }
 
