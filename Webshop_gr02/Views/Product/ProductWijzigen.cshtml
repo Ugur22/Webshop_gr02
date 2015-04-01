@@ -36,9 +36,11 @@
             <div class="editor-label">
                 Zichtbaar:
             </div>
-            @Html.RadioButtonFor(Model => Model.zichtbaar, "1") Ja
-        @Html.RadioButtonFor(Model => Model.zichtbaar, "0", new { Checked = "checked" }) Nee
-        @Html.ValidationMessageFor(Model => Model.zichtbaar)
+
+
+            @Html.RadioButtonFor(model => model.zichtbaar, "1") Ja
+        @Html.RadioButtonFor(model => model.zichtbaar, "0", new { Checked = "checked" }) Nee
+        @Html.ValidationMessageFor(model => model.zichtbaar)
 
             @Html.HiddenFor(model => model.ID_P)
 

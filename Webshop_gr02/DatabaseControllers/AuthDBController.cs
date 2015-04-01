@@ -751,11 +751,8 @@ namespace Webshop_gr02.DatabaseControllers
             int zichtbaar = 0;
             int ID_PT = 0;
             string naamPT = "";
-<<<<<<< HEAD
-
-=======
             string maat = "";
->>>>>>> origin/master
+
 
             try
             {
