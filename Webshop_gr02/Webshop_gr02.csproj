@@ -269,6 +269,8 @@
     <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
     <Content Include="Views\Product\ToevoegenProduct.cshtml" />
     <Content Include="Views\Product\WijzigProductType.cshtml" />
+    <Content Include="Views\Product\ProductenOverzicht.cshtml" />
+    <Content Include="Views\Product\ProductWijzigen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

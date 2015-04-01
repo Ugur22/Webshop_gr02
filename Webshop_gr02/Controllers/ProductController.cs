@@ -161,14 +161,14 @@ namespace Webshop_gr02.Controllers
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
             }
-            return RedirectToAction("Index", "Genre");
+            return RedirectToAction("Index", "ProductType");
         }
-
-        public ActionResult WijzigProductType(ProductType productType)
+        public ActionResult WijzigProductType(string producTypetId)
         {
             try
             {
-                authDBController.UpdateProductType(productType);
+                ProductType productType = authDBController.GetProductType(producTypetId);
+
                 return View(productType);
             }
             catch (Exception e)
@@ -177,5 +177,23 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+         [HttpPost]
+        public ActionResult WijzigProductType(ProductType productType)
+        {
+            try
+            {
+                authDBController.UpdateProductType(productType);
+                return RedirectToAction("ProductTypeOverzicht", "Product");
+               
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
+
+        
     }
 }

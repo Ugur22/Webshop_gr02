@@ -902,7 +902,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"update product_type set naam=@naam, inkoop_prijs=@inkookp_prijs,verkoop_prijs=@verkoop_prijs,omschrijving=@omschrijving,image_path=@image_path,zichtbaar=@zichtbaar,aanbieding=@aanbieding,merk=@merk where ID_PT=@ID_PT";
+                string insertString = @"update product_type set naam = @naam, inkoop_prijs = @inkoop_prijs, verkoop_prijs = @verkoop_prijs, omschrijving = @omschrijving, image_path = @image_path, zichtbaar = @zichtbaar, aanbieding = @aanbieding, merk = @merk where ID_PT = @ID_PT";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter productTypeNaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
@@ -912,6 +912,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter image_pathNaamParam = new MySqlParameter("@image_path", MySqlDbType.VarChar);
                 MySqlParameter zichbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int16);
                 MySqlParameter aanbiedingParam = new MySqlParameter("@aanbieding", MySqlDbType.VarChar);
+                MySqlParameter merkParam = new MySqlParameter("@merk", MySqlDbType.VarChar);
                 MySqlParameter idParam = new MySqlParameter("@ID_PT", MySqlDbType.Int16);
 
                 productTypeNaamParam.Value = productType.Naam;
@@ -921,6 +922,7 @@ namespace Webshop_gr02.DatabaseControllers
                 image_pathNaamParam.Value = productType.ImagePath;
                 zichbaarParam.Value = productType.Zichtbaar;
                 aanbiedingParam.Value = productType.Aanbieding;
+                merkParam.Value = productType.Merk;
 
                 idParam.Value = productType.ID_PT;
 
@@ -931,6 +933,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(image_pathNaamParam);
                 cmd.Parameters.Add(zichbaarParam);
                 cmd.Parameters.Add(aanbiedingParam);
+                cmd.Parameters.Add(merkParam);
                 cmd.Parameters.Add(idParam);
 
                 cmd.Prepare();
@@ -948,6 +951,69 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
+        }
+        protected ProductType GetProducTypeFromDataReader(MySqlDataReader dataReader)
+        {
+            int ID_PT;
+            string naamProduct;
+            String omschrijving;
+            String imagePath;
+            int zichtbaar;
+            double aanbieding;
+            float inkoopPrijs;
+            float verkoopPrijs;
+            String merk;
+
+            ID_PT = dataReader.GetInt16("ID_PT");
+            naamProduct = dataReader.GetString("naam");
+            inkoopPrijs = dataReader.GetFloat("inkoop_prijs");
+            verkoopPrijs = dataReader.GetFloat("verkoop_prijs");
+            omschrijving = dataReader.GetString("omschrijving");
+            imagePath = dataReader.GetString("image_path");
+            zichtbaar = dataReader.GetInt16("zichtbaar");
+            aanbieding = dataReader.GetDouble("aanbieding");
+            merk = dataReader.GetString("merk");
+
+            ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Aanbieding = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
+            // product.Add(product);
+
+            return productType;
+        }
+
+        public ProductType GetProductType(string ProductTypeID)
+        {
+            ProductType ProductType = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"select * from product_type where ID_PT = @ID_PT";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productTypeidParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
+                productTypeidParam.Value = ProductTypeID;
+                cmd.Parameters.Add(productTypeidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    ProductType = GetProducTypeFromDataReader(dataReader);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write("product Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ProductType;
         }
     }
 }
