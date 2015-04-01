@@ -7,6 +7,7 @@ namespace Webshop_gr02.Models
 {
     public class Product
     {
+        public int ID_P { get; set; }
         public string naam { get; set; }
         public int voorraad { get; set; }
         public int zichtbaar { get; set; }
@@ -17,7 +18,7 @@ namespace Webshop_gr02.Models
         public ProductType productType { get; set;}
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5} {6}{7} ", naam, voorraad, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet, productType );
+            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} ", ID_P, naam, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet, productType);
         }
     }
 }

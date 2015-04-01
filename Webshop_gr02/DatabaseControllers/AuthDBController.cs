@@ -270,6 +270,85 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+        public Product GetProduct(string ProductID)
+        {
+            Product Product = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"select * from product where ID_P = @ID_P";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                productidParam.Value = ProductID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Product = GetproductFromDataReader(dataReader);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return Product;
+        }
+
+        public void UpdateProduct(Product Product)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar  where ID_P=@ID_P";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter productnaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
+                MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
+                MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+
+                productnaamParam.Value = Product.naam;
+                voorraadParam.Value = Product.voorraad;
+                zichtbaarParam.Value = Product.zichtbaar;
+                idParam.Value = Product.ID_P;
+
+                cmd.Parameters.Add(productnaamParam);
+                cmd.Parameters.Add(voorraadParam);
+                cmd.Parameters.Add(zichtbaarParam);
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Product niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         public void InsertProduct(Product product)
         {
             MySqlTransaction trans = null;
@@ -310,6 +389,18 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+        protected Product GetproductFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int productId = dataReader.GetInt32("ID_P");
+            string productNaam = dataReader.GetString("naam");
+            int voorraad = dataReader.GetInt32("voorraad");
+            int zichtbaar = dataReader.GetInt32("zichtbaar");
+            Product product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar };
+
+            return product;
+        }
+        
         public List<Product> getTotalOmzet()
         {
             DateTime today = DateTime.Now;
@@ -637,7 +728,54 @@ namespace Webshop_gr02.DatabaseControllers
             return producten;
         }
 
+        public List<Product> GetProductLijst()
+        {
+            List<Product> productenLijst = new List<Product>();
 
+            int ID_P = 0;
+            string naam = "";
+            int voorraad = 0;
+            int zichtbaar = 0;
+            int ID_PT = 0;
+            string naamPT = "";
+           
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
+                                        left join product_type pt on p.ID_PT = pt.ID_PT
+                                        group by p.ID_P;
+                                        ";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_P = dataReader.GetInt32("ID_P");
+                    naam = dataReader.GetString("naam");
+                    voorraad = dataReader.GetInt32("voorraad");
+                    zichtbaar = dataReader.GetInt32("zichtbaar");
+                    ID_PT = dataReader.GetInt32("ID_PT");
+                    naamPT = dataReader.GetString("naam_producttype");
+
+
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
+                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    productenLijst.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ophalen van typeProduct mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return productenLijst;
+        }
 
         public List<ProductType> GetTypeLijst()
         {
@@ -689,6 +827,70 @@ namespace Webshop_gr02.DatabaseControllers
             return productenType;
         }
 
+        public void verwijderProductType(string ProductId)
+        {
+            Console.WriteLine(ProductId);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                String DeleteProductTypeString = @"DELETE FROM product_type WHERE ID_PT = @productID";
+                MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@productID", MySqlDbType.Int32);
+                IdParam.Value = ProductId;
+                cmd.Parameters.Add(IdParam);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+
+            }
+            catch (Exception e)
+            {
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void verwijderProduct(string ProductId)
+        {
+            Console.WriteLine(ProductId);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @ProductID";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@ProductID", MySqlDbType.Int32);
+
+                IdParam.Value = ProductId;
+
+                cmd.Parameters.Add(IdParam);
+                
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         public void UpdateProductType(ProductType productType)
         {
