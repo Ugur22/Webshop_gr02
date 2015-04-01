@@ -102,6 +102,22 @@ namespace Webshop_gr02.Controllers
         }
 
 
+        public ActionResult verwijderenProduct(string ProductId)
+        {
+            try
+            {
+                authDBController.verwijderProduct(ProductId);
+                return RedirectToAction("ProductenOverzicht", "Product");
+            }
+
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
+
+
         public ActionResult ProductWijzigen(string productId)
         {
             try
@@ -131,6 +147,7 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
 
 
 

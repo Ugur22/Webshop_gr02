@@ -784,6 +784,8 @@ namespace Webshop_gr02.DatabaseControllers
         public List<Product> GetProductLijst()
         {
             List<Product> productenLijst = new List<Product>();
+
+            int ID_P = 0;
             string naam = "";
             int voorraad = 0;
             int zichtbaar = 0;
@@ -795,7 +797,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"select p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
+                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype from product p
                                         left join product_type pt on p.ID_PT = pt.ID_PT
                                         group by p.ID_P;
                                         ";
@@ -805,6 +807,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
+                    ID_P = dataReader.GetInt32("ID_P");
                     naam = dataReader.GetString("naam");
                     voorraad = dataReader.GetInt32("voorraad");
                     zichtbaar = dataReader.GetInt32("zichtbaar");
@@ -813,7 +816,7 @@ namespace Webshop_gr02.DatabaseControllers
                     
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT};
-                    Product product = new Product { naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
                     productenLijst.Add(product);
                 }
             }
@@ -841,6 +844,41 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
                 MySqlParameter IdParam = new MySqlParameter("@productID", MySqlDbType.Int32);
+
+                IdParam.Value = ProductId;
+
+                cmd.Parameters.Add(IdParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void verwijderProduct(string ProductId)
+        {
+            Console.WriteLine(ProductId);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @ProductID";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@ProductID", MySqlDbType.Int32);
 
                 IdParam.Value = ProductId;
 
