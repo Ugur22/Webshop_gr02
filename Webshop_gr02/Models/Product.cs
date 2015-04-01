@@ -16,6 +16,8 @@ namespace Webshop_gr02.Models
         public double BrutoOmzet { get; set; }
         public double NettoOmzet { get; set; }
         public ProductType productType { get; set;}
+        public string Maat { get; set; }
+
         public override string ToString()
         {
             return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} ", ID_P, naam, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet, productType);
