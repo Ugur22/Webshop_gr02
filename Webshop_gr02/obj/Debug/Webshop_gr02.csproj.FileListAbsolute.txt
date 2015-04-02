@@ -45,3 +45,9 @@ C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.dll
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.pdb
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
 C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
+C:\Users\shakala\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
+C:\Users\shakala\Desktop\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.dll
+C:\Users\shakala\Desktop\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.pdb
+C:\Users\shakala\Desktop\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
+C:\Users\shakala\Desktop\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
+C:\Users\shakala\Desktop\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
