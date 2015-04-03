@@ -1,4 +1,4 @@
-﻿@model Webshop_gr02.Models.Product
+﻿@model Webshop_gr02.ViewModels.ProductTypeViewModel
 @{
     ViewBag.Title = "ProductWijzigen";
 }
@@ -10,27 +10,27 @@
             <legend>Product Wijzigen</legend>
 
             <div class="editor-label">
+                ProductType:
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedProductTypeID, Model.ProductType)
+                @Html.ValidationMessageFor(model => model.SelectedProductTypeID)
+            </div>
+
+            <div class="editor-label">
                 Naam product:
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(model => model.naam)
-                @Html.ValidationMessageFor(model => model.naam)
+                @Html.TextBoxFor(model => model.Product.naam)
+                @Html.ValidationMessageFor(model => model.Product.naam)
             </div>
 
             <div class="editor-label">
                 Voorraad:
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(model => model.voorraad)
-                @Html.ValidationMessageFor(model => model.voorraad)
-            </div>
-
-            <div class="editor-label">
-                ProductType:
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.productType.ID_PT)
-                @Html.ValidationMessageFor(model => model.productType.ID_PT)
+                @Html.TextBoxFor(model => model.Product.voorraad)
+                @Html.ValidationMessageFor(model => model.Product.voorraad)
             </div>
 
             <div class="editor-label">
@@ -38,11 +38,11 @@
             </div>
 
 
-            @Html.RadioButtonFor(model => model.zichtbaar, "1") Ja
-        @Html.RadioButtonFor(model => model.zichtbaar, "0", new { Checked = "checked" }) Nee
-        @Html.ValidationMessageFor(model => model.zichtbaar)
+            @Html.RadioButtonFor(model => model.Product.zichtbaar, "1") Ja
+            @Html.RadioButtonFor(model => model.Product.zichtbaar, "0", new { Checked = "checked" }) Nee
+            @Html.ValidationMessageFor(model => model.Product.zichtbaar)
 
-            @Html.HiddenFor(model => model.ID_P)
+            @Html.HiddenFor(model => model.Product.ID_P)
 
             <p>
                 <input type="submit" value="Wijzigen" />

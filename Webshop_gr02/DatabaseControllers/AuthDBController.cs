@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
 using WorkshopASPNETMVC3_IV_.Models;
+using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.DatabaseControllers
 {
@@ -370,7 +371,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public void InsertProduct(Product product, ProductType productType)
+        public void InsertProduct(Product product)
         {
             MySqlTransaction trans = null;
             try
@@ -389,7 +390,7 @@ namespace Webshop_gr02.DatabaseControllers
                 naamParam.Value = product.naam;
                 voorraadParam.Value = product.voorraad;
                 zichtbaarParam.Value = product.zichtbaar;
-                ID_PTParam.Value = productType.ID_PT;
+                ID_PTParam.Value = product.productType.ID_PT;
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(voorraadParam);
@@ -1027,7 +1028,41 @@ namespace Webshop_gr02.DatabaseControllers
 
             return ProductType;
         }
+
+        public List<ProductType> GetAllProductTypes()
+        {
+            List<ProductType> productTypes = new List<ProductType>();
+            int productTypeId = 0;
+            string productName = "";
+            
+            try
+            {
+                conn.Open();
+
+                string selectQueryOmzetMonthly = @"SELECT ID_PT as ID_ProductType, naam as Naam FROM product_type";
+                MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    productTypeId = dataReader.GetInt32("ID_ProductType");
+                    productName = dataReader.GetString("Naam");
+
+                    ProductType product = new ProductType { Naam = productName, ID_PT = productTypeId };
+
+                    productTypes.Add(product);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return productTypes;
+        }
     }
-
 }
-

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
+using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers
 {
@@ -65,18 +66,31 @@ namespace Webshop_gr02.Controllers
  
         public ActionResult ToevoegenProduct()
         {
-            return View();
+            try
+            {
+                ProductTypeViewModel viewModel = new ProductTypeViewModel();
+
+                List<ProductType> productType = authDBController.GetAllProductTypes();
+
+                viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam");
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
         }
 
         [HttpPost]
-        public ActionResult ToevoegenProduct(Product product, ProductType productType)
+        public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel)
         {
             try
             {
-
-                authDBController.InsertProduct(product, productType);
-
-               
+                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
+                
+                authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
 
@@ -122,8 +136,17 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
+                ProductTypeViewModel viewModel = new ProductTypeViewModel();
+
+                List<ProductType> productType = authDBController.GetAllProductTypes();
+
                 Product Product = authDBController.GetProduct(productId);
-                return View(Product);
+
+                viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam", Product.productType.ID_PT);
+
+                viewModel.Product = Product;
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
