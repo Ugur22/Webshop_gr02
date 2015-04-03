@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
+using Webshop_gr02.Models;
 using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers
@@ -41,6 +42,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 List<ProductType> producten = authDBController.GetTypeLijst();
+                Console.WriteLine(producten);
                 return View(producten);
             }
             catch (Exception e)
@@ -171,10 +173,11 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-        public ActionResult CreateProductType(int ID_PT, String naamProduct, float inkoop_prijs, float verkoopPrijs, String omschrijving, String imagePath, int zichtbaar, double aanbieding, String merk)
+        public ActionResult CreateProductType(int ID_PT, String naamProduct, float inkoop_prijs, float verkoopPrijs, String omschrijving, String imagePath, bool zichtbaar, int aanbieding, String merk)
         {
+            Aanbieding aanbieding_v = authDBController.GetAanbieding(aanbieding);
            // bool isZichtbaar = zichtbaar == 1;
-            ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoop_prijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Zichtbaar = zichtbaar, Aanbieding = aanbieding, Merk = merk };
+            ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoop_prijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Zichtbaar = zichtbaar, Aanbieding = aanbieding_v, Merk = merk };
             try
             {
                 authDBController.InsertProductType(productType);
@@ -185,28 +188,50 @@ namespace Webshop_gr02.Controllers
             }
             return RedirectToAction("Index", "ProductType");
         }
-        public ActionResult WijzigProductType(string producTypetId)
+        private SelectList GetAanbiedingen()
+        {
+            List<Aanbieding> aanbieding = authDBController.GetAanbiedingen();
+            Aanbieding emptyaanbieding = new Aanbieding { ID_A = 0, soort = "" };
+            aanbieding.Insert(0, emptyaanbieding);
+
+            return new SelectList(aanbieding, "ID_A", "soort");
+        }
+        public ActionResult WijzigProductType(string productTypeId)
         {
             try
             {
-                ProductType productType = authDBController.GetProductType(producTypetId);
+                //Viewmodel aanmaken
+                ProductTypeAanbiedingen viewModel = new ProductTypeAanbiedingen();
+                //Te wijzigen game ophalen
+                ProductType productType = authDBController.GetProductType(productTypeId);
 
-                return View(productType);
+                //Viewmodel vullen
+                viewModel.ProductType = productType;
+                viewModel.SelectedAanbiedingID = productType.Aanbieding.ID_A;
+                //SelectList ophalen voor genres.
+                viewModel.Aanbiedingen = GetAanbiedingen();
+
+                //View retourneren met viewModel
+                return View(viewModel);
             }
             catch (Exception e)
             {
-                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                ViewBag.FoutMelding = "Er is iets fout gegaan: " + e;
                 return View();
             }
+
+
+           
         }
 
          [HttpPost]
-        public ActionResult WijzigProductType(ProductType productType)
+        public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
         {
             try
             {
-                authDBController.UpdateProductType(productType);
-                return RedirectToAction("ProductTypeOverzicht", "Product");
+                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                authDBController.UpdateProductType(viewModel.ProductType);
+                    return RedirectToAction("ProductTypeOverzicht", "Product");
                
             }
             catch (Exception e)

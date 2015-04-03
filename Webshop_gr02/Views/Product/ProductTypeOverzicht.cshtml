@@ -30,10 +30,14 @@
                     <td>@Model[i].InkoopPrijs</td>
                     <td>@Model[i].VerkoopPrijs</td>
                     <td>@Model[i].Omschrijving</td>
-                    <td>@Model[i].Zichtbaar</td>
-                    <td>@Model[i].Aanbieding</td>
+                    <td>@if (Model[i].Zichtbaar) { @Html.Raw("Ja"); } else { @Html.Raw("Nee"); }</td>
+                    <td>
+                        @if (Model[i].Aanbieding.ID_A != 0) {
+                            @Html.Raw(Model[i].Aanbieding.soort + " | " + Model[i].Aanbieding.percentage + " %");
+                        }
+                    </td>
                     <td>@Model[i].Merk</td>
-                    <td>@Html.ActionLink("Wijzig", "WijzigProductType", new {producTypetId = @Model[i].ID_PT})</td>
+                    <td>@Html.ActionLink("Wijzig", "WijzigProductType", new {productTypeId = @Model[i].ID_PT})</td>
                     <td>@Html.ActionLink("verwijder", "verwijderenProductType", new { ProductId = @Model[i].ID_PT})</td>
                 </tr>
                 }

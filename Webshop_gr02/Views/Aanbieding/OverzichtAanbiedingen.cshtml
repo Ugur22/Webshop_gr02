@@ -1,0 +1,42 @@
+﻿@model List<Webshop_gr02.Models.Aanbieding>
+
+@{
+    ViewBag.Title = "OverzichtAanbiedingen";
+}
+
+<div class="content_wrap"> 
+   <h2>Overzichtcategorieën</h2>
+    <p>@Html.ActionLink("Aanbieding Toevoegen", "ToevoegenAanbieding")</p>
+        <table id="hor-minimalist-b">
+        <thead>
+    	    <tr>
+                <th>ID aanbieding</th>
+        	    <th>Soort</th>
+                <th>Percentage</th>
+                <th>Actief</th>
+                 <th>Wijzigen</th>
+                  <th>Verwijderen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr> 
+                    <td>@Model[i].ID_A</td>
+                    <td>@Model[i].soort</td>
+                    <td>@Model[i].percentage %</td>
+                    <td>@if (Model[i].actief)
+                        {
+                            @Html.Raw("Ja");
+                        }
+                        else {
+                            @Html.Raw("Nee");
+                        }
+                    </td>
+                    <td>@Html.ActionLink("wijzig", "WijzigAanbieding", new { genreId = @Model[i].ID_A})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderAanbieding", new { genreId = @Model[i].ID_A})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
