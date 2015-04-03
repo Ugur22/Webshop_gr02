@@ -6,8 +6,6 @@ using System.Web.Security;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
-using WorkshopASPNETMVC3_IV_.Models;
-using Webshop_gr02.Models;
 using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers
@@ -17,25 +15,51 @@ namespace Webshop_gr02.Controllers
 
         private AuthDBController authDBController = new AuthDBController();
 
+
+
         public ActionResult ToevoegenProductType()
-        {
-            return View();
-        }
-        
-        [HttpPost]
-        public ActionResult ToevoegenProductType(ProductType productType)
         {
             try
             {
-                authDBController.InsertProductType(productType);
+                ProductTypeAanbiedingen viewModel = new ProductTypeAanbiedingen();
 
+                List<Aanbieding> aanbieding = authDBController.GetAanbiedingen();
+
+                viewModel.Aanbiedingen = new SelectList(aanbieding, "ID_A", "soort");
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
-                ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
             }
-            return RedirectToAction("ProductTypeOverzicht", "Product");
         }
+
+
+
+        [HttpPost]
+        public ActionResult ToevoegenProductType(ProductTypeAanbiedingen viewModel)
+        {
+            try
+            {
+
+                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+
+                authDBController.InsertProductType(viewModel.ProductType);
+                return RedirectToAction("ProductTypeOverzicht", "Product");
+            }
+
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
+
+
+
+
 
         public ActionResult ProductTypeOverzicht()
         {
@@ -65,7 +89,7 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
- 
+
         public ActionResult ToevoegenProduct()
         {
             try
@@ -91,7 +115,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
-                
+
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
@@ -134,60 +158,11 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-        public ActionResult ProductWijzigen(string productId)
-        {
-            try
-            {
-                ProductTypeViewModel viewModel = new ProductTypeViewModel();
+      
 
-                List<ProductType> productType = authDBController.GetAllProductTypes();
 
-                Product Product = authDBController.GetProduct(productId);
 
-                viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam", Product.productType.ID_PT);
 
-                viewModel.Product = Product;
-
-                return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public ActionResult ProductWijzigen(Product product)
-        {
-            Console.WriteLine(product);
-            try
-            {
-                authDBController.UpdateProduct(product);
-                return RedirectToAction("ProductenOverzicht", "Product");
-            }
-            catch (Exception e)
-            {
-                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
-                return View();
-            }
-        }
-
-        public ActionResult CreateProductType(int ID_PT, String naamProduct, float inkoop_prijs, float verkoopPrijs, String omschrijving, String imagePath, bool zichtbaar, int aanbieding, String merk)
-        {
-            Aanbieding aanbieding_v = authDBController.GetAanbieding(aanbieding);
-           // bool isZichtbaar = zichtbaar == 1;
-            ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoop_prijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, Zichtbaar = zichtbaar, Aanbieding = aanbieding_v, Merk = merk };
-            try
-            {
-                authDBController.InsertProductType(productType);
-            }
-            catch (Exception e)
-            {
-                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
-            }
-            return RedirectToAction("Index", "ProductType");
-        }
         private SelectList GetAanbiedingen()
         {
             List<Aanbieding> aanbieding = authDBController.GetAanbiedingen();
@@ -196,6 +171,19 @@ namespace Webshop_gr02.Controllers
 
             return new SelectList(aanbieding, "ID_A", "soort");
         }
+
+       
+      
+
+        //private SelectList GetProductTypes()
+        //{
+        //    List<ProductType> ProductType = authDBController.GetProductType();
+        //    ProductType emptyproducttype = new ProductType { ID_PT = 0, Naam = "" };
+        //    ProductType.Insert(0, emptyproducttype);
+
+        //    return new SelectList(ProductType, "ID_PT", "naam");
+        //}
+
         public ActionResult WijzigProductType(string productTypeId)
         {
             try
@@ -221,18 +209,19 @@ namespace Webshop_gr02.Controllers
             }
 
 
-           
+
         }
 
-         [HttpPost]
+
+        [HttpPost]
         public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
         {
             try
             {
                 viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
                 authDBController.UpdateProductType(viewModel.ProductType);
-                    return RedirectToAction("ProductTypeOverzicht", "Product");
-               
+                return RedirectToAction("ProductTypeOverzicht", "Product");
+
             }
             catch (Exception e)
             {
@@ -241,6 +230,52 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-        
+
+        [HttpPost]
+        public ActionResult ProductWijzigen(ProductTypeViewModel ViewModel)
+        {
+          
+            try
+            {
+               // ViewModel.ProductType = authDBController.GetProductType(ViewModel.SelectedProductTypeID);
+                    authDBController.UpdateProduct(ViewModel.Product);
+                return RedirectToAction("ProductenOverzicht", "Product");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+                return View();
+            }
+        }
+
+
+        public ActionResult ProductWijzigen(string productId)
+        {
+            try
+            {
+                ProductTypeViewModel viewModel = new ProductTypeViewModel();
+       
+                Product Product = authDBController.GetProduct(productId);
+
+                //Viewmodel vullen
+                viewModel.Product = Product;
+                viewModel.SelectedProductTypeID = Product.productType.ID_PT;
+                //SelectList ophalen voor producttypes.
+                //viewModel.ProductType = GetProductType();
+
+                viewModel.Product = Product;
+
+                //View retourneren met viewModel
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
+
+
+      
     }
 }
