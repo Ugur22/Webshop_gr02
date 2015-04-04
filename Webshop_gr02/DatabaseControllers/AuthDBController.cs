@@ -891,6 +891,102 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productenLijst;
         }
+
+        public List<BestelRegel> GetBestellingOverzicht()
+        {
+            List<BestelRegel> bestellingenLijst = new List<BestelRegel>();
+
+            int ID_P = 0;
+            int ID_B = 0;
+            string productNaam = "";
+            int aantal = 0;
+            double bedrag = 0;
+            string status = "";
+            string datum = "";
+           
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select br.ID_P as productID, br.ID_B as bestellingID, br.aantal as aantal, br.bedrag as bedrag, p.naam as productNaam, b.status as status, b.datum as datum from bestel_regel br left join bestelling b on br.ID_B = b.ID_B left join klant k on b.ID_K = k.ID_G left join product p on br.ID_P = p.ID_P where k.ID_G = 1 group by p.ID_P;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_P = dataReader.GetInt32("productID");
+                    ID_B = dataReader.GetInt32("bestellingID");
+                    productNaam = dataReader.GetString("productNaam");
+                    aantal = dataReader.GetInt32("aantal");
+                    bedrag = dataReader.GetDouble("bedrag");
+                    status = dataReader.GetString("status");
+                    datum = dataReader.GetString("datum");
+
+
+
+                    Bestelling bestelling = new Bestelling {status = status, datum = datum };
+                    Product product = new Product {  naam = productNaam};
+                    BestelRegel bestelRegel = new BestelRegel { ID_B = ID_B, ID_P = ID_P, bedrag = bedrag, aantal = aantal, bestelling = bestelling, product = product };
+
+                    bestellingenLijst.Add(bestelRegel);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return bestellingenLijst;
+        }
+
+        public bool ControleerGoldMember() { 
+        
+        bool gold = false;
+        double totaalAankoop = 0;
+
+          
+           
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select sum(br.bedrag)
+from bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                     left join klant k on b.ID_K = k.ID_G
+where k.ID_G = 1;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    totaalAankoop = dataReader.GetDouble("sum(br.bedrag)");
+                   
+
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            //totaalAankoop = 500.01;
+
+            if(totaalAankoop>=500){
+            gold = true;
+            }
+            else{
+            gold = false;
+            }
+
+            return gold;
+        }
        
         public List<ProductType> GetTypeLijst()
         {

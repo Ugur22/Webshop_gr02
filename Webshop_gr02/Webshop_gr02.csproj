@@ -103,6 +103,7 @@
     <Compile Include="Authorisation\CustomRoleProvider.cs" />
     <Compile Include="Controllers\AanbiedingController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BestellingController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\CookieController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -117,6 +118,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Aanbieding.cs" />
+    <Compile Include="Models\Bestelling.cs" />
+    <Compile Include="Models\BestelRegel.cs" />
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
@@ -279,6 +282,7 @@
     <Content Include="Views\Product\ProductWijzigen.cshtml" />
     <Content Include="Views\Aanbieding\OverzichtAanbiedingen.cshtml" />
     <Content Include="Views\Customer\ProductenOverzichtklant.cshtml" />
+    <Content Include="Views\Bestelling\Bestelling.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
