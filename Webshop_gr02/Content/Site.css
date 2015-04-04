@@ -191,12 +191,13 @@ ul {
 }
 
 #collumproduct {
-    height:500px;
+    height: 426px;
+    background-color:rgba(0,156,0,0.7)
 }
 
 #productImage {
-    height:50%;
-    width:50%;    
+    height:200px;
+    width:100%;    
 }
 
 /* Styles for basic forms
