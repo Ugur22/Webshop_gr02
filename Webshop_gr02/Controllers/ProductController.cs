@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 using System.Web.Security;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
@@ -38,16 +39,25 @@ namespace Webshop_gr02.Controllers
 
 
 
+
+
         [HttpPost]
         public ActionResult ToevoegenProductType(ProductTypeAanbiedingen viewModel)
         {
+
+           
+
             try
             {
+
+
 
                 viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
 
                 authDBController.InsertProductType(viewModel.ProductType);
                 return RedirectToAction("ProductTypeOverzicht", "Product");
+
+
             }
 
             catch (Exception e)
@@ -158,7 +168,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-      
+
 
 
 
@@ -172,8 +182,8 @@ namespace Webshop_gr02.Controllers
             return new SelectList(aanbieding, "ID_A", "soort");
         }
 
-       
-      
+
+
 
         //private SelectList GetProductTypes()
         //{
@@ -234,11 +244,11 @@ namespace Webshop_gr02.Controllers
         [HttpPost]
         public ActionResult ProductWijzigen(ProductTypeViewModel ViewModel)
         {
-          
+
             try
             {
-               // ViewModel.ProductType = authDBController.GetProductType(ViewModel.SelectedProductTypeID);
-                    authDBController.UpdateProduct(ViewModel.Product);
+                // ViewModel.ProductType = authDBController.GetProductType(ViewModel.SelectedProductTypeID);
+                authDBController.UpdateProduct(ViewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
             catch (Exception e)
@@ -254,7 +264,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 ProductTypeViewModel viewModel = new ProductTypeViewModel();
-       
+
                 Product Product = authDBController.GetProduct(productId);
 
                 //Viewmodel vullen
@@ -276,6 +286,6 @@ namespace Webshop_gr02.Controllers
         }
 
 
-      
+
     }
 }
