@@ -19,8 +19,8 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                List<Product> productenLijst = authDBController.GetProductLijst();
-                return View(productenLijst);
+                List<ProductType> productenLijstType = authDBController.GetTypeLijst();
+                return View(productenLijstType);
             }
             catch (Exception e)
             {

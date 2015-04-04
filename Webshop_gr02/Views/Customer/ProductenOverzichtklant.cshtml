@@ -1,5 +1,5 @@
 ﻿@using Webshop_gr02.Models;
-@model List<Webshop_gr02.Models.Product>
+@model List<Webshop_gr02.Models.ProductType>
 @{
     ViewBag.Title = "ProductenOverzichtklant";
 }
@@ -7,81 +7,31 @@
 
 <div class="content_wrap">
     <h2>Producten</h2>
+    <div class="row">
 
-
-
-             <div class="row">   
-             
-                
-                
-              
-          
-            @for (int i = 0; i < Model.Count; i++)
-            {
+        @for (int i = 0; i < Model.Count; i++)
+        {
                 
                 
 
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://placehold.it/242x200" alt="...">
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-               <ul>
-                 <li>Naam: @Model[i].naam</li>  
-                     <li>Voorraad: @Model[i].voorraad</li>
-                    <li>Zichtbaar: @Model[i].zichtbaar</li>
-                    <li>Naam Producttype: @Model[i].productType.Naam</li>
-                    <li>Maat: @Model[i].Maat</li>
-                      <li>Bestel: @Html.ActionLink("Bestel", "BestelProduct", new { productId = @Model[i].ID_P })</li>
-                   </ul>
-        <p><a href="#" class="btn btn-primary" role="button">Bestel</a> </p>
-      </div>
+            <div class="col-sm-6 col-md-4" >
+                <div class="thumbnail" id="collumproduct">
+                    <img src="../Images/@Model[i].ImagePath" id="productImage">
+                    <div class="caption" >
+                        <h3>@Model[i].Naam</h3>
+                        <ul>
+
+                            <li>Prijs: $@Model[i].VerkoopPrijs</li>
+                            <li>Omschrijving: @Model[i].Omschrijving</li>
+                            <li>Merk: @Model[i].Merk</li>
+                            <li>@Html.ActionLink("Bestel", "BestelProduct", new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                
+                
+        }
+
     </div>
-  </div>
-                
-                
-                  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://placehold.it/242x200" alt="...">
-      <div class="caption">
-
-        <h3>Thumbnail label</h3>
-          <ul>
-                 <li>Naam: @Model[i].naam</li>  
-                     <li>Voorraad: @Model[i].voorraad</li>
-                    <li>Zichtbaar: @Model[i].zichtbaar</li>
-                    <li>Naam Producttype: @Model[i].productType.Naam</li>
-                    <li>Maat: @Model[i].Maat</li>
-                      <li>Bestel: @Html.ActionLink("Bestel", "BestelProduct", new { productId = @Model[i].ID_P })</li>
-          </ul>
-        <p><a href="#" class="btn btn-primary" role="button">Bestel</a> </p>
-      </div>
-    </div>
-  </div>
-                
-                
-                  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://placehold.it/242x200" alt="...">
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-          <ul>
-                 <li>Naam: @Model[i].naam</li>  
-                     <li>Voorraad: @Model[i].voorraad</li>
-                    <li>Zichtbaar: @Model[i].zichtbaar</li>
-                    <li>Naam Producttype: @Model[i].productType.Naam</li>
-                    <li>Maat: @Model[i].Maat</li>
-                      <li>Bestel: @Html.ActionLink("Bestel", "BestelProduct", new { productId = @Model[i].ID_P })</li>
-              </ul>
-        <p><a href="#" class="btn btn-primary" role="button">Bestel</a> </p>
-      </div>
-    </div>
-  </div>
-
-                
-         
-                
-            }
-  
-</div>
 </div>

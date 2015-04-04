@@ -747,7 +747,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join verkocht_product vp on p.ID_P = vp.ID_P
                                         GROUP BY pt.ID_PT

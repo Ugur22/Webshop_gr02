@@ -17,52 +17,42 @@
             <input type="submit" value="check" />
         }
     </div>
-    <div class="table_wrap">
-        <h2>Maandelijkse omzet</h2>
-        <div class="table_content">
-            <div class="row">
-                <div class="table_left">
-                    <b>Product Naam</b>
-                </div>
-                <div class="table_middle">
-                    <b>Bruto Omzet</b>
-                </div>
-                <div class="table_right">
-                    <b>Netto Omzet</b>
-                </div>
-            </div>
+                  <table class="table">
+        <thead>
+    	    <tr>
+                <th>Product Naam</th>
+        	    <th>Bruto Omzet</th>
+                 <th>Netto Omzet</th>
+            </tr>
+        </thead>
+        <tbody>
             @for (int i = 0; i < Model.Count; i++)
             {
                 {
                     var count = Model.Count - 1;
                     if (i == count)
                     {
-                        <div class="row_last">
-                            <div class="table_left">
-                                @Model[i].naam
-                            </div>      
-                            <div class="table_middle">
-                                @String.Format("{0:0.00}", Model[i].BrutoOmzet)
-                            </div>
-                            <div class="table_right">
-                                @String.Format("{0:0.00}", Model[i].NettoOmzet)
-                            </div>
-                        </div>
+                        <tr>
+
+
+                                <td>@Model[i].naam</td> 
+                          <td>  @String.Format("{0:0.00}", Model[i].BrutoOmzet)</td> 
+                          <td>    @String.Format("{0:0.00}", Model[i].NettoOmzet)</td> 
+                        </tr>
+                 
+              
+                             
+                   
                     }
                     else
                     {
-                        <div class="row">
-                            <div class="table_left">
-                                @Model[i].naam
-                            </div>
-                            
-                            <div class="table_middle">
-                                @String.Format("{0:0.00}", Model[i].BrutoOmzet)
-                            </div>
-                            <div class="table_right">
-                                @String.Format("{0:0.00}", Model[i].NettoOmzet)
-                            </div>
-                        </div>
+                         <tr>
+
+
+                                <td>@Model[i].naam</td> 
+                          <td>  @String.Format("{0:0.00}", Model[i].BrutoOmzet)</td> 
+                          <td>    @String.Format("{0:0.00}", Model[i].NettoOmzet)</td> 
+                        </tr>
                     }
                 }
             }
