@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
-using Webshop_gr02.Models;
 using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers

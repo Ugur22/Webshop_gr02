@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorisation\CustomRoleProvider.cs" />
+    <Compile Include="Controllers\AanbiedingController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\CookieController.cs" />
@@ -109,17 +110,24 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromotieController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
     <Compile Include="DatabaseControllers\AuthDBController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Aanbieding.cs" />
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ProductTypeAanbiedingen.cs" />
+    <Compile Include="ViewModels\ProductTypeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\EntityFramework.dll" />
@@ -271,6 +279,7 @@
     <Content Include="Views\Product\WijzigProductType.cshtml" />
     <Content Include="Views\Product\ProductenOverzicht.cshtml" />
     <Content Include="Views\Product\ProductWijzigen.cshtml" />
+    <Content Include="Views\Aanbieding\OverzichtAanbiedingen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
