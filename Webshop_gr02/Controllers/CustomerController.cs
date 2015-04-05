@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
+using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers
 {
@@ -19,8 +20,9 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                List<ProductType> productenLijstType = authDBController.GetTypeLijst();
-                return View(productenLijstType);
+            
+                List<ProductType> product = authDBController.GetTypeLijst();
+                return View(product);
             }
             catch (Exception e)
             {

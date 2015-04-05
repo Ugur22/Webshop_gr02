@@ -17,10 +17,11 @@ namespace Webshop_gr02.Models
         public Boolean Zichtbaar { get; set; }
         public int ID_A;
         public Aanbieding Aanbieding { get; set; }
+        public Product Product { get; set; }
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",ID_PT, Naam, InkoopPrijs, VerkoopPrijs, Omschrijving, ImagePath, Zichtbaar, Aanbieding.ToString() , Merk);
+            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}  {9} ", ID_PT, Naam, InkoopPrijs, VerkoopPrijs, Omschrijving, ImagePath, Zichtbaar, Aanbieding.ToString(), Merk, Product.ToString());
         }
 
     }
