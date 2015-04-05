@@ -21,7 +21,7 @@ namespace Webshop_gr02.Controllers
         //Post Methode uploaden bestanden
         //
         [HttpPost]
-        public ActionResult PromotieToevoegen(HttpPostedFileBase file)
+        public ActionResult ImageToevoegen(HttpPostedFileBase file)
 
         {
              try

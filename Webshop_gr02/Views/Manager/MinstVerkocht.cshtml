@@ -8,7 +8,7 @@
     <div class="dropdown_month">
         @using (Html.BeginForm("MinstVerkocht", "Manager"))
         {
-           DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now;
             <select name="date">
                 @for (int i = 0; i < 13; i++)
                 {
@@ -16,66 +16,48 @@
                     <option value="@answer.ToString("yyyy/MM")">@answer.ToString("MMMM/yy")</option>
                 }
             </select>
-           <input type="submit" value="check" />
+            <input type="submit" value="check" />
         }
     </div>
-    <div class="table_wrap">
-        <h2>Minst verkochte producten</h2>
-        <div class="table_content">
-            <div class="row">
-                <div class="table_left">
-                    <b>Product ID</b>
-                </div>
-                <div class="table_middle">
-                    <b>Product Naam</b>
-                </div>
-                <div class="table_middle">
-                    <b>Verkoopprijs in euro's</b>
-                </div>
-                <div class="table_right">
-                    <b>Afzet</b>
-                </div>
-            </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Naam</th>
+                <th>Verkoopprijs in euro's</th>
+                <th>Afzet</th>
+            </tr>
+        </thead>
+        <tbody>
+@for (int i = 0; i < Model.Count; i++)
+{
+    {
+        var count = Model.Count - 1;
+        if (i == count)
+        {
+                  <tr>     
+                
+    <td>@Model[i].naam</td> 
+    <td>@Model[i].naam</td>
+    <td>@String.Format("{0:0.00}", Model[i].prijs)</td> 
+    <td>@Model[i].afzet</td> 
 
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                {var count = Model.Count-1;
-                    if (i == count)
-                    {
-                        <div class="row_last">
-                            <div class="table_left">
-                                @Model[i].naam
-                            </div>
-                            <div class="table_middle">
-                                @Model[i].naam
-                            </div>
-                            <div class="table_middle">
-                                @String.Format("{0:0.00}", Model[i].prijs)
-                            </div>
-                            <div class="table_right">
-                                @Model[i].afzet
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            <div class="table_left">
-                                @Model[i].naam
-                            </div>
-                            <div class="table_middle">
-                                @Model[i].naam
-                            </div>
-                            <div class="table_middle">
-                                @String.Format("{0:0.00}", Model[i].prijs)
-                            </div>
-                            <div class="table_right">
-                                @Model[i].afzet
-                            </div>
-                        </div>
-                    }
-                }
-            }
-        </div>
-    </div>
+                       </tr>
+        }
+        else
+        {
+            
+             <tr>
+    <td>@Model[i].naam</td> 
+    <td>@Model[i].naam</td>
+    <td>@String.Format("{0:0.00}", Model[i].prijs)</td> 
+    <td>@Model[i].afzet</td> 
+
+                  </tr>
+        }
+    }
+}
+</table>
 </div>
+
+
