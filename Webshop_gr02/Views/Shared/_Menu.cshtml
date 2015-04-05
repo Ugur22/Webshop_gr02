@@ -1,25 +1,17 @@
-﻿@model List<Webshop_gr02.Models.Categorie>
-
-
+﻿@model Webshop_gr02.ViewModels.ProductViewModel
 @{
     Layout = null;
 }
 
 
-     
-
-    <div id="header_wrap">
-    <div id="nav">
 
 
-             @for(int i = 0; i < Model.Count; i++)
-            { 
-                <ul>
-                    <li><a>@Model[i].Naam</a></li>
-                </ul>
-            }
-    </div>
-        </div>
 
-  
+        <ul>
+            <li>@Html.DropDownListFor(model => model.SelectedProductID, Model.Products)</li>
+
+        </ul>
+
+
+
 
