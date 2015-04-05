@@ -26,7 +26,7 @@
                                 <br />
                                 @Model[i].Omschrijving</li>
                             <li>Merk: @Model[i].Merk</li>
-                            <li>@Html.ActionLink("Bestel", "BestelProduct", new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                            <li>@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct", new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
                         </ul>
                     </div>
                 </div>
