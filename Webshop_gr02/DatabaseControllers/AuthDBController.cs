@@ -1120,7 +1120,7 @@ where k.ID_G = 1;";
             }
         }
 
-        public void verwijderProduct(string ProductId)
+        public void verwijderProduct(int ProductId)
         {
             Console.WriteLine(ProductId);
             MySqlTransaction trans = null;
@@ -1129,10 +1129,10 @@ where k.ID_G = 1;";
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @ProductID";
+                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @productID";
 
                 MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
-                MySqlParameter IdParam = new MySqlParameter("@ProductID", MySqlDbType.Int32);
+                MySqlParameter IdParam = new MySqlParameter("@productID", MySqlDbType.Int32);
 
                 IdParam.Value = ProductId;
 

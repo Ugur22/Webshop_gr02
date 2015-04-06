@@ -68,7 +68,7 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
- 
+
         public ActionResult ToevoegenProduct()
         {
             try
@@ -94,7 +94,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
-                
+
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
@@ -123,7 +123,7 @@ namespace Webshop_gr02.Controllers
         }
 
 
-        public ActionResult verwijderenProduct(string ProductId)
+        public ActionResult verwijderenProduct(int ProductId)
         {
             try
             {
@@ -137,6 +137,8 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
+
 
         public ActionResult ProductWijzigen(string productId)
         {
@@ -167,8 +169,8 @@ namespace Webshop_gr02.Controllers
             //Console.WriteLine(product);
             try
             {
-               // viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-               // authDBController.UpdateProductType(viewModel.ProductType);
+                // viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                // authDBController.UpdateProductType(viewModel.ProductType);
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
                 authDBController.UpdateProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
@@ -178,11 +180,6 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
                 return View();
             }
-
-
-           
-
-
 
         }
 
@@ -258,11 +255,11 @@ namespace Webshop_gr02.Controllers
             }
 
 
-           
+
         }
 
-   
 
-        
+
+
     }
 }

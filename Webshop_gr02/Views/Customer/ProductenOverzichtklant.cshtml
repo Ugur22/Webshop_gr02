@@ -14,9 +14,6 @@
 
         @for (int i = 0; i < Model.Count; i++)
         {
-                
-                
-
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail" id="collumproduct">
                     <img src="../Images/@Model[i].ImagePath" id="productImage">
@@ -33,15 +30,16 @@
                             <li>Merk: @Model[i].Merk</li>
 
 
-                            <li>
+                         @*   <li>
                                 <select name="product">
-                                    @for (var y =38; y < 50; y++)
+                                    @for (int y = 0; y < Model.Count; y++)
                                     {
 
-                                        <option>@(("Maat "+y))</option>
+                                        <option>@((@Model[y].Naam))</option>
                                     }
-                                </select></li>
-                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct", new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                                </select></li>*@
+                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct",
+                            new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 

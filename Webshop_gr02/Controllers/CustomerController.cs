@@ -11,6 +11,7 @@ namespace Webshop_gr02.Controllers
 {
     public class CustomerController : Controller
     {
+        
         //
         // GET: /Customer/
 
@@ -29,6 +30,32 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
                 return View();
             }
+        }
+
+        public ActionResult ProductTypeBestellen(string productTypeId)
+        {
+            try
+            {
+                //Viewmodel aanmaken
+                ProductTypeAanbiedingen viewModel = new ProductTypeAanbiedingen();
+                //Te wijzigen game ophalen
+                ProductType productType = authDBController.GetProductType(productTypeId);
+
+                //Viewmodel vullen
+                viewModel.ProductType = productType;
+
+
+                //View retourneren met viewModel
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding = "Er is iets fout gegaan: " + e;
+                return View();
+            }
+
+
+
         }
 
     }

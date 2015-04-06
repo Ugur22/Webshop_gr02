@@ -12,8 +12,6 @@
 
 
     <table class="table">
-
-
         <thead>
             <tr>
                 <th>Naam</th>
@@ -36,12 +34,8 @@
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
                     <td>@Model[i].Maat</td>
-                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { productId = @Model[i].ID_P })</td>
-
-
-
-
-                    <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductID = @Model[i].ID_P })</td>
+                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { ProductId = @Model[i].ID_P })</td>
+                    <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductId = @Model[i].ID_P })</td>
                 </tr>
             }
         </tbody>
