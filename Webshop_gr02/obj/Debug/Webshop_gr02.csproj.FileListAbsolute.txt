@@ -49,3 +49,4 @@ C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\We
 C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
 C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.dll
 C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\bin\Webshop_gr02.pdb
+C:\Users\Ugur\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
