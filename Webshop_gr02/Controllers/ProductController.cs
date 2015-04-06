@@ -207,7 +207,7 @@ namespace Webshop_gr02.Controllers
                 //Viewmodel vullen
                 viewModel.ProductType = productType;
                 viewModel.SelectedAanbiedingID = productType.Aanbieding.ID_A;
-                //SelectList ophalen voor genres.
+                //SelectList ophalen voor aanbieding.
                 viewModel.Aanbiedingen = GetAanbiedingen();
 
                 //View retourneren met viewModel
