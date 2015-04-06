@@ -127,7 +127,7 @@ namespace Webshop_gr02.Controllers
             try
             {
                 authDBController.verwijderProduct(ProductId);
-                return RedirectToAction("ProductOverzicht", "Product");
+                return RedirectToAction("ProductenOverzicht", "Product");
             }
 
             catch (Exception e)
