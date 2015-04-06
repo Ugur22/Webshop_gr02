@@ -205,6 +205,24 @@ namespace Webshop_gr02.Controllers
 
             return new SelectList(aanbieding, "ID_A", "soort");
         }
+
+        [HttpPost]
+        public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
+        {
+            try
+            {
+                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                authDBController.UpdateProductType(viewModel.ProductType);
+                return RedirectToAction("ProductTypeOverzicht", "Product");
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+        }
+
         public ActionResult WijzigProductType(string productTypeId)
         {
             try
@@ -233,22 +251,7 @@ namespace Webshop_gr02.Controllers
            
         }
 
-         [HttpPost]
-        public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
-        {
-            try
-            {
-                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-                authDBController.UpdateProductType(viewModel.ProductType);
-                    return RedirectToAction("ProductTypeOverzicht", "Product");
-               
-            }
-            catch (Exception e)
-            {
-                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
-                return View();
-            }
-        }
+   
 
         
     }
