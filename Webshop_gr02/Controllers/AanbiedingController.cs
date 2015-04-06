@@ -40,12 +40,13 @@ namespace Webshop_gr02.Controllers
 
             return new SelectList(aanbieding, "ID_A", "soort");
         }
+       
         public ActionResult WijzigAanbieding(int aanbiedingId)
         {
             try
             {
 
-                Aanbieding aanbieding = authDBController.GetAanbieding(aanbiedingId);
+                Aanbieding aanbieding = authDBController.GetAAnbieding(aanbiedingId);
                 return View(aanbieding);
             }
             catch (Exception e)
@@ -55,6 +56,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+   
         [HttpPost]
         public ActionResult WijzigAanbieding(Aanbieding aanbieding)
         {
@@ -62,14 +64,19 @@ namespace Webshop_gr02.Controllers
             try
             {
                 authDBController.UpdateAanbieding(aanbieding);
-                return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+                
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
-                return View();
             }
+            return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
         }
+        //public ActionResult WijzigAanbieding()
+        //{
+        //    return View();
+        //}
+
 
         public ActionResult ToevoegenAanbieding()
         {
@@ -92,10 +99,10 @@ namespace Webshop_gr02.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAanbieding(String soort, int percentage, bool actief)
+        public ActionResult CreateAanbieding(String soort, int percentage, String actief)
         {
-           ///bool isActief = actief == "on";
-            Aanbieding aanbieding = new Aanbieding { soort = soort, percentage = percentage, actief = actief };
+           bool isActief = actief == "on";
+           Aanbieding aanbieding = new Aanbieding { soort = soort, percentage = percentage, actief = isActief };
             try
             {
                 authDBController.InsertAanbieding(aanbieding);
@@ -107,6 +114,20 @@ namespace Webshop_gr02.Controllers
             return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
         }
 
+        [HttpPost]
+        public ActionResult CreateAanbiedingModelBinding(Aanbieding aanbieding)
+        {
+            try
+            {
+                authDBController.InsertAanbieding(aanbieding);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+            }
+            return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+        }
 
 
 
