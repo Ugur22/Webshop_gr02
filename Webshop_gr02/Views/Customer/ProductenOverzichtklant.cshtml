@@ -36,10 +36,10 @@
 
                             <li>
                                 <select name="product">
-                                    @for (var y = 1; y < Model.Count; y++)
+                                    @for (var y =38; y < 50; y++)
                                     {
 
-                                        <option>@((@Model[y].Merk))</option>
+                                        <option>@(("Maat "+y))</option>
                                     }
                                 </select></li>
                             <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct", new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
