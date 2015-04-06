@@ -422,9 +422,56 @@ namespace Webshop_gr02.DatabaseControllers
             return Aanbieding;
         }
 
+        public ProductType GetProductType(int PTID)
+        {
+            bool opened = conn.State == System.Data.ConnectionState.Open || conn.State == System.Data.ConnectionState.Executing || conn.State == System.Data.ConnectionState.Fetching;
+            if (PTID == 0)
+            {
+                return new ProductType();
+            }
+            ProductType productType = new ProductType();
+            try
+            {
+                if (!opened)
+                {
+                    conn.Open();
+                }
+
+                string selectQueryproduct = @"SELECT * FROM product_type WHERE ID_PT = @ID_PT";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
+                productidParam.Value = PTID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    productType = GetProductTypeFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                if (!opened)
+                {
+                    conn.Close();
+                }
+            }
+
+            return productType;
+        }
 
 
-        public void UpdateProduct(Product Product)
+
+        public void UpdateProduct(Product product)
         {
 
             MySqlTransaction trans = null;
@@ -441,11 +488,11 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
                 MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
 
-                productnaamParam.Value = Product.naam;
-                voorraadParam.Value = Product.voorraad;
-                zichtbaarParam.Value = Product.zichtbaar;
-                ID_PTParam.Value = Product.productType.ID_PT;
-                idParam.Value = Product.ID_P;
+                productnaamParam.Value = product.naam;
+                voorraadParam.Value = product.voorraad;
+                zichtbaarParam.Value = product.zichtbaar;
+                ID_PTParam.Value = product.productType.ID_PT;
+                idParam.Value = product.ID_P;
 
                 cmd.Parameters.Add(productnaamParam);
                 cmd.Parameters.Add(voorraadParam);

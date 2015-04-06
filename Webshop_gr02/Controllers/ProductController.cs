@@ -122,6 +122,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+
         public ActionResult verwijderenProduct(string ProductId)
         {
             try
@@ -161,12 +162,15 @@ namespace Webshop_gr02.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProductWijzigen(Product product)
+        public ActionResult ProductWijzigen(ProductTypeViewModel viewModel)
         {
-            Console.WriteLine(product);
+            //Console.WriteLine(product);
             try
             {
-                authDBController.UpdateProduct(product);
+               // viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+               // authDBController.UpdateProductType(viewModel.ProductType);
+                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                authDBController.UpdateProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
             catch (Exception e)
@@ -174,6 +178,12 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
                 return View();
             }
+
+
+           
+
+
+
         }
 
         public ActionResult ToevoegenProductType()
