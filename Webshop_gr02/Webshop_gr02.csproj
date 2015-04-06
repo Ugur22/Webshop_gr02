@@ -103,8 +103,10 @@
     <Compile Include="Authorisation\CustomRoleProvider.cs" />
     <Compile Include="Controllers\AanbiedingController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BestellingController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\CookieController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -116,18 +118,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Aanbieding.cs" />
+    <Compile Include="Models\Bestelling.cs" />
+    <Compile Include="Models\BestelRegel.cs" />
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ProductTypeAanbiedingen.cs" />
     <Compile Include="ViewModels\ProductTypeViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\EntityFramework.dll" />
@@ -218,6 +220,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Images\banner.png" />
+    <Content Include="Images\banner2.png" />
+    <Content Include="Images\nikeairforce.jpg" />
+    <Content Include="Images\nikeairforcepink.jpg" />
+    <Content Include="Images\sokken.jpg" />
+    <Content Include="Images\sportbroek.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -280,10 +288,13 @@
     <Content Include="Views\Product\ProductenOverzicht.cshtml" />
     <Content Include="Views\Product\ProductWijzigen.cshtml" />
     <Content Include="Views\Aanbieding\OverzichtAanbiedingen.cshtml" />
+    <Content Include="Views\Customer\ProductenOverzichtklant.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Bestelling\Bestelling.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
