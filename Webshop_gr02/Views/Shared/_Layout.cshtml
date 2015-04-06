@@ -1,6 +1,4 @@
-﻿@using Webshop_gr02.Models
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
@@ -12,9 +10,9 @@
 
 <body>
     <div id="header_wrap">
-		<div id="header_content">
-			<div id="logoz_zonder_tekst">	
-                @if (User.IsInRole("BEHEERDER")) 
+        <div id="header_content">
+            <div id="logoz_zonder_tekst">
+                @if (User.IsInRole("BEHEERDER"))
                 {
                     <p>BEHEERDER</p>
                 }
@@ -22,7 +20,7 @@
                 {
                     <p>MANAGER</p>
                 }
-                else if (User.IsInRole("KLANT")) 
+                else if (User.IsInRole("KLANT"))
                 { 
                     <p>KLANT</p>
                 }
@@ -30,44 +28,50 @@
                 {
                     <p>PROMOTIEMEDEWERKER</p>
                 }
-			</div>
-            
-			<div id="nav">
-				<ul>
+            </div>
 
+            <div id="nav">
+                <ul>
+                    <li class="first"><a href="/">Home</a></li>
 
-
-					<li class="first"><a href="/">Home</a></li>
-                  
-					<li>@Html.ActionLink("Manager", "../Manager/ManagerHomepage")
-						<ul>
-							
-							<li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
-							<li>@Html.ActionLink("Minstverkocht", "../Manager/Minstverkocht")</li>
-							<li>@Html.ActionLink("Maandelijkse Omzet", "../Manager/OmzetMonthly")</li>
-						</ul>
-					</li>
-					<li><a href="#">Beheerder</a>
+                    <li>@Html.ActionLink("Manager", "../Manager/ManagerHomepage")
                         <ul>
-							<li>@Html.ActionLink("Producten overzicht", "../Product/ProductenOverzicht")</li>
-							<li>@Html.ActionLink("Producttype overzicht", "../Product/ProductTypeOverzicht")</li>
+
+                            <li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
+                            <li>@Html.ActionLink("Minstverkocht", "../Manager/Minstverkocht")</li>
+                            <li>@Html.ActionLink("Maandelijkse Omzet", "../Manager/OmzetMonthly")</li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Beheerder</a>
+                        <ul>
+                            <li>@Html.ActionLink("Producten overzicht", "../Product/ProductenOverzicht")</li>
+                            <li>@Html.ActionLink("Producttype overzicht", "../Product/ProductTypeOverzicht")</li>
                             <li>@Html.ActionLink("Categorieën overzicht", "../Categorie/Overzichtcategorie")</li>
+
                              <li>@Html.ActionLink("Aanbieding overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
 						</ul>
 					</li>
-					<li>@Html.ActionLink("Producten", "../Customer/ProductenOverzichtklant")</li>
+					<li><a href="#">Vrouwen</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
 			</div>  
-
-          
-		</div>
-	</div>
-
-      <div id="banner">
-                 <img id="bannerImage" src="http://expressbanners.com.au/images/EB-Web-Banner-discount.png" />
+                            <li>@Html.ActionLink("Aanbiedingen overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
+                </ul>
+                </li>
+					<li>@Html.ActionLink("Producten", "../Customer/ProductenOverzichtklant")</li>
+                <li><a href="#">Contact</a></li>
+                </ul>
             </div>
-	<div class="page-wrap">
+
+
+
+        </div>
+    </div>
+
+    <div id="banner">
+        <img id="bannerImage" src="http://expressbanners.com.au/images/EB-Web-Banner-discount.png   " alt="Banner" />
+    </div>
+    <div class="page-wrap">
         @RenderBody()
     </div>
 </body>
