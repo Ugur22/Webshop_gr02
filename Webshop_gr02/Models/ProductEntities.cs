@@ -7,8 +7,8 @@ using Webshop_gr02.Models;
 
 namespace Webshop_gr02.Models
 {
-    public class ProductTypeEntities : DbContext
+    public class ProductEntities : DbContext
     {
-        public DbSet<ProductType> producttypes { get; set; }
+        public DbSet<Product> Product { get; set; }
     }
 }

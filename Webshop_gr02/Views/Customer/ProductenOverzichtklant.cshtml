@@ -1,4 +1,4 @@
-﻿@model List<Webshop_gr02.Models.ProductType>
+﻿@model List<Webshop_gr02.Models.Product>
 >
 @{
     ViewBag.Title = "ProductenOverzichtklant";
@@ -13,18 +13,18 @@
         {
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail" id="collumproduct">
-                    <img src="../Images/@Model[i].ImagePath" id="productImage">
+                    <img src="../Images/@Model[i].productType.ImagePath" id="productImage">
                     <div class="caption"  >
 
                         <ul>
                             <li>
-                                <h3>@Model[i].Naam</h3>
+                                <h3>@Model[i].naam</h3>
                             </li>
-                            <li>Prijs:  €@Model[i].VerkoopPrijs</li>
+                            <li>Prijs:  €@Model[i].productType.VerkoopPrijs</li>
                             <li>Omschrijving:
                                 <br />
-                                @Model[i].Omschrijving</li>
-                            <li>Merk: @Model[i].Merk</li>
+                                @Model[i].productType.Omschrijving</li>
+                            <li>Merk: @Model[i].productType.Merk</li>
 
 
                             <li>
@@ -37,7 +37,7 @@
                                 </select></li>
 
                             <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
-                            new { id = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 

@@ -127,7 +127,7 @@
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
-    <Compile Include="Models\ProductTypeEntities.cs" />
+    <Compile Include="Models\ProductEntities.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -224,6 +224,17 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Images\banner.png" />
+    <Content Include="Images\banner2.png" />
+    <Content Include="Images\bannerhoofd.png" />
+    <Content Include="Images\nikeairforce.jpg" />
+    <Content Include="Images\nikeairforcepink.jpg" />
+    <Content Include="Images\sokken.jpg" />
+    <Content Include="Images\sportbroek.jpg" />
+    <Content Include="Images\tennisbal.jpg" />
+    <Content Include="Images\tennisracket.jpg" />
+    <Content Include="Images\veters.jpg" />
+    <Content Include="Images\voetbal.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -299,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
