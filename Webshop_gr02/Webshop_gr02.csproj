@@ -109,10 +109,12 @@
     <Compile Include="Controllers\CookieController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Item.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromotieController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
     <Compile Include="DatabaseControllers\AuthDBController.cs" />
     <Compile Include="Global.asax.cs">
@@ -125,6 +127,7 @@
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
+    <Compile Include="Models\ProductTypeEntities.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -274,7 +277,7 @@
     <Content Include="Views\Categorie\Overzichtcategorie.cshtml" />
     <Content Include="Views\Manager\MinstVerkocht.cshtml" />
     <Content Include="Views\Manager\ManagerHomepage.cshtml" />
-    <Content Include="Views\Session\Promotie\PromotieToevoegen.cshtml" />
+    <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
     <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
     <Content Include="Views\Product\ToevoegenProduct.cshtml" />
@@ -291,6 +294,8 @@
     <Content Include="Views\Shared\_Menu.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\ShoppingCart\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

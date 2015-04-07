@@ -8,6 +8,7 @@ using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
 using Webshop_gr02.ViewModels;
+using System.IO;
 
 namespace Webshop_gr02.Controllers
 {
@@ -26,6 +27,7 @@ namespace Webshop_gr02.Controllers
 
                 authDBController.InsertProductType(viewModel.ProductType);
                 return RedirectToAction("ProductTypeOverzicht", "Product");
+             
 
             }
             catch (Exception e)
@@ -35,8 +37,6 @@ namespace Webshop_gr02.Controllers
             }
 
         }
-
-
 
 
 
@@ -97,6 +97,9 @@ namespace Webshop_gr02.Controllers
 
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
+
+
+    
             }
 
             catch (Exception e)
@@ -211,6 +214,16 @@ namespace Webshop_gr02.Controllers
             aanbieding.Insert(0, emptyaanbieding);
 
             return new SelectList(aanbieding, "ID_A", "soort");
+        }
+
+
+        private SelectList GetProduct()
+        {
+            List<Product> product = authDBController.GetProductLijst();
+            Product emptyproduct = new Product { ID_P = 0, naam = "" };
+            product.Insert(0, emptyproduct);
+
+            return new SelectList(product, "ID_P", "naam");
         }
 
         [HttpPost]

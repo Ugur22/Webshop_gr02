@@ -1,20 +1,21 @@
 ﻿@{
     ViewBag.Title = "Bronze";
 }
+<div class="content_wrap">
+    <h1>TESTs</h1>
 
-<h1>TESTs</h1>
+    <p>
+    <img src="/Content/images/bronze.jpg" alt="Brons"/>
+    </p>
 
-<p>
-<img src="/Content/images/bronze.jpg" alt="Brons"/>
-</p>
-
-<p>
-@if (User.IsInRole("GOLD")) {
-   @Html.ActionLink("Gouden medaille", "Gold", "Home")
-}
-</p>
-<p>
-@if (User.IsInRole("SILVER")) {
-   @Html.ActionLink("Zilveren medaille", "Silver", "Home")
-}
-</p>
+    <p>
+    @if (User.IsInRole("GOLD")) {
+       @Html.ActionLink("Gouden medaille", "Gold", "Home")
+    }
+    </p>
+    <p>
+    @if (User.IsInRole("SILVER")) {
+       @Html.ActionLink("Zilveren medaille", "Silver", "Home")
+    }
+    </p>
+</div>
