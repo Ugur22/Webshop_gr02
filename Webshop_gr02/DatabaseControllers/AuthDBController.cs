@@ -90,9 +90,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryStudent = @"SELECT rol_naam 
-                                              FROM rol r, gebruiker g, rol_gebruiker rg 
-                                              WHERE r.rol_id = rg.rol_ID AND g.ID_G = rg.ID_G AND g.username = @username;";
+                string selectQueryStudent = @"SELECT rolnaam 
+                                              FROM rol r, gebruiker g
+                                              WHERE g.ID_rol = r.rol_id AND g.username = @username;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQueryStudent, conn);
 
@@ -106,7 +106,7 @@ namespace Webshop_gr02.DatabaseControllers
                 List<string> rollen = new List<string>();
                 while (dataReader.Read())
                 {
-                    string rolnaam = dataReader.GetString("rol_naam");
+                    string rolnaam = dataReader.GetString("rolnaam");
                     rollen.Add(rolnaam);
                 }
                 return rollen.ToArray();
@@ -403,7 +403,11 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
+<<<<<<< HEAD
                     Aanbieding = GetAanbiedingFromDataReader(dataReader);
+=======
+                   Aanbieding = GetAanbiedingFromDataReader(dataReader);
+>>>>>>> origin/master
                 }
 
             }
@@ -1050,10 +1054,10 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"select sum(br.bedrag)
-from bestel_regel br left join bestelling b on br.ID_B = b.ID_B
-                     left join klant k on b.ID_K = k.ID_G
-where k.ID_G = 1;";
+                string selectQuery = @"SELECT sum(br.bedrag)
+                                    FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                                    left join klant k on b.ID_K = k.ID_G
+                                    WHERE k.ID_G = 1;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -1364,26 +1368,6 @@ where k.ID_G = 1;";
             return productTypes;
         }
 
-        //protected Aanbieding GetAanbiedingFromDataReader(MySqlDataReader dataReader)
-        //{
-        //    int ID_A;
-        //    string soort;
-        //    int percentage;
-        //    bool actief;
-
-
-
-        //    ID_A = dataReader.GetInt16("ID_A");
-        //    soort = dataReader.GetString("soort");
-        //    percentage = dataReader.GetInt16("percentage");
-        //    actief = dataReader.GetBoolean("actief");
-
-        //    Aanbieding aanbieding = new Aanbieding { ID_A = ID_A, soort = soort, percentage = percentage, actief = actief };
-        //    //aanbieding.Add(aanbieding);
-
-        //    return aanbieding;
-        //}
-
         public Aanbieding GetAanbieding(string aanbiedingID)
         {
             Aanbieding aanbieding = null;
@@ -1502,10 +1486,14 @@ where k.ID_G = 1;";
                 conn.Close();
             }
         }
+<<<<<<< HEAD
 
 
 
 
+=======
+        
+>>>>>>> origin/master
         // AanbiedingDBController
 
         public Aanbieding GetAAnbieding(int aanbiedingID)
@@ -1589,7 +1577,10 @@ where k.ID_G = 1;";
 
         public void DeleteAanbieding(int aanbiedingId)
         {
+<<<<<<< HEAD
             // Console.WriteLine(aanbiedingId);
+=======
+>>>>>>> origin/master
             MySqlTransaction trans = null;
             try
             {

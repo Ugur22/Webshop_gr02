@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WorkshopASPNETMVC3_IV_.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         //
@@ -21,10 +21,6 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             else if (User.IsInRole("MANAGER"))
             {
                 return RedirectToAction("Silver");
-            }
-            else if (User.IsInRole("KLANT"))
-            {
-                return RedirectToAction("Bronze");
             }
             
             return View();
@@ -41,13 +37,5 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
         {
             return View();
         }
-
-        [Authorize(Roles = "KLANT")]
-        public ActionResult Bronze()
-        {
-            return View();
-        }
-
-     
     }
 }
