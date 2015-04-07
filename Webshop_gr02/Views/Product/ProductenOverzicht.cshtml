@@ -6,14 +6,16 @@
 
 <div class="content_wrap">
     <h2>Overzicht Product</h2>
-  <p>@Html.ActionLink("Product Toevoegen", "ToevoegenProduct")</p>
+    <p id="Button">@Html.ActionLink("Product Toevoegen", "ToevoegenProduct", new { }, new { @class = "btn btn-primary" })</p>
 
-    
- <table id="hor-minimalist-b">
+
+
+
+    <table class="table">
         <thead>
-    	    <tr>
+            <tr>
                 <th>Naam</th>
-        	    <th>Voorraad</th>
+                <th>Voorraad</th>
                 <th>Zichtbaar</th>
                 <th>ID Producttype</th>
                 <th>Naam Producttype</th>
@@ -25,19 +27,15 @@
         <tbody>
             @for (int i = 0; i < Model.Count; i++)
             {
-                <tr> 
+                <tr>
                     <td>@Model[i].naam</td>
                     <td>@Model[i].voorraad</td>
                     <td>@Model[i].zichtbaar</td>
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
-                         <td>@Model[i].Maat</td>
-                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { productId = @Model[i].ID_P})</td>
-
-               
-                 
-
-                    <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductID = @Model[i].ID_P})</td>
+                    <td>@Model[i].Maat</td>
+                    <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { ProductId = @Model[i].ID_P })</td>
+                    <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductId = @Model[i].ID_P })</td>
                 </tr>
             }
         </tbody>

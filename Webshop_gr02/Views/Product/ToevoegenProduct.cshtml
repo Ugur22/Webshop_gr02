@@ -3,10 +3,14 @@
     ViewBag.Title = "ToevoegenProduct";
 }
 
+
 <div class="content_wrap">
 @using (Html.BeginForm("ToevoegenProduct", "Product"))
 {
+    
+    
     <span style="color:red">@Html.ValidationMessage("Toevoegen is niet gelukt")</span>
+    
     <fieldset>
         <legend>Product toevoegen</legend>
 

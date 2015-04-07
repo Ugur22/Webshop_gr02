@@ -1,0 +1,54 @@
+﻿@using Webshop_gr02.Models
+@model List<Webshop_gr02.Models.ProductType>
+>
+@{
+    ViewBag.Title = "ProductenOverzichtklant";
+}
+
+
+<div class="content_wrap">
+    <h2>Producten</h2>
+    <div class="row">
+
+
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail" id="collumproduct">
+                    <img src="../Images/@Model[i].ImagePath" id="productImage">
+                    <div class="caption">
+
+                        <ul>
+                            <li>
+                                <h3>@Model[i].Naam</h3>
+                            </li>
+                            <li>Prijs:  €@Model[i].VerkoopPrijs</li>
+                            <li>Omschrijving:
+                                <br />
+                                @Model[i].Omschrijving</li>
+                            <li>Merk: @Model[i].Merk</li>
+
+
+                         @*   <li>
+                                <select name="product">
+                                    @for (int y = 0; y < Model.Count; y++)
+                                    {
+
+                                        <option>@((@Model[y].Naam))</option>
+                                    }
+                                </select></li>*@
+                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct",
+                            new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+                
+                
+        }
+
+    </div>
+</div>

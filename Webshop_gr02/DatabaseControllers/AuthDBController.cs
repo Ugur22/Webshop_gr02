@@ -191,6 +191,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return aanbiedingen;
         }
+
         public void InsertRegistratie(Registratie registratie)
         {
             MySqlTransaction trans = null;
@@ -402,7 +403,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
-                    Aanbieding = GetAanbiedingFromDataReader(dataReader);
+                   // Aanbieding = GetAanbiedingFromDataReader(dataReader);
                 }
 
             }
@@ -422,9 +423,56 @@ namespace Webshop_gr02.DatabaseControllers
             return Aanbieding;
         }
 
+        public ProductType GetProductType(int PTID)
+        {
+            bool opened = conn.State == System.Data.ConnectionState.Open || conn.State == System.Data.ConnectionState.Executing || conn.State == System.Data.ConnectionState.Fetching;
+            if (PTID == 0)
+            {
+                return new ProductType();
+            }
+            ProductType productType = new ProductType();
+            try
+            {
+                if (!opened)
+                {
+                    conn.Open();
+                }
+
+                string selectQueryproduct = @"SELECT * FROM product_type WHERE ID_PT = @ID_PT";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
+                productidParam.Value = PTID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    productType = GetProductTypeFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                if (!opened)
+                {
+                    conn.Close();
+                }
+            }
+
+            return productType;
+        }
 
 
-        public void UpdateProduct(Product Product)
+
+        public void UpdateProduct(Product product)
         {
 
             MySqlTransaction trans = null;
@@ -441,11 +489,11 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
                 MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
 
-                productnaamParam.Value = Product.naam;
-                voorraadParam.Value = Product.voorraad;
-                zichtbaarParam.Value = Product.zichtbaar;
-                ID_PTParam.Value = Product.productType.ID_PT;
-                idParam.Value = Product.ID_P;
+                productnaamParam.Value = product.naam;
+                voorraadParam.Value = product.voorraad;
+                zichtbaarParam.Value = product.zichtbaar;
+                ID_PTParam.Value = product.productType.ID_PT;
+                idParam.Value = product.ID_P;
 
                 cmd.Parameters.Add(productnaamParam);
                 cmd.Parameters.Add(voorraadParam);
@@ -747,7 +795,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join verkocht_product vp on p.ID_P = vp.ID_P
                                         GROUP BY pt.ID_PT
@@ -891,6 +939,102 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productenLijst;
         }
+
+        public List<BestelRegel> GetBestellingOverzicht()
+        {
+            List<BestelRegel> bestellingenLijst = new List<BestelRegel>();
+
+            int ID_P = 0;
+            int ID_B = 0;
+            string productNaam = "";
+            int aantal = 0;
+            double bedrag = 0;
+            string status = "";
+            string datum = "";
+           
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select br.ID_P as productID, br.ID_B as bestellingID, br.aantal as aantal, br.bedrag as bedrag, p.naam as productNaam, b.status as status, b.datum as datum from bestel_regel br left join bestelling b on br.ID_B = b.ID_B left join klant k on b.ID_K = k.ID_G left join product p on br.ID_P = p.ID_P where k.ID_G = 1 group by p.ID_P;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_P = dataReader.GetInt32("productID");
+                    ID_B = dataReader.GetInt32("bestellingID");
+                    productNaam = dataReader.GetString("productNaam");
+                    aantal = dataReader.GetInt32("aantal");
+                    bedrag = dataReader.GetDouble("bedrag");
+                    status = dataReader.GetString("status");
+                    datum = dataReader.GetString("datum");
+
+
+
+                    Bestelling bestelling = new Bestelling {status = status, datum = datum };
+                    Product product = new Product {  naam = productNaam};
+                    BestelRegel bestelRegel = new BestelRegel { ID_B = ID_B, ID_P = ID_P, bedrag = bedrag, aantal = aantal, bestelling = bestelling, product = product };
+
+                    bestellingenLijst.Add(bestelRegel);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return bestellingenLijst;
+        }
+
+        public bool ControleerGoldMember() { 
+        
+        bool gold = false;
+        double totaalAankoop = 0;
+
+          
+           
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select sum(br.bedrag)
+from bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                     left join klant k on b.ID_K = k.ID_G
+where k.ID_G = 1;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    totaalAankoop = dataReader.GetDouble("sum(br.bedrag)");
+                   
+
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            //totaalAankoop = 500.01;
+
+            if(totaalAankoop>=500){
+            gold = true;
+            }
+            else{
+            gold = false;
+            }
+
+            return gold;
+        }
        
         public List<ProductType> GetTypeLijst()
         {
@@ -976,7 +1120,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public void verwijderProduct(string ProductId)
+        public void verwijderProduct(int ProductId)
         {
             Console.WriteLine(ProductId);
             MySqlTransaction trans = null;
@@ -985,10 +1129,10 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @ProductID";
+                String DeleteProductTypeString = @"DELETE FROM product WHERE ID_P = @productID";
 
                 MySqlCommand cmd = new MySqlCommand(DeleteProductTypeString, conn);
-                MySqlParameter IdParam = new MySqlParameter("@ProductID", MySqlDbType.Int32);
+                MySqlParameter IdParam = new MySqlParameter("@productID", MySqlDbType.Int32);
 
                 IdParam.Value = ProductId;
 
@@ -1168,5 +1312,330 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productTypes;
         }
+
+        //protected Aanbieding GetAanbiedingFromDataReader(MySqlDataReader dataReader)
+        //{
+        //    int ID_A;
+        //    string soort;
+        //    int percentage;
+        //    bool actief;
+
+
+
+        //    ID_A = dataReader.GetInt16("ID_A");
+        //    soort = dataReader.GetString("soort");
+        //    percentage = dataReader.GetInt16("percentage");
+        //    actief = dataReader.GetBoolean("actief");
+
+        //    Aanbieding aanbieding = new Aanbieding { ID_A = ID_A, soort = soort, percentage = percentage, actief = actief };
+        //    //aanbieding.Add(aanbieding);
+
+        //    return aanbieding;
+        //}
+
+        public Aanbieding GetAanbieding(string aanbiedingID)
+        {
+           Aanbieding aanbieding = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryaanbieding = @"SELECT * FROM aanbieding WHERE ID_A = @ID_A";
+                MySqlCommand cmd = new MySqlCommand(selectQueryaanbieding, conn);
+
+                MySqlParameter aanbiedingIDParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+                aanbiedingIDParam.Value = aanbiedingID;
+                cmd.Parameters.Add(aanbiedingIDParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    aanbieding = GetAanbiedingFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            
+            return aanbieding;
+        }
+
+        public List<Aanbieding> GetAllAanbieding()
+        {
+            List<Aanbieding> aanbiedingen = new List<Aanbieding>();
+            int aanbieding_ID;
+            string soort;
+            int percentage;
+            bool actief;
+
+            try
+            {
+                conn.Open();
+
+                string selectAanbieding = @"SELECT ID_A as ID_Aanbieding, soort as Soort, percentage as Percentage, actief as Actief  FROM aanbieding";
+                MySqlCommand cmd = new MySqlCommand(selectAanbieding, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    aanbieding_ID = dataReader.GetInt32("ID_A");
+                    soort = dataReader.GetString("soort");
+                    percentage = dataReader.GetInt32("percentage");
+                    actief = dataReader.GetBoolean("actie");
+
+                    Aanbieding aanbieding = new Aanbieding { ID_A = aanbieding_ID, soort = soort, percentage = percentage, actief = actief };
+
+                    aanbiedingen.Add(aanbieding);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return aanbiedingen;
+        }
+
+
+        public void InsertAanbieding(Aanbieding aanbieding)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String insertString = @"INSERT INTO aanbieding (soort, percentage, actief)
+                                        VALUES (@soort, @percentage, @actief)";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
+                MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+
+
+                soortParam.Value = aanbieding.soort;
+                percentageParam.Value = aanbieding.percentage;
+                actiefParam.Value = aanbieding.actief;
+
+                cmd.Parameters.Add(soortParam);
+                cmd.Parameters.Add(percentageParam);
+                cmd.Parameters.Add(actiefParam);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("aanbieding is niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+       
+
+        
+        // AanbiedingDBController
+
+        public Aanbieding GetAAnbieding(int aanbiedingID)
+        {
+            Aanbieding aanbieding = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryaanbieding = @"SELECT * FROM aanbieding WHERE ID_A = @ID_A";
+                MySqlCommand cmd = new MySqlCommand(selectQueryaanbieding, conn);
+
+                MySqlParameter aanbiedingIDParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+                aanbiedingIDParam.Value = aanbiedingID;
+                cmd.Parameters.Add(aanbiedingIDParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    aanbieding = GetAanbiedingFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return aanbieding;
+        }
+
+        public void UpdateAanbieding(Aanbieding aanbieding)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"Update aanbieding SET soort=@soort, percentage=@percentage, actief=@actief where ID_A=@ID_A";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
+                MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+                MySqlParameter ID_AParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+
+                soortParam.Value = aanbieding.soort;
+                percentageParam.Value = aanbieding.percentage;
+                actiefParam.Value = aanbieding.actief;
+                ID_AParam.Value = aanbieding.ID_A;
+
+                cmd.Parameters.Add(soortParam);
+                cmd.Parameters.Add(percentageParam);
+                cmd.Parameters.Add(actiefParam);
+                cmd.Parameters.Add(ID_AParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void DeleteAanbieding(int aanbiedingId)
+        {
+           // Console.WriteLine(aanbiedingId);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteAanbiedingString = @"DELETE FROM aanbieding WHERE ID_A = @ID_A";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteAanbiedingString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+
+                IdParam.Value = aanbiedingId;
+
+                cmd.Parameters.Add(IdParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding is niet verwijdert: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void DeleteAanbieding(Aanbieding aanbieding)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteAanbiedingString = @"DELETE FROM aanbieding WHERE ID_A = @ID_A";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteAanbiedingString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+
+                IdParam.Value = aanbieding.ID_A;
+
+                cmd.Parameters.Add(IdParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding is niet verwijdert: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public List<Aanbieding> GetAanbiedingen1()
+        {
+            List<Aanbieding> aanbiedingen = new List<Aanbieding>();
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT * FROM aanbieding";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Aanbieding aanbieding = GetAanbiedingFromDataReader(dataReader);
+                    aanbiedingen.Add(aanbieding);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van aanbiedingen mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return aanbiedingen;
+        }
+
+
+
     }
 }
