@@ -952,6 +952,10 @@ namespace Webshop_gr02.DatabaseControllers
             int ID_PT = 0;
             string naamPT = "";
             string maat = "";
+            string image_path = "";
+            float verkoopprijs = 0;
+            string omschrijving = "";
+            string merk = "";
 
 
             try
@@ -959,11 +963,10 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
-                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype,  e.waarde as waarde
+                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as verkoop_prijs,pt.merk as merk,  e.waarde as waarde
                                        from product p
                                        left join product_type pt on p.ID_PT = pt.ID_PT
                                        left join eigenschap e on e.ID_P = p.ID_P
-                                       WHERE e.naam = 'maat'
                                        group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -972,13 +975,17 @@ namespace Webshop_gr02.DatabaseControllers
                 {
                     ID_P = dataReader.SafeGetInt32("ID_P");
                     naam = dataReader.SafeGetString("naam");
+                    omschrijving = dataReader.SafeGetString("omschrijving");
+                    merk = dataReader.SafeGetString("merk");
                     voorraad = dataReader.SafeGetInt32("voorraad");
                     zichtbaar = dataReader.SafeGetInt32("zichtbaar");
                     ID_PT = dataReader.SafeGetInt32("ID_PT");
+                    image_path = dataReader.SafeGetString("image_path");
+                    verkoopprijs = dataReader.SafeGetInt32("verkoop_prijs");
                     naamPT = dataReader.SafeGetString("naam_producttype");
                     maat = dataReader.SafeGetString("waarde");
 
-                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT, ImagePath = image_path, VerkoopPrijs = verkoopprijs, Omschrijving = omschrijving, Merk = merk };
                     Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
                     productenLijst.Add(product);
                 }

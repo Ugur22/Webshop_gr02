@@ -1,4 +1,5 @@
-﻿@*@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel*@
+﻿@using Webshop_gr02.Models
+@*@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel*@
 <!DOCTYPE html>
 <html>
     <head>
@@ -55,6 +56,7 @@
                     </div>
                     @if (Request.IsAuthenticated)
                     {
+                     
                         <div id="login_1">
                             @Html.ActionLink("Uitloggen", "../Account/Logout")
                         </div>
@@ -66,9 +68,12 @@
                                 @Html.ActionLink("Inloggen_link", "../Account/Logon")
                             </p>
                         </div>
+                          
                     }
                     <div id="nav">
                         <ul>
+
+                          
                             <li class="first"><a href="/">Home</a></li>
                             @if(User.IsInRole("MANAGER"))
                             {
@@ -100,7 +105,7 @@
                 </div>
             </div>
             <div id="banner">
-                <img id="bannerImage" src="http://expressbanners.com.au/images/EB-Web-Banner-discount.png   " alt="Banner" />
+                <img id="bannerImage" src="../../Images/bannerhoofd.png" alt="Banner" />
             </div>
             <div class="page-wrap">
                 @RenderBody()

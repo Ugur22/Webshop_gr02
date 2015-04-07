@@ -10,7 +10,7 @@ namespace Webshop_gr02.Controllers
     public class ShoppingCartController : Controller
     {
 
-        ProductTypeEntities storeDB = new ProductTypeEntities();
+        ProductEntities storeDB = new ProductEntities();
 
         public ActionResult Index()
         {
@@ -22,7 +22,7 @@ namespace Webshop_gr02.Controllers
         {
             List<Item> cart = (List<Item>)Session["cart"];
             for (int i = 0; i < cart.Count; i++)
-                if (cart[i].Producttype.ID_PT == id)
+                if (cart[i].Product.ID_P == id)
                     return i;
             return -1;
         }
@@ -41,7 +41,7 @@ namespace Webshop_gr02.Controllers
             if (Session["cart"] == null)
             {
                 List<Item> cart = new List<Item>();
-                cart.Add(new Item(storeDB.producttypes.Find(id), 1));
+                cart.Add(new Item(storeDB.Product.Find(id), 1));
                 Session["cart"] = cart;
 
             }
@@ -50,7 +50,7 @@ namespace Webshop_gr02.Controllers
                 List<Item> cart = (List<Item>)Session["cart"];
                 int index = isExisting(id);
                 if (index == -1)
-                    cart.Add(new Item(storeDB.producttypes.Find(id), 1));
+                    cart.Add(new Item(storeDB.Product.Find(id), 1));
                 else
                     cart[index].Quantity++;
                 Session["cart"] = cart;
