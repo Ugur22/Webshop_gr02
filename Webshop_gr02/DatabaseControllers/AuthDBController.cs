@@ -1635,7 +1635,50 @@ where k.ID_G = 1;";
             return aanbiedingen;
         }
 
+        public List<BestelRegel> GetAllOrderedProducts()
+        {
+            List<BestelRegel> BesteldeProducten = new List<BestelRegel>();
+            int productID = 0;
+            string naamProduct = "";
+            int aantalProducten = 0;
+            double bedragBestelling = 0;
+            DateTime datumBestelling = DateTime.Now;
 
+            try
+            {
+                conn.Open();
+
+                string selectQuery = "SELECT p.ID_P as Product_ID, p.naam as Naam, br.aantal as Aantal, br.bedrag as Bedrag, b.datum as Datum FROM product p JOIN bestel_regel br ON p.ID_P = br.ID_P JOIN bestelling b ON b.ID_B = br.ID_B WHERE br.aantal IS NOT NULL GROUP BY p.ID_P;";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                    {
+                        productID = dataReader.GetInt32("Product_ID");
+                        naamProduct = dataReader.GetString("Naam");
+                        aantalProducten = dataReader.GetInt32("Aantal");
+                        bedragBestelling = dataReader.GetDouble("Bedrag");
+                        datumBestelling = dataReader.GetDateTime("Datum");
+                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
+
+                        BesteldeProducten.Add(BesteldProduct);
+                    }
+                    
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelde producten niet gelukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return BesteldeProducten;
+        }
+
+        }
 
     }
-}
+

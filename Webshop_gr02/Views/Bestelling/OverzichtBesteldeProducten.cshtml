@@ -1,0 +1,47 @@
+﻿@model List<Webshop_gr02.Models.BestelRegel>
+
+@{
+    ViewBag.Title = "OverzichtBesteldeProducten";
+}
+
+<div class="content_wrap">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Product ID</td>
+                <td>Naam</td>
+                <td>Aantal</td>
+                <td>Bedrag</td>
+                <td>Datum</td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                {
+                    var count = Model.Count - 1;
+                    if (i == count)
+                    {
+                    <tr>
+                          <td>@Model[i].ID_P</td>
+                          <td>@Model[i].naam</td> 
+                          <td>@Model[i].aantal</td>
+                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
+                          <td>@Model[i].datum)</td> 
+                       
+                      
+                </tr>
+                    }
+                    else
+                    {
+                          <td>@Model[i].ID_P</td>
+                          <td>@Model[i].naam</td> 
+                          <td>@Model[i].aantal</td>
+                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
+                          <td>@Model[i].datum)</td> 
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
