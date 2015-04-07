@@ -5,13 +5,22 @@
 }
 
 a {
-    color: #21aee5;
+    color: #ffffff;
     text-decoration: none;
 }
 
-    a:hover {
-        text-decoration: underline;
-    }
+a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.link_green {
+    color: #4BB84B;
+}
+
+.link_green:hover {
+    color: #1d7200;
+}
 
 ul {
     list-style: none;
@@ -200,6 +209,14 @@ th {
     background-color: rgba(0,156,0,0.7);
 }
 
+
+#collumproduct:hover {
+    background-color: #1d7200;
+}
+
+
+
+
 #productImage {
     height: 200px;
     width: 100%;
@@ -356,3 +373,231 @@ th {
      width: 80px;
      
 }*/
+
+/*POPUP LOGIN
+-----------------------------------------------------------*/
+
+.popup_outside{
+	position:fixed;
+	left:0px;
+	top:0px;
+	z-index:99;
+	width:100%;
+	height: 100%;
+	background-color:black;
+	visibility:hidden;
+	opacity: 0;
+	transition: opacity .15s ease-in-out;
+	-webkit-transition: opacity .15s ease-in-out;
+	-ms-transition: opacity .15s ease-in-out;
+	-o-transition: opacity .15s ease-in-out;
+
+}
+.popup_inside{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index:100;
+	height: 550px;
+	margin-top: -255px;
+	width: 1200px;
+	margin-left: -600px;
+	padding:5px;
+	background-color:white;
+	visibility:hidden;
+	opacity:0;
+	transition: opacity .15s ease-in-out;
+	-webkit-transition: opacity .15s ease-in-out;
+	-ms-transition: opacity .15s ease-in-out;
+	-o-transition: opacity .15s ease-in-out;
+}
+.popup_inside img{
+	width:100%;
+	height:100%;
+}
+.popup_close_button{
+	position:fixed;
+	width:15px;
+	height:20px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:101;
+	padding-left:3px;
+	background-color:white;
+	color:black;
+}
+.popup_close_button:hover{
+	background-color:gray;
+	color:white;
+	cursor: pointer;
+}
+
+.login_popup_inside {
+	width: 446px;
+	padding: 0 0 0 0;
+	height: auto;
+	margin: 0 0 0 -233px;
+	background-color: #fff;
+	position: fixed;
+	top: 200px;
+	left: 50%;
+	z-index:1001;
+	-moz-box-shadow: 3px 3px 4px #000; /* Firefox/Mozilla */  
+	-webkit-box-shadow: 0px 0px 0px #DDD; /*Safari/Chrome */  
+	box-shadow: 0px 0px 10px #555; /* Opera & hoe het zou moeten */  
+	  /* Voor IE 8 */  
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";  
+	  /* Voor IE 5.5 - 7 */  
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.login_popup_inside .title {
+	width: 100%;
+	height: auto;
+	padding: 3px 30px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	background-color: #4BB84B;
+	color: #FFFFFF;
+	text-shadow: 0 1px 0 black;
+	position: relative;
+	float: left;
+	font-weight: bold;
+}
+
+.login_popup_inside .title .close {
+	width: auto;
+	height: auto;
+	margin: 4px 0 0 0;
+	padding: 0px;
+	position: relative;
+	float: right;
+	font-size: 10px;
+	font-weight: normal;
+}
+
+.login_popup_inside .title .close a,
+.login_popup_inside .title .close a:link,
+.login_popup_inside .title .close a:active,
+.login_popup_inside .title .close a:visited {
+	color: #FFF;
+	text-decoration: none;
+}
+
+.login_popup_inside .title .close:hover {
+	text-decoration: underline;
+	cursor:pointer;
+}
+
+.login_popup_inside .form_all {
+	color:black;
+	width: 406px;
+	height: auto;
+	padding: 5px 30px 10px;
+	position: relative;
+	float: left;
+}
+
+.popup_background {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index:1000;
+	background: url("../images/bg_modal.png") repeat;
+}
+
+#login{
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	-moz-transition: all 0.2s ease-in-out 0s;
+    background-color: #4BB84B;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #FFFFFF;
+    float: right;
+    font-size: 12px;
+    height: 35px;
+    margin-right: 23px;
+    padding: 8px;
+    position: relative;
+    text-align: center;
+    width: 185px;
+} 
+
+#login_1{
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	-moz-transition: all 0.2s ease-in-out 0s;
+    background-color: #4BB84B;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #FFFFFF;
+    float: right;
+    font-size: 12px;
+    height: 35px;
+    margin-right: 23px;
+    padding: 8px;
+    position: relative;
+    text-align: center;
+    width: 185px;
+} 
+
+.form_text{
+	width: 162px;
+	padding-top: 6px;
+}
+
+span.form_error{
+	font-size:11px;
+	padding-top: 6px;
+	color:red;
+	margin-left:163px;
+}
+
+.box{
+	float:left;
+	width: 100%;
+}
+
+.login_button{
+	float: left;
+	margin-left:-3px;
+}
+
+#submit{
+	margin-top:10px;
+
+	background-color:#4BB84B;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:0px;
+	display:inline-block;
+	color:#ffffff;
+	padding:6px 20px;
+	text-decoration:none;
+	font-weight:bold;
+}
+ 
+#submit:hover {
+	background-color:#1d7200;
+	cursor:pointer;
+}
+
+#submit:active {
+	position:relative;
+	top:1px;
+}

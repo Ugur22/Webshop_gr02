@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "PromotieToevoegen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="content_wrap">   
+    <h2>PromotieToevoegen</h2>
+
+@using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+ 
+        Select Image
+        <ul>
+
+
+            <li> <input type="file" name="file" /></li>   
+            <li> <input type="submit" value="Upload Image" name="Command" /></li>   
+        </ul>
+       
+       
+    </div>
+    <div>
+    @ViewBag.Message
+    </div>
+}
+
+    </div>

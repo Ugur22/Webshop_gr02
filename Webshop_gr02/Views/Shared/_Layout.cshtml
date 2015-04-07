@@ -1,80 +1,140 @@
-﻿<!DOCTYPE html>
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
-</head>
+﻿@*@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel*@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="../../Content/bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
+        <script>
+            function showLoginPopup(count) {
+                document.getElementById('login_popup_outside').style.visibility = "visible";
+                document.getElementById('login_popup_outside').style.opacity = "0.4";
+                document.getElementById('login_popup_inside').style.visibility = "visible";
+                document.getElementById('login_popup_inside').style.opacity = "1";
+                $(".event_info").hide(); //hide all nodes directly under the body
+                $('.' + count).show();
 
-<body>
-    <div id="header_wrap">
-        <div id="header_content">
-            <div id="logoz_zonder_tekst">
-                @if (User.IsInRole("BEHEERDER"))
-                {
-                    <p>BEHEERDER</p>
+            }
+            function closeLoginPopup() {
+
+                document.getElementById('login_popup_outside').style.opacity = "0";
+                document.getElementById('login_popup_inside').style.opacity = "0";
+                setTimeout(func, 150);
+                function func() {
+                    document.getElementById('login_popup_inside').style.visibility = "hidden";
+                    document.getElementById('login_popup_outside').style.visibility = "hidden";
                 }
-                else if (User.IsInRole("MANAGER"))
-                {
-                    <p>MANAGER</p>
-                }
-                else if (User.IsInRole("KLANT"))
-                { 
-                    <p>KLANT</p>
-                }
-                else if (User.IsInRole("PROMOTIEMEDEWERKER"))
-                {
-                    <p>PROMOTIEMEDEWERKER</p>
-                }
-            </div>
 
-            <div id="nav">
-
-                
-                <ul>
-
-                    <li class="first"><a href="/">Home</a></li>
-
-                    <li>@Html.ActionLink("Manager", "../Manager/ManagerHomepage")
+            }
+        </script>
+    </head>
+    <body>
+        <div id="login_popup_outside" class="popup_outside" onclick="closeLoginPopup()"></div>
+            <div id="header_wrap">
+                <div id="header_content">
+                    <div id="logoz_zonder_tekst">
+                        @if (User.IsInRole("BEHEERDER"))
+                        {
+                            <p>BEHEERDER</p>
+                        }
+                        else if (User.IsInRole("MANAGER"))
+                        {
+                            <p>MANAGER</p>
+                        }
+                        else if (User.IsInRole("KLANT"))
+                        { 
+                            <p>KLANT</p>
+                        }
+                        else if (User.IsInRole("PROMOTIEMEDEWERKER"))
+                        {
+                            <p>PROMOTIEMEDEWERKER</p>
+                        }
+                    </div>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div id="login_1">
+                            @Html.ActionLink("Uitloggen", "../Account/Logout")
+                        </div>
+                    }else{
+                        <div id="login">
+                            <p>
+                                <a href="#" title="Inloggen" onclick="showLoginPopup('login_popup_inside')">Login</a>
+                                |
+                                @Html.ActionLink("Inloggen_link", "../Account/Logon")
+                            </p>
+                        </div>
+                    }
+                    <div id="nav">
                         <ul>
+                            <li class="first"><a href="/">Home</a></li>
+                            @if(User.IsInRole("MANAGER"))
+                            {
+                                <li>@Html.ActionLink("Manager", "../Manager/ManagerHomepage")
+                                    <ul>
 
-                            <li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
-                            <li>@Html.ActionLink("Minstverkocht", "../Manager/Minstverkocht")</li>
-                            <li>@Html.ActionLink("Maandelijkse Omzet", "../Manager/OmzetMonthly")</li>
+                                        <li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
+                                        <li>@Html.ActionLink("Minstverkocht", "../Manager/Minstverkocht")</li>
+                                        <li>@Html.ActionLink("Maandelijkse Omzet", "../Manager/OmzetMonthly")</li>
+                                    </ul>
+                                </li>
+                            }
+                            @if(User.IsInRole("BEHEERDER"))
+                            {
+                                <li><a href="#">Beheerder</a>
+                                    <ul>
+                                        <li>@Html.ActionLink("Producten overzicht", "../Product/ProductenOverzicht")</li>
+                                        <li>@Html.ActionLink("Producttype overzicht", "../Product/ProductTypeOverzicht")</li>
+                                        <li>@Html.ActionLink("Categorieën overzicht", "../Categorie/Overzichtcategorie")</li>
+
+                                        <li>@Html.ActionLink("Aanbieding overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
+                                    </ul>
+                                </li>
+                            }
+                            <li>@Html.ActionLink("Producten", "../Customer/ProductenOverzichtklant")</li>
+                            <li>@Html.ActionLink("Contact", "../Contact")</li>
                         </ul>
-                    </li>
-                    <li><a href="#">Beheerder</a>
-                        <ul>
-                            <li>@Html.ActionLink("Producten overzicht", "../Product/ProductenOverzicht")</li>
-                            <li>@Html.ActionLink("Producttype overzicht", "../Product/ProductTypeOverzicht")</li>
-                            <li>@Html.ActionLink("Categorieën overzicht", "../Categorie/Overzichtcategorie")</li>
-
-                            <li>@Html.ActionLink("Aanbieding overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
-                        </ul>
-
-                        <li>@Html.ActionLink("Producten", "../Customer/ProductenOverzichtklant")</li>
-                    <li><a href="#">Contact</a></li>
-
-
-
-                </ul>
+                    </div>
+                </div>
             </div>
-
-
-        </div>
-
-
-
-    </div>
-
-
-    <div id="banner">
-        <img id="bannerImage" src="http://expressbanners.com.au/images/EB-Web-Banner-discount.png   " alt="Banner" />
-    </div>
-    <div class="page-wrap">
-        @RenderBody()
-    </div>
-</body>
+            <div id="banner">
+                <img id="bannerImage" src="http://expressbanners.com.au/images/EB-Web-Banner-discount.png   " alt="Banner" />
+            </div>
+            <div class="page-wrap">
+                @RenderBody()
+            </div>
+        <div id="login_popup_inside" style="display: none;" class="login_popup_inside"> 
+			<div class="title">
+				Login met je intosport account
+				<div id="popup_close_button" class="close" onclick='closeLoginPopup()'>Sluiten</div> 
+			</div>
+			
+			@using (Html.BeginForm("Logon", "Account"))
+            {
+                <div class="form_all">
+				    <div class="form">
+					    <div class="one_input">
+						    <label class="form_text" for="email">Gebruikersnaam:</label>
+						    @*@Html.TextBoxFor(model => model.UserName)*@
+					    </div>
+					    <div class="one_input">
+						    <label class="form_text" for="password">Wachtwoord:</label>
+						    @*@Html.PasswordFor(model => model.PassWord)*@
+					    </div>
+				    </div>
+				    <span id="error_login" class="form_error">@Html.ValidationMessage("loginfout")</span>
+				    <div class="box">
+					    <div class="login_register">
+						    <div class="login_button"><button id="submit" class="request_login" type="submit">Inloggen</button><br/></div><br /><br /><br /><div class="forgot_pw"><br /><a href="/users/reclaim">Wachtwoord vergeten?</a></div><br />
+					    </div>
+					    <hr />
+					    <h3>Nog geen Intosport account?</h3>
+					    <a class="link_green" href="/account/ToevoegenRegistratie">Registreer je nu!</a>
+				    </div>
+			    </div>
+            }
+		</div>
+    </body>
 </html>

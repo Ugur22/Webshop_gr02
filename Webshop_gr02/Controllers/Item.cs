@@ -10,6 +10,7 @@ namespace Webshop_gr02.Controllers
     {
 
         private ProductType producttype = new ProductType();
+
         public ProductType Producttype
         {
             get { return producttype; }

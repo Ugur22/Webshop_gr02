@@ -1,5 +1,6 @@
 ﻿@using Webshop_gr02.Controllers
 @using Webshop_gr02.Models
+@model List<Webshop_gr02.Models.ProductType>
 @{
     ViewBag.Title = "Cart";
 }
@@ -10,7 +11,6 @@
     <h2>Cart</h2>
 
     <table>
-
         <tr>
 
             <th>Option</th>
@@ -24,7 +24,7 @@
         {
          
             <tr>
-               @* <td>@Html.ActionLink("Deleten", "Delete", "ShoppingCart",
+                @* <td>@Html.ActionLink("Deleten", "Delete", "ShoppingCart",
                     new { id = item.Producttype.ID_PT }, new { @class = "btn btn-primary" })</td>*@
                 <td>@item.Producttype.Naam</td>
                 <td>@item.Producttype.VerkoopPrijs</td>
