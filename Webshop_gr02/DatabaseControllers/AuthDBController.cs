@@ -91,8 +91,8 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryStudent = @"SELECT rolnaam 
-                                              FROM rol r, gebruiker g, rol_gebruiker rg 
-                                              WHERE r.rol_id = rg.rol_id AND g.ID_G = rg.ID_G AND g.username = @username;";
+                                              FROM rol r, gebruiker g
+                                              WHERE g.ID_rol = r.rol_id AND g.username = @username;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQueryStudent, conn);
 
