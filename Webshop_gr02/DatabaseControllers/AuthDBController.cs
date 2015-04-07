@@ -314,11 +314,11 @@ namespace Webshop_gr02.DatabaseControllers
         protected Product GetproductFromDataReader(MySqlDataReader dataReader)
         {
 
-            int productId = dataReader.GetInt32("ID_P");
-            string productNaam = dataReader.GetString("naam");
-            int voorraad = dataReader.GetInt32("voorraad");
-            int zichtbaar = dataReader.GetInt32("zichtbaar");
-            int ID_PT = dataReader.GetInt32("ID_PT");
+            int productId = dataReader.SafeGetInt32("ID_P");
+            string productNaam = dataReader.SafeGetString("naam");
+            int voorraad = dataReader.SafeGetInt32("voorraad");
+            int zichtbaar = dataReader.SafeGetInt32("zichtbaar");
+            int ID_PT = dataReader.SafeGetInt32("ID_PT");
             ProductType productType = new ProductType { ID_PT = ID_PT };
             Product product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
 
@@ -403,7 +403,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
-                   // Aanbieding = GetAanbiedingFromDataReader(dataReader);
+                    Aanbieding = GetAanbiedingFromDataReader(dataReader);
                 }
 
             }
@@ -468,6 +468,54 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             return productType;
+        }
+
+
+        public Product GetProduct(int PID)
+        {
+            bool opened = conn.State == System.Data.ConnectionState.Open || conn.State == System.Data.ConnectionState.Executing || conn.State == System.Data.ConnectionState.Fetching;
+            if (PID == 0)
+            {
+                return new Product();
+            }
+            Product Product = new Product();
+            try
+            {
+                if (!opened)
+                {
+                    conn.Open();
+                }
+
+                string selectQueryproduct = @"SELECT * FROM product WHERE ID_P = @ID_P";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                productidParam.Value = PID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Product = GetproductFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                if (!opened)
+                {
+                    conn.Close();
+                }
+            }
+
+            return Product;
         }
 
 
@@ -916,13 +964,13 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
-                    ID_P = dataReader.GetInt32("ID_P");
-                    naam = dataReader.GetString("naam");
-                    voorraad = dataReader.GetInt32("voorraad");
-                    zichtbaar = dataReader.GetInt32("zichtbaar");
-                    ID_PT = dataReader.GetInt32("ID_PT");
-                    naamPT = dataReader.GetString("naam_producttype");
-                    maat = dataReader.GetString("waarde");
+                    ID_P = dataReader.SafeGetInt32("ID_P");
+                    naam = dataReader.SafeGetString("naam");
+                    voorraad = dataReader.SafeGetInt32("voorraad");
+                    zichtbaar = dataReader.SafeGetInt32("zichtbaar");
+                    ID_PT = dataReader.SafeGetInt32("ID_PT");
+                    naamPT = dataReader.SafeGetString("naam_producttype");
+                    maat = dataReader.SafeGetString("waarde");
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
                     Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
@@ -951,7 +999,7 @@ namespace Webshop_gr02.DatabaseControllers
             double bedrag = 0;
             string status = "";
             string datum = "";
-           
+
             try
             {
                 conn.Open();
@@ -972,8 +1020,8 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-                    Bestelling bestelling = new Bestelling {status = status, datum = datum };
-                    Product product = new Product {  naam = productNaam};
+                    Bestelling bestelling = new Bestelling { status = status, datum = datum };
+                    Product product = new Product { naam = productNaam };
                     BestelRegel bestelRegel = new BestelRegel { ID_B = ID_B, ID_P = ID_P, bedrag = bedrag, aantal = aantal, bestelling = bestelling, product = product };
 
                     bestellingenLijst.Add(bestelRegel);
@@ -990,13 +1038,14 @@ namespace Webshop_gr02.DatabaseControllers
             return bestellingenLijst;
         }
 
-        public bool ControleerGoldMember() { 
-        
-        bool gold = false;
-        double totaalAankoop = 0;
+        public bool ControleerGoldMember()
+        {
 
-          
-           
+            bool gold = false;
+            double totaalAankoop = 0;
+
+
+
             try
             {
                 conn.Open();
@@ -1011,7 +1060,7 @@ where k.ID_G = 1;";
                 while (dataReader.Read())
                 {
                     totaalAankoop = dataReader.GetDouble("sum(br.bedrag)");
-                   
+
 
                 }
             }
@@ -1026,16 +1075,18 @@ where k.ID_G = 1;";
 
             //totaalAankoop = 500.01;
 
-            if(totaalAankoop>=500){
-            gold = true;
+            if (totaalAankoop >= 500)
+            {
+                gold = true;
             }
-            else{
-            gold = false;
+            else
+            {
+                gold = false;
             }
 
             return gold;
         }
-       
+
         public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
@@ -1056,7 +1107,7 @@ where k.ID_G = 1;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                
+
                 while (dataReader.Read())
                 {
                     ID_PT = dataReader.SafeGetInt16("ID_PT");
@@ -1234,7 +1285,7 @@ where k.ID_G = 1;";
             aanbieding = dataReader.GetInt32("ID_A");
             merk = dataReader.GetString("merk");
 
-            
+
             ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, ID_A = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
             // product.Add(product);
 
@@ -1282,7 +1333,7 @@ where k.ID_G = 1;";
             List<ProductType> productTypes = new List<ProductType>();
             int productTypeId = 0;
             string productName = "";
-            
+
             try
             {
                 conn.Open();
@@ -1335,7 +1386,7 @@ where k.ID_G = 1;";
 
         public Aanbieding GetAanbieding(string aanbiedingID)
         {
-           Aanbieding aanbieding = null;
+            Aanbieding aanbieding = null;
             try
             {
                 conn.Open();
@@ -1365,7 +1416,7 @@ where k.ID_G = 1;";
             {
                 conn.Close();
             }
-            
+
             return aanbieding;
         }
 
@@ -1452,9 +1503,9 @@ where k.ID_G = 1;";
             }
         }
 
-       
 
-        
+
+
         // AanbiedingDBController
 
         public Aanbieding GetAAnbieding(int aanbiedingID)
@@ -1538,7 +1589,7 @@ where k.ID_G = 1;";
 
         public void DeleteAanbieding(int aanbiedingId)
         {
-           // Console.WriteLine(aanbiedingId);
+            // Console.WriteLine(aanbiedingId);
             MySqlTransaction trans = null;
             try
             {
