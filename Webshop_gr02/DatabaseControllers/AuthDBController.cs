@@ -90,9 +90,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryStudent = @"SELECT rol_naam 
+                string selectQueryStudent = @"SELECT rolnaam 
                                               FROM rol r, gebruiker g, rol_gebruiker rg 
-                                              WHERE r.rol_id = rg.rol_ID AND g.ID_G = rg.ID_G AND g.username = @username;";
+                                              WHERE r.rol_id = rg.rol_id AND g.ID_G = rg.ID_G AND g.username = @username;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQueryStudent, conn);
 
@@ -106,7 +106,7 @@ namespace Webshop_gr02.DatabaseControllers
                 List<string> rollen = new List<string>();
                 while (dataReader.Read())
                 {
-                    string rolnaam = dataReader.GetString("rol_naam");
+                    string rolnaam = dataReader.GetString("rolnaam");
                     rollen.Add(rolnaam);
                 }
                 return rollen.ToArray();
