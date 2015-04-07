@@ -38,8 +38,8 @@
                                         <option>@((@Model[y].Naam))</option>
                                     }
                                 </select></li>*@
-                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "BestelProduct",
-                            new { producttypeId = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
+                            new { id = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 
