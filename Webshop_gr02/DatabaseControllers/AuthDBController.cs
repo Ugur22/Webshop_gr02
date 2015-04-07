@@ -626,11 +626,12 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    (pt.verkoop_prijs*sum(br.aantal)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*sum(br.aantal)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    left join bestel_regel br on p.ID_P = br.ID_P
+													left join bestelling b on br.ID_B = b.ID_B
+                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -684,11 +685,12 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    (pt.verkoop_prijs*sum(br.aantal)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*sum(br.aantal)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    left join bestel_regel br on p.ID_P = br.ID_P
+													left join bestelling b on br.ID_B = b.ID_B
+                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -740,9 +742,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+                                                             left join bestelling b on br.ID_B = b.ID_B
+                                        where b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
@@ -786,10 +790,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
-                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 
+										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
@@ -843,9 +848,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 	
+                                        where b.status like '%betaald%'									
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
@@ -888,12 +895,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
-                                        FROM product_type pt 
-                                        
-                                                             left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
-                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 
+										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
@@ -1669,7 +1675,50 @@ namespace Webshop_gr02.DatabaseControllers
             return aanbiedingen;
         }
 
+        public List<BestelRegel> GetAllOrderedProducts()
+        {
+            List<BestelRegel> BesteldeProducten = new List<BestelRegel>();
+            int productID = 0;
+            string naamProduct = "";
+            int aantalProducten = 0;
+            double bedragBestelling = 0;
+            DateTime datumBestelling = DateTime.Now;
 
+            try
+            {
+                conn.Open();
+
+                string selectQuery = "SELECT p.ID_P as Product_ID, p.naam as Naam, br.aantal as Aantal, br.bedrag as Bedrag, b.datum as Datum FROM product p JOIN bestel_regel br ON p.ID_P = br.ID_P JOIN bestelling b ON b.ID_B = br.ID_B WHERE br.aantal IS NOT NULL GROUP BY p.ID_P;";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                    {
+                        productID = dataReader.GetInt32("Product_ID");
+                        naamProduct = dataReader.GetString("Naam");
+                        aantalProducten = dataReader.GetInt32("Aantal");
+                        bedragBestelling = dataReader.GetDouble("Bedrag");
+                        datumBestelling = dataReader.GetDateTime("Datum");
+                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
+
+                        BesteldeProducten.Add(BesteldProduct);
+                    }
+                    
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelde producten niet gelukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return BesteldeProducten;
+        }
+
+        }
 
     }
-}
+
