@@ -14,7 +14,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail" id="collumproduct">
                     <img src="../Images/@Model[i].productType.ImagePath" id="productImage">
-                    <div class="caption"  >
+                    <div class="caption">
 
                         <ul>
                             <li>
@@ -27,14 +27,14 @@
                             <li>Merk: @Model[i].productType.Merk</li>
 
 
-                            <li>
+                          @*  <li>
                                 <select name="product">
                                     @for (int y = 40; y < 50; y++)
                                     {
 
                                         <option>@("Maat: " + (y))</option>
                                     }
-                                </select></li>
+                                </select></li>*@
 
                             <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>

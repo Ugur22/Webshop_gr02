@@ -5,6 +5,10 @@
     ViewBag.Title = "Cart";
 }
 
+@{
+    
+    var CPVList = Session["cart"] as List<Item>;
+}
 
 <div class="content_wrap">
 
@@ -20,17 +24,18 @@
             <th>sub totaal</th>
         </tr>
 
-        @foreach (Item item in (List<Item>)Session["cart"])
+        @foreach (Item CPV in CPVList)
+            
         {
          
             <tr>
                 @* <td>@Html.ActionLink("Deleten", "Delete", "ShoppingCart",
                     new { id = item.Producttype.ID_PT }, new { @class = "btn btn-primary" })</td>*@
-                <td>@item.Product.naam</td>
-                <td>@item.Product.productType.VerkoopPrijs</td>
-                <td>@item.Product.productType.Omschrijving</td>
-                <td>@item.Quantity</td>
-                <td>@(item.Product.productType.VerkoopPrijs * item.Quantity)</td>
+                <td>@CPV.Product.naam</td>
+                <td>@CPV.Product.productType.VerkoopPrijs</td>
+                <td>@CPV.Product.productType.Omschrijving</td>
+                <td>@CPV.Quantity</td>
+                <td>@(CPV.Product.productType.VerkoopPrijs * CPV.Quantity)</td>
             </tr>
         }
 
