@@ -1,4 +1,4 @@
-﻿@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel
+﻿@*@model WorkshopASPNETMVC3_IV_.Models.LogOnViewModel*@
 <!DOCTYPE html>
 <html>
     <head>
@@ -117,11 +117,11 @@
 				    <div class="form">
 					    <div class="one_input">
 						    <label class="form_text" for="email">Gebruikersnaam:</label>
-						    @Html.TextBoxFor(model => model.UserName)
+						    @*@Html.TextBoxFor(model => model.UserName)*@
 					    </div>
 					    <div class="one_input">
 						    <label class="form_text" for="password">Wachtwoord:</label>
-						    @Html.PasswordFor(model => model.PassWord)
+						    @*@Html.PasswordFor(model => model.PassWord)*@
 					    </div>
 				    </div>
 				    <span id="error_login" class="form_error">@Html.ValidationMessage("loginfout")</span>

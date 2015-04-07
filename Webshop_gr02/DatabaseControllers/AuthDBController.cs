@@ -403,11 +403,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
-<<<<<<< HEAD
                     Aanbieding = GetAanbiedingFromDataReader(dataReader);
-=======
-                   Aanbieding = GetAanbiedingFromDataReader(dataReader);
->>>>>>> origin/master
                 }
 
             }
@@ -1486,14 +1482,7 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
-<<<<<<< HEAD
 
-
-
-
-=======
-        
->>>>>>> origin/master
         // AanbiedingDBController
 
         public Aanbieding GetAAnbieding(int aanbiedingID)
@@ -1577,10 +1566,6 @@ namespace Webshop_gr02.DatabaseControllers
 
         public void DeleteAanbieding(int aanbiedingId)
         {
-<<<<<<< HEAD
-            // Console.WriteLine(aanbiedingId);
-=======
->>>>>>> origin/master
             MySqlTransaction trans = null;
             try
             {
