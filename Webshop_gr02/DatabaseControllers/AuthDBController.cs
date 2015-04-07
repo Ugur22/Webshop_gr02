@@ -403,7 +403,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
-                   // Aanbieding = GetAanbiedingFromDataReader(dataReader);
+                   Aanbieding = GetAanbiedingFromDataReader(dataReader);
                 }
 
             }
@@ -1001,10 +1001,10 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"select sum(br.bedrag)
-from bestel_regel br left join bestelling b on br.ID_B = b.ID_B
-                     left join klant k on b.ID_K = k.ID_G
-where k.ID_G = 1;";
+                string selectQuery = @"SELECT sum(br.bedrag)
+                                    FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                                    left join klant k on b.ID_K = k.ID_G
+                                    WHERE k.ID_G = 1;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -1313,26 +1313,6 @@ where k.ID_G = 1;";
             return productTypes;
         }
 
-        //protected Aanbieding GetAanbiedingFromDataReader(MySqlDataReader dataReader)
-        //{
-        //    int ID_A;
-        //    string soort;
-        //    int percentage;
-        //    bool actief;
-
-
-
-        //    ID_A = dataReader.GetInt16("ID_A");
-        //    soort = dataReader.GetString("soort");
-        //    percentage = dataReader.GetInt16("percentage");
-        //    actief = dataReader.GetBoolean("actief");
-
-        //    Aanbieding aanbieding = new Aanbieding { ID_A = ID_A, soort = soort, percentage = percentage, actief = actief };
-        //    //aanbieding.Add(aanbieding);
-
-        //    return aanbieding;
-        //}
-
         public Aanbieding GetAanbieding(string aanbiedingID)
         {
            Aanbieding aanbieding = null;
@@ -1451,9 +1431,6 @@ where k.ID_G = 1;";
                 conn.Close();
             }
         }
-
-       
-
         
         // AanbiedingDBController
 
@@ -1538,7 +1515,6 @@ where k.ID_G = 1;";
 
         public void DeleteAanbieding(int aanbiedingId)
         {
-           // Console.WriteLine(aanbiedingId);
             MySqlTransaction trans = null;
             try
             {
