@@ -64,5 +64,10 @@ namespace CustomExtensions
                 return 0;
             }
         }
+
+        internal static int SafeGetInt32(int p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

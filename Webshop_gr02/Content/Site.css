@@ -616,3 +616,18 @@ span.form_error{
 	position:relative;
 	top:1px;
 }
+
+/*CONTACT PAGE
+---------------------------------------------------------------------------*/
+
+#map_canvas{
+	height:400px;	/* for the googlemap map on the contact page. */
+}
+
+#address_tekst a{
+	color:#1d7200;
+}
+
+#address_tekst a:hover {
+    color:#4BB84B;
+}
