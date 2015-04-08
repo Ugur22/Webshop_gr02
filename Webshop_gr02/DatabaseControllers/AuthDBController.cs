@@ -1702,7 +1702,7 @@ namespace Webshop_gr02.DatabaseControllers
                         aantalProducten = dataReader.GetInt32("Aantal");
                         bedragBestelling = dataReader.GetDouble("Bedrag");
                         datumBestelling = dataReader.GetDateTime("Datum");
-                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
+                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling, datum = datumBestelling };
 
                         BesteldeProducten.Add(BesteldProduct);
                     }
