@@ -963,10 +963,11 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
-                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as verkoop_prijs,pt.merk as merk,  e.waarde as waarde
+                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as verkoop_prijs,pt.merk as merk,  e.naam as naame
                                        from product p
                                        left join product_type pt on p.ID_PT = pt.ID_PT
-                                       left join eigenschap e on e.ID_P = p.ID_P
+										left join eigenschap_product ep on p.ID_P = ep.ID_P
+                                       left join eigenschap e on ep.ID_E = E.ID_E
                                        group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -983,7 +984,7 @@ namespace Webshop_gr02.DatabaseControllers
                     image_path = dataReader.SafeGetString("image_path");
                     verkoopprijs = dataReader.SafeGetInt32("verkoop_prijs");
                     naamPT = dataReader.SafeGetString("naam_producttype");
-                    maat = dataReader.SafeGetString("waarde");
+                    maat = dataReader.SafeGetString("naame");
 
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT, ImagePath = image_path, VerkoopPrijs = verkoopprijs, Omschrijving = omschrijving, Merk = merk };
                     Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
@@ -1718,7 +1719,173 @@ namespace Webshop_gr02.DatabaseControllers
             return BesteldeProducten;
         }
 
+       
+
+        public void InsertBestelling()
+        {
+
+            int ID_K = 0;
+            //getID_K uit sessie
+            string status = "betaald";
+            string datum = "";
+
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+             
+
+                String insertString = @"INSERT INTO bestelling (ID_K, status, datum) VALUES (@ID_K, @status, @datum)";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter ID_KParam = new MySqlParameter("@ID_K", MySqlDbType.Int32);
+                MySqlParameter statusParam = new MySqlParameter("@status", MySqlDbType.VarChar);
+                MySqlParameter datumParam = new MySqlParameter("@datum", MySqlDbType.Date);
+
+
+                ID_KParam.Value = ID_K;
+                statusParam.Value = status;
+                datumParam.Value = datum;
+
+                /* @TODO Korting toevoegen zodra een product getoond wordt aan de klant */
+
+
+
+                cmd.Parameters.Add(ID_KParam);
+                cmd.Parameters.Add(statusParam);
+                cmd.Parameters.Add(datumParam);
+               
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
         }
+
+        public int HaalBestelNummerUitDB() {
+            int ID_B = 0;
+            //int ID_K = get uit sessie;
+
+            try
+            {
+           
+                conn.Open();
+
+                string selectQuery = @"SELECT br.ID_P as ID_P, br.ID_B as ID_B
+FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+where b.ID_K = 1
+ORDER BY br.ID_B DESC
+LIMIT 1;";
+
+
+                    MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        ID_B = dataReader.GetInt32("ID_B");
+                    }
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine("Ophalen van ID_B mislukt" + e);
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+
+
+
+            return ID_B;
+        }
+
+        public void InsertBestelRegel(int ID_B) {
+
+            //ID_P, ID_B(haal uit database), aantal, totaalbedrag
+   
+           // int ID_P = get uit view
+            //int aantal = get uit view
+           // float totaalbedrag = get uit view
+           
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+
+                String insertString = @"INSERT INTO bestel_regel (ID_P, ID_B, aantal, bedrag) VALUES (@ID_P, @ID_B, @aantal, @bedrag)";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter ID_PParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                MySqlParameter ID_BParam = new MySqlParameter("@ID_B", MySqlDbType.Int32);
+                MySqlParameter aantalParam = new MySqlParameter("@aantal", MySqlDbType.Int32);
+                MySqlParameter bedragParam = new MySqlParameter("@bedrag", MySqlDbType.Float);
+
+
+
+                //ID_KParam.Value = ID_K;
+                //statusParam.Value = status;
+                //datumParam.Value = datum;
+
+                ///* @TODO Korting toevoegen zodra een product getoond wordt aan de klant */
+
+
+
+                //cmd.Parameters.Add(ID_KParam);
+                //cmd.Parameters.Add(statusParam);
+                //cmd.Parameters.Add(datumParam);
+
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
+        public void BestelProduct()
+        {
+            int ID_B;
+            InsertBestelling();
+
+            ID_B = HaalBestelNummerUitDB();
+
+            InsertBestelRegel(ID_B);
+        }
+
+        }
+
+    
 
     }
 
