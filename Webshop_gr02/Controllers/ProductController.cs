@@ -8,6 +8,7 @@ using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
 using Webshop_gr02.ViewModels;
+using System.IO;
 
 namespace Webshop_gr02.Controllers
 {
@@ -35,8 +36,6 @@ namespace Webshop_gr02.Controllers
             }
 
         }
-
-
 
         public ActionResult ProductTypeOverzicht()
         {

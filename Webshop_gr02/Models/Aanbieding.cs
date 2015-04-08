@@ -7,7 +7,7 @@ namespace Webshop_gr02.Models
 {
     public class Aanbieding
     {
-        public int ID_A { get; set; }
+        public int  ID_A { get; set; }
         public string soort { get; set; }
         public int percentage { get; set; }
         public bool actief { get; set; }
