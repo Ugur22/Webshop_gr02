@@ -309,6 +309,7 @@
     <Content Include="Views\Contact\index.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Bestelling\BestellingGelukt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,16 +28,27 @@
 
 
                             <li>
-                             @*   <select name="product">
-                                    @for (int y = 40; y < 50; y++)
-                                    {
+                                <li>Aantal: </li>
+                                <select name="product">
 
-                                        <option>@("Maat: " + (y))</option>
+                                    @{
+                                    int y;
                                     }
-                                </select></li>*@
 
-                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
-                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>
+                                    @for (y = 1; y < 11; y++)
+                                    {
+                                       
+                                        <option>@( (y))</option>
+                                    }
+                                </select></li>
+
+                            @{
+                                    
+                                    Console.WriteLine();   
+                            }
+
+                            <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel",
+                            new { id = @Model[i].ID_P, bedrag = @Model[i].productType.VerkoopPrijs }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 

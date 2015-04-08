@@ -1724,10 +1724,10 @@ namespace Webshop_gr02.DatabaseControllers
         public void InsertBestelling()
         {
 
-            int ID_K = 0;
+            int ID_K = 1;
             //getID_K uit sessie
             string status = "betaald";
-            string datum = "";
+            string datum = DateTime.Now.ToString("yyyy-MM-dd");
 
 
             MySqlTransaction trans = null;
@@ -1742,7 +1742,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter ID_KParam = new MySqlParameter("@ID_K", MySqlDbType.Int32);
                 MySqlParameter statusParam = new MySqlParameter("@status", MySqlDbType.VarChar);
-                MySqlParameter datumParam = new MySqlParameter("@datum", MySqlDbType.Date);
+                MySqlParameter datumParam = new MySqlParameter("@datum", MySqlDbType.VarChar);
 
 
                 ID_KParam.Value = ID_K;
@@ -1785,10 +1785,10 @@ namespace Webshop_gr02.DatabaseControllers
            
                 conn.Open();
 
-                string selectQuery = @"SELECT br.ID_P as ID_P, br.ID_B as ID_B
-FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                string selectQuery = @"SELECT b.ID_B as ID_B
+FROM bestelling b 
 where b.ID_K = 1
-ORDER BY br.ID_B DESC
+ORDER BY b.ID_B DESC
 LIMIT 1;";
 
 
@@ -1816,7 +1816,7 @@ LIMIT 1;";
             return ID_B;
         }
 
-        public void InsertBestelRegel(int ID_B) {
+        public void InsertBestelRegel(int ID_B, int ID_P, int aantal, float bedrag) {
 
             //ID_P, ID_B(haal uit database), aantal, totaalbedrag
    
@@ -1842,17 +1842,19 @@ LIMIT 1;";
 
 
 
-                //ID_KParam.Value = ID_K;
-                //statusParam.Value = status;
-                //datumParam.Value = datum;
-
-                ///* @TODO Korting toevoegen zodra een product getoond wordt aan de klant */
-
+                ID_PParam.Value = ID_P;
+                ID_BParam.Value = ID_B;
+                aantalParam.Value = aantal;
+                bedragParam.Value = bedrag;
 
 
-                //cmd.Parameters.Add(ID_KParam);
-                //cmd.Parameters.Add(statusParam);
-                //cmd.Parameters.Add(datumParam);
+
+
+
+                cmd.Parameters.Add(ID_PParam);
+                cmd.Parameters.Add(ID_BParam);
+                cmd.Parameters.Add(aantalParam);
+                cmd.Parameters.Add(bedragParam);
 
 
                 cmd.Prepare();
@@ -1873,14 +1875,14 @@ LIMIT 1;";
 
         }
 
-        public void BestelProduct()
+        public void BestelProduct(int ID_P, int aantal, float bedrag)
         {
             int ID_B;
             InsertBestelling();
 
             ID_B = HaalBestelNummerUitDB();
 
-            InsertBestelRegel(ID_B);
+            InsertBestelRegel(ID_B, ID_P, aantal, bedrag);
         }
 
         }
