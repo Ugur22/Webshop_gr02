@@ -23,6 +23,13 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             return View();
         }
 
+        public ActionResult logout()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("index", "Home");
+        }
+
         [HttpPost]
         public ActionResult ToevoegenRegistratie(Registratie registratie)
         {

@@ -1,5 +1,4 @@
-﻿@using Webshop_gr02.Models
-@model List<Webshop_gr02.Models.ProductType>
+﻿@model List<Webshop_gr02.Models.Product>
 >
 @{
     ViewBag.Title = "ProductenOverzichtklant";
@@ -10,36 +9,35 @@
     <h2>Producten</h2>
     <div class="row">
 
-
-
         @for (int i = 0; i < Model.Count; i++)
         {
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail" id="collumproduct">
-                    <img src="../Images/@Model[i].ImagePath" id="productImage">
+                    <img src="../Images/@Model[i].productType.ImagePath" id="productImage">
                     <div class="caption">
 
                         <ul>
                             <li>
-                                <h3>@Model[i].Naam</h3>
+                                <h3>@Model[i].naam</h3>
                             </li>
-                            <li>Prijs:  €@Model[i].VerkoopPrijs</li>
+                            <li>Prijs:  €@Model[i].productType.VerkoopPrijs</li>
                             <li>Omschrijving:
                                 <br />
-                                @Model[i].Omschrijving</li>
-                            <li>Merk: @Model[i].Merk</li>
+                                @Model[i].productType.Omschrijving</li>
+                            <li>Merk: @Model[i].productType.Merk</li>
 
 
-                         @*   <li>
-                                <select name="product">
-                                    @for (int y = 0; y < Model.Count; y++)
+                            <li>
+                             @*   <select name="product">
+                                    @for (int y = 40; y < 50; y++)
                                     {
 
-                                        <option>@((@Model[y].Naam))</option>
+                                        <option>@("Maat: " + (y))</option>
                                     }
                                 </select></li>*@
-                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
-                            new { id = @Model[i].ID_PT }, new { @class = "btn btn-primary" })</li>
+
+                            <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
+                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 

@@ -9,12 +9,15 @@ namespace Webshop_gr02.Controllers
     public class Item
     {
 
-        private ProductType producttype = new ProductType();
-        public ProductType Producttype
+        private Product product = new Product();
+
+        public Product Product
         {
-            get { return producttype; }
-            set { producttype = value; }
+            get { return product; }
+            set { product = value; }
         }
+
+     
         private int quantity;
 
         public int Quantity
@@ -23,12 +26,10 @@ namespace Webshop_gr02.Controllers
             set { quantity = value; }
         }
 
-        public Item()
+
+        public Item(Product product, int quantity)
         {
-        }
-        public Item(ProductType producttype, int quantity)
-        {
-            this.producttype = producttype;
+            this.Product = product;
             this.quantity = quantity;
         }
 

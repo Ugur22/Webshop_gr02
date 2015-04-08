@@ -90,9 +90,9 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryStudent = @"SELECT rol_naam 
-                                              FROM rol r, gebruiker g, rol_gebruiker rg 
-                                              WHERE r.rol_id = rg.rol_ID AND g.ID_G = rg.ID_G AND g.username = @username;";
+                string selectQueryStudent = @"SELECT rolnaam 
+                                              FROM rol r, gebruiker g
+                                              WHERE g.ID_rol = r.rol_id AND g.username = @username;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQueryStudent, conn);
 
@@ -106,7 +106,7 @@ namespace Webshop_gr02.DatabaseControllers
                 List<string> rollen = new List<string>();
                 while (dataReader.Read())
                 {
-                    string rolnaam = dataReader.GetString("rol_naam");
+                    string rolnaam = dataReader.GetString("rolnaam");
                     rollen.Add(rolnaam);
                 }
                 return rollen.ToArray();
@@ -314,11 +314,11 @@ namespace Webshop_gr02.DatabaseControllers
         protected Product GetproductFromDataReader(MySqlDataReader dataReader)
         {
 
-            int productId = dataReader.GetInt32("ID_P");
-            string productNaam = dataReader.GetString("naam");
-            int voorraad = dataReader.GetInt32("voorraad");
-            int zichtbaar = dataReader.GetInt32("zichtbaar");
-            int ID_PT = dataReader.GetInt32("ID_PT");
+            int productId = dataReader.SafeGetInt32("ID_P");
+            string productNaam = dataReader.SafeGetString("naam");
+            int voorraad = dataReader.SafeGetInt32("voorraad");
+            int zichtbaar = dataReader.SafeGetInt32("zichtbaar");
+            int ID_PT = dataReader.SafeGetInt32("ID_PT");
             ProductType productType = new ProductType { ID_PT = ID_PT };
             Product product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
 
@@ -403,7 +403,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 if (dataReader.Read())
                 {
-                   Aanbieding = GetAanbiedingFromDataReader(dataReader);
+                    Aanbieding = GetAanbiedingFromDataReader(dataReader);
                 }
 
             }
@@ -468,6 +468,54 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             return productType;
+        }
+
+
+        public Product GetProduct(int PID)
+        {
+            bool opened = conn.State == System.Data.ConnectionState.Open || conn.State == System.Data.ConnectionState.Executing || conn.State == System.Data.ConnectionState.Fetching;
+            if (PID == 0)
+            {
+                return new Product();
+            }
+            Product Product = new Product();
+            try
+            {
+                if (!opened)
+                {
+                    conn.Open();
+                }
+
+                string selectQueryproduct = @"SELECT * FROM product WHERE ID_P = @ID_P";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                productidParam.Value = PID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Product = GetproductFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                if (!opened)
+                {
+                    conn.Close();
+                }
+            }
+
+            return Product;
         }
 
 
@@ -578,11 +626,12 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    (pt.verkoop_prijs*sum(br.aantal)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*sum(br.aantal)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    left join bestel_regel br on p.ID_P = br.ID_P
+													left join bestelling b on br.ID_B = b.ID_B
+                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -636,11 +685,12 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQueryOmzetMonthly = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam,
-                                                    (pt.verkoop_prijs*count(vp.ID_P)) as BRUTO_omzet, 
-                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*count(vp.ID_P)) as NETTO_omzet
+                                                    (pt.verkoop_prijs*sum(br.aantal)) as BRUTO_omzet, 
+                                                    ((pt.verkoop_prijs-pt.inkoop_prijs)*sum(br.aantal)) as NETTO_omzet
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                    left join verkocht_product vp on p.ID_P = vp.ID_P
-                                                    where  vp.verkoop_datum between @firstDate and @secondDate
+                                                    left join bestel_regel br on p.ID_P = br.ID_P
+													left join bestelling b on br.ID_B = b.ID_B
+                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -692,9 +742,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+                                                             left join bestelling b on br.ID_B = b.ID_B
+                                        where b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
@@ -738,10 +790,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
-                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 
+										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
@@ -795,9 +848,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 	
+                                        where b.status like '%betaald%'									
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
@@ -840,12 +895,11 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, count(vp.ID_P) as Afzet, pt.verkoop_prijs as Prijs
-                                        FROM product_type pt 
-                                        
-                                                             left join product p on pt.ID_PT = p.ID_PT
-                                                             left join verkocht_product vp on p.ID_P = vp.ID_P
-                                         WHERE vp.verkoop_datum between @firstDate and @secondDate
+                string selectQuery = @"SELECT pt.ID_PT as Product_ID, pt.Naam as Naam, sum(br.aantal) as Afzet, pt.verkoop_prijs as Prijs
+                                        FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
+                                                             left join bestel_regel br on p.ID_P = br.ID_P
+															left join bestelling b on br.ID_B = b.ID_B 
+										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
@@ -898,6 +952,10 @@ namespace Webshop_gr02.DatabaseControllers
             int ID_PT = 0;
             string naamPT = "";
             string maat = "";
+            string image_path = "";
+            float verkoopprijs = 0;
+            string omschrijving = "";
+            string merk = "";
 
 
             try
@@ -905,26 +963,29 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
 
                 string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
-                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype,  e.waarde as waarde
+                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as verkoop_prijs,pt.merk as merk,  e.waarde as waarde
                                        from product p
                                        left join product_type pt on p.ID_PT = pt.ID_PT
                                        left join eigenschap e on e.ID_P = p.ID_P
-                                       WHERE e.naam = 'maat'
                                        group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
                 {
-                    ID_P = dataReader.GetInt32("ID_P");
-                    naam = dataReader.GetString("naam");
-                    voorraad = dataReader.GetInt32("voorraad");
-                    zichtbaar = dataReader.GetInt32("zichtbaar");
-                    ID_PT = dataReader.GetInt32("ID_PT");
-                    naamPT = dataReader.GetString("naam_producttype");
-                    maat = dataReader.GetString("waarde");
+                    ID_P = dataReader.SafeGetInt32("ID_P");
+                    naam = dataReader.SafeGetString("naam");
+                    omschrijving = dataReader.SafeGetString("omschrijving");
+                    merk = dataReader.SafeGetString("merk");
+                    voorraad = dataReader.SafeGetInt32("voorraad");
+                    zichtbaar = dataReader.SafeGetInt32("zichtbaar");
+                    ID_PT = dataReader.SafeGetInt32("ID_PT");
+                    image_path = dataReader.SafeGetString("image_path");
+                    verkoopprijs = dataReader.SafeGetInt32("verkoop_prijs");
+                    naamPT = dataReader.SafeGetString("naam_producttype");
+                    maat = dataReader.SafeGetString("waarde");
 
-                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT };
+                    ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT, ImagePath = image_path, VerkoopPrijs = verkoopprijs, Omschrijving = omschrijving, Merk = merk };
                     Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
                     productenLijst.Add(product);
                 }
@@ -951,7 +1012,7 @@ namespace Webshop_gr02.DatabaseControllers
             double bedrag = 0;
             string status = "";
             string datum = "";
-           
+
             try
             {
                 conn.Open();
@@ -972,8 +1033,8 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-                    Bestelling bestelling = new Bestelling {status = status, datum = datum };
-                    Product product = new Product {  naam = productNaam};
+                    Bestelling bestelling = new Bestelling { status = status, datum = datum };
+                    Product product = new Product { naam = productNaam };
                     BestelRegel bestelRegel = new BestelRegel { ID_B = ID_B, ID_P = ID_P, bedrag = bedrag, aantal = aantal, bestelling = bestelling, product = product };
 
                     bestellingenLijst.Add(bestelRegel);
@@ -990,13 +1051,14 @@ namespace Webshop_gr02.DatabaseControllers
             return bestellingenLijst;
         }
 
-        public bool ControleerGoldMember() { 
-        
-        bool gold = false;
-        double totaalAankoop = 0;
+        public bool ControleerGoldMember()
+        {
 
-          
-           
+            bool gold = false;
+            double totaalAankoop = 0;
+
+
+
             try
             {
                 conn.Open();
@@ -1011,7 +1073,7 @@ namespace Webshop_gr02.DatabaseControllers
                 while (dataReader.Read())
                 {
                     totaalAankoop = dataReader.GetDouble("sum(br.bedrag)");
-                   
+
 
                 }
             }
@@ -1026,16 +1088,18 @@ namespace Webshop_gr02.DatabaseControllers
 
             //totaalAankoop = 500.01;
 
-            if(totaalAankoop>=500){
-            gold = true;
+            if (totaalAankoop >= 500)
+            {
+                gold = true;
             }
-            else{
-            gold = false;
+            else
+            {
+                gold = false;
             }
 
             return gold;
         }
-       
+
         public List<ProductType> GetTypeLijst()
         {
             List<ProductType> productenType = new List<ProductType>();
@@ -1056,7 +1120,7 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                
+
                 while (dataReader.Read())
                 {
                     ID_PT = dataReader.SafeGetInt16("ID_PT");
@@ -1234,7 +1298,7 @@ namespace Webshop_gr02.DatabaseControllers
             aanbieding = dataReader.GetInt32("ID_A");
             merk = dataReader.GetString("merk");
 
-            
+
             ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamProduct, InkoopPrijs = inkoopPrijs, VerkoopPrijs = verkoopPrijs, Omschrijving = omschrijving, ImagePath = imagePath, ID_A = aanbieding, Zichtbaar = zichtbaar, Merk = merk };
             // product.Add(product);
 
@@ -1282,7 +1346,7 @@ namespace Webshop_gr02.DatabaseControllers
             List<ProductType> productTypes = new List<ProductType>();
             int productTypeId = 0;
             string productName = "";
-            
+
             try
             {
                 conn.Open();
@@ -1315,7 +1379,7 @@ namespace Webshop_gr02.DatabaseControllers
 
         public Aanbieding GetAanbieding(string aanbiedingID)
         {
-           Aanbieding aanbieding = null;
+            Aanbieding aanbieding = null;
             try
             {
                 conn.Open();
@@ -1345,7 +1409,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
-            
+
             return aanbieding;
         }
 
@@ -1431,7 +1495,7 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
-        
+
         // AanbiedingDBController
 
         public Aanbieding GetAAnbieding(int aanbiedingID)
@@ -1611,7 +1675,50 @@ namespace Webshop_gr02.DatabaseControllers
             return aanbiedingen;
         }
 
+        public List<BestelRegel> GetAllOrderedProducts()
+        {
+            List<BestelRegel> BesteldeProducten = new List<BestelRegel>();
+            int productID = 0;
+            string naamProduct = "";
+            int aantalProducten = 0;
+            double bedragBestelling = 0;
+            DateTime datumBestelling = DateTime.Now;
 
+            try
+            {
+                conn.Open();
+
+                string selectQuery = "SELECT p.ID_P as Product_ID, p.naam as Naam, br.aantal as Aantal, br.bedrag as Bedrag, b.datum as Datum FROM product p JOIN bestel_regel br ON p.ID_P = br.ID_P JOIN bestelling b ON b.ID_B = br.ID_B WHERE br.aantal IS NOT NULL GROUP BY p.ID_P;";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                    {
+                        productID = dataReader.GetInt32("Product_ID");
+                        naamProduct = dataReader.GetString("Naam");
+                        aantalProducten = dataReader.GetInt32("Aantal");
+                        bedragBestelling = dataReader.GetDouble("Bedrag");
+                        datumBestelling = dataReader.GetDateTime("Datum");
+                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
+
+                        BesteldeProducten.Add(BesteldProduct);
+                    }
+                    
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelde producten niet gelukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return BesteldeProducten;
+        }
+
+        }
 
     }
-}
+

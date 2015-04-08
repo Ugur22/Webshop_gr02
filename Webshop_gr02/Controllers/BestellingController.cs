@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
+using Webshop_gr02.ViewModels;
 
 namespace Webshop_gr02.Controllers
 {
@@ -72,6 +73,20 @@ namespace Webshop_gr02.Controllers
         //    }
 
         //}
+
+        
+
+        public ActionResult OverzichtBesteldeProducten()
+        {
+            List<BestelRegel> besteldeProducten = authDBController.GetAllOrderedProducts();
+
+            foreach (BestelRegel BR in besteldeProducten)
+            {
+                Console.WriteLine(BR);
+            }
+
+            return View(besteldeProducten);
+        }
 
     }
 }

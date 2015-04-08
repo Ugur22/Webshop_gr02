@@ -11,7 +11,7 @@ namespace Webshop_gr02.Controllers
 {
     public class CustomerController : Controller
     {
-        
+
         //
         // GET: /Customer/
 
@@ -21,8 +21,8 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-            
-                List<ProductType> product = authDBController.GetTypeLijst();
+
+                List<Product> product = authDBController.GetProductLijst();
                 return View(product);
             }
             catch (Exception e)
@@ -32,7 +32,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-      
+
 
     }
 }
