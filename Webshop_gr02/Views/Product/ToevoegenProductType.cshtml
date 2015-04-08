@@ -5,7 +5,8 @@
 
 <div class="content_wrap">
 
-    <form method="post" action="/Product/ToevoegenProductType">
+    @using (Html.BeginForm("ToevoegenProductType", "Product", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
         <span style="color: red">@Html.ValidationMessage("toevoegen is niet gelukt")</span>
         <fieldset>
             <legend>Producttype toevoegen</legend>
@@ -54,13 +55,10 @@
                 Selecteer een afbeelding wanneer gewenst:
             </div>
             <div class="editor-field">
-             
-
-                @using (Html.BeginForm("PromotieToevoegen", "Promotie", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
+                
                     @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
                     @Html.ValidationMessageFor(model => model.ProductType.ImagePath)
-                }
+            
                 <div>
                     @ViewBag.Message
                 </div>
@@ -84,5 +82,5 @@
                 <input type="submit" value="Toevoegen" name="Command" />
             </p>
         </fieldset>
-    </form>
+    }
 </div>

@@ -19,13 +19,11 @@
 
             <th>Option</th>
             <th>Name</th>
-            <th>omschrijving</th>
             <th>Aantal</th>
             <th>sub totaal</th>
         </tr>
 
         @foreach (Item CPV in CPVList)
-            
         {
          
             <tr>
@@ -33,7 +31,6 @@
                     new { id = item.Producttype.ID_PT }, new { @class = "btn btn-primary" })</td>*@
                 <td>@CPV.Product.naam</td>
                 <td>@CPV.Product.productType.VerkoopPrijs</td>
-                <td>@CPV.Product.productType.Omschrijving</td>
                 <td>@CPV.Quantity</td>
                 <td>@(CPV.Product.productType.VerkoopPrijs * CPV.Quantity)</td>
             </tr>

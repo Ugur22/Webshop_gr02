@@ -11,6 +11,7 @@ namespace Webshop_gr02.ViewModels
     public class ProductTypeAanbiedingen
     {
         public ProductType ProductType { get; set; }
+
         public SelectList Aanbiedingen { get; set; }
 
         public int SelectedAanbiedingID { get; set; }
