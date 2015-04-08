@@ -26,9 +26,7 @@ namespace Webshop_gr02.Controllers
             set { quantity = value; }
         }
 
-        public Item()
-        {
-        }
+
         public Item(Product product, int quantity)
         {
             this.Product = product;
