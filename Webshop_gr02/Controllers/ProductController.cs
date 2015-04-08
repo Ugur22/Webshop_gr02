@@ -38,8 +38,6 @@ namespace Webshop_gr02.Controllers
 
         }
 
-
-
         public ActionResult ProductTypeOverzicht()
         {
             try
