@@ -1726,7 +1726,7 @@ namespace Webshop_gr02.DatabaseControllers
 
             int ID_K = 1;
             //getID_K uit sessie
-            string status = "betaald";
+            string status = "besteld";
             string datum = DateTime.Now.ToString("yyyy-MM-dd");
 
 
