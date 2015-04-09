@@ -19,10 +19,36 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult ProductenOverzichtklant()
         {
+            bool goldmember = false;
+            string welOfNiet = "";
+            float percentage = 0;
+            float nieuweprijs = 1;
             try
             {
 
                 List<Product> product = authDBController.GetProductLijst();
+                goldmember = authDBController.ControleerGoldMember();
+                percentage = authDBController.haalPercentageGM();
+
+                if (percentage > 0)
+                {
+                    nieuweprijs = (100 - percentage) / 100;
+                }
+                
+
+                if (goldmember == true)
+                {
+                    welOfNiet = "Je bent GoldMember";
+
+                }
+                else
+                {
+                    welOfNiet = "Je bent geen GoldMember";
+                }
+                ViewBag.tekstgm = welOfNiet;
+                ViewBag.goldmember = goldmember;
+                ViewBag.nieuweprijs = nieuweprijs;
+
                 return View(product);
             }
             catch (Exception e)
@@ -30,6 +56,10 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
                 return View();
             }
+
+           
+
+
         }
 
 

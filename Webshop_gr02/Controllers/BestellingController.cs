@@ -14,36 +14,36 @@ namespace Webshop_gr02.Controllers
     {
         private AuthDBController authDBController = new AuthDBController();
 
-        public ActionResult Bestelling()
-        {
+        //public ActionResult Bestelling()
+        //{
 
-            bool goldmember = false;
-            string welOfNiet = "";
+        //    bool goldmember = false;
+        //    string welOfNiet = "";
 
-            try
-            {
-                List<BestelRegel> bestelRegels = authDBController.GetBestellingOverzicht();
-                goldmember = authDBController.ControleerGoldMember();
-                if (goldmember == true)
-                {
-                    welOfNiet = "Je bent GoldMember";
+        //    try
+        //    {
+        //        //List<BestelRegel> bestelRegels = authDBController.GetBestellingOverzicht();
+        //        goldmember = authDBController.ControleerGoldMember();
+        //        if (goldmember == true)
+        //        {
+        //            welOfNiet = "Je bent GoldMember";
 
-                }
-                else
-                {
-                    welOfNiet = "Je bent geen GoldMember";
-                }
-                ViewBag.goldmembership = welOfNiet;
-                return View(bestelRegels);
-            }
-            catch (Exception e)
-            {
-                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
-                return View();
-            }
+        //        }
+        //        else
+        //        {
+        //            welOfNiet = "Je bent geen GoldMember";
+        //        }
+        //        ViewBag.goldmembership = welOfNiet;
+        //      //  return View(bestelRegels);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+        //        return View();
+        //    }
 
 
-        }
+        //}
 
         //public ViewResult Bestelling()
         //{

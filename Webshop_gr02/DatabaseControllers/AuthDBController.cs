@@ -1056,8 +1056,73 @@ namespace Webshop_gr02.DatabaseControllers
             return bestellingenLijst;
         }
 
+        public float haalMaxBedrag() {
+            float max_bedrag = 0;
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT max_bedrag
+                                    FROM goldmember gm;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    max_bedrag = dataReader.GetFloat("max_bedrag");
+
+
+                }
+
+         
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van max_bedrag mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return max_bedrag;
+        }
+
+        public float haalPercentageGM()
+        {
+            float percentage = 0;
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT percentage
+                                    FROM goldmember gm;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    percentage = dataReader.GetFloat("percentage");
+
+
+                }
+
+
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van percentage mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return percentage;
+        }
+
         public bool ControleerGoldMember()
         {
+
+            float max_bedrag = haalMaxBedrag();  
 
             bool gold = false;
             double totaalAankoop = 0;
@@ -1093,7 +1158,7 @@ namespace Webshop_gr02.DatabaseControllers
 
             //totaalAankoop = 500.01;
 
-            if (totaalAankoop >= 500)
+            if (totaalAankoop >= max_bedrag)
             {
                 gold = true;
             }
@@ -1104,6 +1169,7 @@ namespace Webshop_gr02.DatabaseControllers
 
             return gold;
         }
+
 
         public List<ProductType> GetTypeLijst()
         {
@@ -1981,6 +2047,8 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return eigenschapwaarde;
         }
+
+        
 
     }
 
