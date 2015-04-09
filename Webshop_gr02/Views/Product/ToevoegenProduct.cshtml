@@ -16,7 +16,24 @@
             <legend>Product toevoegen</legend>
 
 
+              
 
+            <div class="editor-label">
+                Producttype:
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedProductTypeID, Model.ProductType)
+                @Html.ValidationMessageFor(model => model.SelectedProductTypeID)
+            </div>
+
+
+                   <div class="editor-label">
+                Maat:
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedeigenschapwaardeID, Model.Eigenschapwaarde)
+                @Html.ValidationMessageFor(model => model.SelectedeigenschapwaardeID)
+            </div>
             <div class="editor-label">
                 Naam product:
             </div>
@@ -40,21 +57,7 @@
         @Html.RadioButtonFor(model => model.Product.zichtbaar, "0", new { Checked = "checked" }) Nee
         @Html.ValidationMessageFor(model => model.Product.zichtbaar)
 
-            <div class="editor-label">
-                Maat:
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.SelectedeigenschapwaardeID, Model.Eigenschapwaarde)
-                @Html.ValidationMessageFor(model => model.SelectedeigenschapwaardeID)
-            </div>
-
-            <div class="editor-label">
-                Producttype:
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.SelectedProductTypeID, Model.ProductType)
-                @Html.ValidationMessageFor(model => model.SelectedProductTypeID)
-            </div>
+   
 
 
 
