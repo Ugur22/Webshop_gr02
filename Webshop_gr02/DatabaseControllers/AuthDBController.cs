@@ -173,7 +173,7 @@ namespace Webshop_gr02.DatabaseControllers
                     int ID_A = dataReader.GetInt32("ID_A");
                     string soort = dataReader.GetString("soort");
                     int percentage = dataReader.GetInt32("percentage");
-                    bool actief = dataReader.GetBoolean("actief");
+                    bool actief = dataReader.GetBoolean("active");
 
 
                     Aanbieding aanbieding = new Aanbieding { ID_A = ID_A, soort = soort, percentage = percentage, actief = actief };
@@ -370,7 +370,7 @@ namespace Webshop_gr02.DatabaseControllers
             int aanbieding_a = dataReader.GetInt32("ID_A");
             string soort = dataReader.GetString("soort");
             int percentage = dataReader.GetInt32("percentage");
-            bool actief = dataReader.GetBoolean("actief");
+            bool actief = dataReader.GetBoolean("active");
             Aanbieding aanbieding = new Aanbieding { ID_A = aanbieding_a, soort = soort, percentage = percentage, actief = actief };
 
             return aanbieding;
@@ -1430,7 +1430,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectAanbieding = @"SELECT ID_A as ID_Aanbieding, soort as Soort, percentage as Percentage, actief as Actief  FROM aanbieding";
+                string selectAanbieding = @"SELECT ID_A as ID_Aanbieding, soort as Soort, percentage as Percentage, active as Actief  FROM aanbieding";
                 MySqlCommand cmd = new MySqlCommand(selectAanbieding, conn);
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -1440,7 +1440,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aanbieding_ID = dataReader.GetInt32("ID_A");
                     soort = dataReader.GetString("soort");
                     percentage = dataReader.GetInt32("percentage");
-                    actief = dataReader.GetBoolean("actie");
+                    actief = dataReader.GetBoolean("active");
 
                     Aanbieding aanbieding = new Aanbieding { ID_A = aanbieding_ID, soort = soort, percentage = percentage, actief = actief };
 
@@ -1468,13 +1468,13 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String insertString = @"INSERT INTO aanbieding (soort, percentage, actief)
-                                        VALUES (@soort, @percentage, @actief)";
+                String insertString = @"INSERT INTO aanbieding (soort, percentage, active)
+                                        VALUES (@soort, @percentage, @active)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
                 MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
-                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@active", MySqlDbType.Int32);
 
 
                 soortParam.Value = aanbieding.soort;
@@ -1547,12 +1547,12 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"Update aanbieding SET soort=@soort, percentage=@percentage, actief=@actief where ID_A=@ID_A";
+                string insertString = @"Update aanbieding SET soort=@soort, percentage=@percentage, active=@active where ID_A=@ID_A";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
                 MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
-                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@active", MySqlDbType.Int32);
                 MySqlParameter ID_AParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
 
                 soortParam.Value = aanbieding.soort;
@@ -1711,6 +1711,7 @@ namespace Webshop_gr02.DatabaseControllers
                     BesteldeProducten.Add(BesteldProduct);
                 }
 
+
             }
             catch (MySqlException e)
             {
@@ -1728,10 +1729,10 @@ namespace Webshop_gr02.DatabaseControllers
         public void InsertBestelling()
         {
 
-            int ID_K = 0;
+            int ID_K = 1;
             //getID_K uit sessie
-            string status = "betaald";
-            string datum = "";
+            string status = "besteld";
+            string datum = DateTime.Now.ToString("yyyy-MM-dd");
 
 
             MySqlTransaction trans = null;
@@ -1746,7 +1747,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter ID_KParam = new MySqlParameter("@ID_K", MySqlDbType.Int32);
                 MySqlParameter statusParam = new MySqlParameter("@status", MySqlDbType.VarChar);
-                MySqlParameter datumParam = new MySqlParameter("@datum", MySqlDbType.Date);
+                MySqlParameter datumParam = new MySqlParameter("@datum", MySqlDbType.VarChar);
 
 
                 ID_KParam.Value = ID_K;
@@ -1790,11 +1791,11 @@ namespace Webshop_gr02.DatabaseControllers
 
                 conn.Open();
 
-                string selectQuery = @"SELECT br.ID_P as ID_P, br.ID_B as ID_B
-FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
-where b.ID_K = 1
-ORDER BY br.ID_B DESC
-LIMIT 1;";
+                string selectQuery = @"SELECT b.ID_B as ID_B
+                                        FROM bestelling b 
+                                        where b.ID_K = 1
+                                        ORDER BY b.ID_B DESC
+                                        LIMIT 1;";
 
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
@@ -1821,8 +1822,10 @@ LIMIT 1;";
             return ID_B;
         }
 
-        public void InsertBestelRegel(int ID_B)
-        {
+
+
+        public void InsertBestelRegel(int ID_B, int ID_P, int aantal, float bedrag) {
+
 
             //ID_P, ID_B(haal uit database), aantal, totaalbedrag
 
@@ -1848,17 +1851,19 @@ LIMIT 1;";
 
 
 
-                //ID_KParam.Value = ID_K;
-                //statusParam.Value = status;
-                //datumParam.Value = datum;
-
-                ///* @TODO Korting toevoegen zodra een product getoond wordt aan de klant */
-
+                ID_PParam.Value = ID_P;
+                ID_BParam.Value = ID_B;
+                aantalParam.Value = aantal;
+                bedragParam.Value = bedrag;
 
 
-                //cmd.Parameters.Add(ID_KParam);
-                //cmd.Parameters.Add(statusParam);
-                //cmd.Parameters.Add(datumParam);
+
+
+
+                cmd.Parameters.Add(ID_PParam);
+                cmd.Parameters.Add(ID_BParam);
+                cmd.Parameters.Add(aantalParam);
+                cmd.Parameters.Add(bedragParam);
 
 
                 cmd.Prepare();
@@ -1879,14 +1884,14 @@ LIMIT 1;";
 
         }
 
-        public void BestelProduct()
+        public void BestelProduct(int ID_P, int aantal, float bedrag)
         {
             int ID_B;
             InsertBestelling();
 
             ID_B = HaalBestelNummerUitDB();
 
-            InsertBestelRegel(ID_B);
+            InsertBestelRegel(ID_B, ID_P, aantal, bedrag);
         }
 
 

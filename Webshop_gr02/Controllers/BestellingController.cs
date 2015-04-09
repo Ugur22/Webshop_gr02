@@ -75,6 +75,16 @@ namespace Webshop_gr02.Controllers
         //}
 
 
+        public ActionResult ProductBestel(int id, float bedrag) {
+
+            Console.WriteLine(id);
+          int aantal = 1;
+        
+        authDBController.BestelProduct(id, aantal, bedrag);
+
+        return RedirectToAction("BestellingGelukt", "Bestelling");
+        }
+
 
         
 
@@ -90,6 +100,11 @@ namespace Webshop_gr02.Controllers
             }
 
             return View(besteldeProducten);
+        }
+
+        public ActionResult BestellingGelukt() {
+
+            return View();
         }
 
     }
