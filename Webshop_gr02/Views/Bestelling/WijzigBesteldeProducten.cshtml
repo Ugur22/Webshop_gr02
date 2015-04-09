@@ -1,0 +1,25 @@
+﻿@model Webshop_gr02.Models.BestelRegel
+@{
+    ViewBag.Title = "WijzigBesteldeProducten";
+}
+
+<div class="content_wrap">
+    <form method="post" action="/BestelRegel/WijzigBesteldeProducten">
+        <span style="color: red">@Html.ValidationMessage("Wijzigen is niet gelukt")</span>
+        <fieldset>
+            <legend>Status bestelling wijzigen</legend>
+            
+            <div class="editor-label">
+                Status (betaald/niet betaald):
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status)
+            </div>
+
+            <p>
+                <input type="submit" value="Wijzigen" />
+            </p>
+        </fieldset>
+    </form>
+</div>

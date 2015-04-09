@@ -84,9 +84,22 @@ namespace Webshop_gr02.Controllers
         return RedirectToAction("BestellingGelukt", "Bestelling");
         }
 
-        
 
         public ActionResult OverzichtBesteldeProducten()
+        {
+            try
+            {
+                List<BestelRegel> besteldeProducten = authDBController.GetAllOrderedProducts();
+                return View(besteldeProducten);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
+        
+        public ActionResult WijzigBesteldeProducten()
         {
             List<BestelRegel> besteldeProducten = authDBController.GetAllOrderedProducts();
 
@@ -102,6 +115,24 @@ namespace Webshop_gr02.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult WijzigBesteldeProducten(BestelRegel bestelRegel)
+        {
+            Console.WriteLine(bestelRegel);
+            try
+            {
+                authDBController.UpdateOrderedProducts(bestelRegel);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+            }
+            return RedirectToAction("OverzichtBesteldeProducten", "BestelRegel");
+        }
+
+       
 
     }
 }

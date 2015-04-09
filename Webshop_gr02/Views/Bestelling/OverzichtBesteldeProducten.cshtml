@@ -13,6 +13,8 @@
                 <td>Aantal</td>
                 <td>Bedrag (in euro's)</td>
                 <td>Datum</td>
+                <td>Status</td>
+                <td>Wijzigen</td>
             </tr>
         </thead>
         <tbody>
@@ -28,8 +30,8 @@
                           <td>@Model[i].aantal</td>
                           <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
                           <td>@Model[i].datum)</td> 
-                       
-                      
+                          <td>@Model[i].status</td>                      
+                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { ProductId = @Model[i].ID_P })</td>
                 </tr>
                     }
                     else
@@ -39,6 +41,8 @@
                           <td>@Model[i].aantal</td>
                           <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
                           <td>@Model[i].datum)</td> 
+                          <td>@Model[i].status</td>                      
+                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { ProductId = @Model[i].ID_P })</td>
                     }
                 }
             }

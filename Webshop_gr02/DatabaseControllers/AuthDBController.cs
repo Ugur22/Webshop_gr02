@@ -1684,12 +1684,13 @@ namespace Webshop_gr02.DatabaseControllers
             int aantalProducten = 0;
             double bedragBestelling = 0;
             DateTime datumBestelling = DateTime.Now;
+            string statusBestelling = "";
 
             try
             {
                 conn.Open();
 
-                string selectQuery = "SELECT p.ID_P as Product_ID, p.naam as Naam, br.aantal as Aantal, br.bedrag as Bedrag, b.datum as Datum FROM product p JOIN bestel_regel br ON p.ID_P = br.ID_P JOIN bestelling b ON b.ID_B = br.ID_B WHERE br.aantal IS NOT NULL GROUP BY p.ID_P;";
+                string selectQuery = "SELECT p.ID_P as Product_ID, p.naam as Naam, br.aantal as Aantal, br.bedrag as Bedrag, b.datum as Datum, b.status as Status FROM product p JOIN bestel_regel br ON p.ID_P = br.ID_P JOIN bestelling b ON b.ID_B = br.ID_B WHERE br.aantal IS NOT NULL GROUP BY p.ID_P;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
 
@@ -1702,7 +1703,8 @@ namespace Webshop_gr02.DatabaseControllers
                         aantalProducten = dataReader.GetInt32("Aantal");
                         bedragBestelling = dataReader.GetDouble("Bedrag");
                         datumBestelling = dataReader.GetDateTime("Datum");
-                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling, datum = datumBestelling };
+                        statusBestelling = dataReader.GetString("Status");
+                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling, datum = datumBestelling, status = statusBestelling };
 
                         BesteldeProducten.Add(BesteldProduct);
                     }
@@ -1719,7 +1721,37 @@ namespace Webshop_gr02.DatabaseControllers
             return BesteldeProducten;
         }
 
-       
+        public void UpdateOrderedProducts(BestelRegel bestelRegel)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"UPDATE bestelling SET status=@status";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter statusParam = new MySqlParameter("@status", MySqlDbType.VarChar);
+
+                statusParam.Value = bestelRegel.status;
+
+                cmd.Parameters.Add(statusParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Wijzigen van status niet gelukt: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         public void InsertBestelling()
         {

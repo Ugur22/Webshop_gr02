@@ -310,6 +310,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Bestelling\BestellingGelukt.cshtml" />
+    <Content Include="Views\Bestelling\WijzigBesteldeProducten.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

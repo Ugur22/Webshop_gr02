@@ -15,10 +15,11 @@ namespace Webshop_gr02.Models
         public int aantal { get; set; }
         public double bedrag { get; set; }
         public DateTime datum { get; set; }
+        public string status { get; set; }
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5}", bestelling, product, naam, aantal, bedrag, datum);
+            return String.Format("{0} {1} {2} {3} {4} {5} {6}", bestelling, product, naam, aantal, bedrag, datum, status);
         }
     }
 }
