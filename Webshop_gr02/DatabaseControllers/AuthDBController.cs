@@ -173,7 +173,7 @@ namespace Webshop_gr02.DatabaseControllers
                     int ID_A = dataReader.GetInt32("ID_A");
                     string soort = dataReader.GetString("soort");
                     int percentage = dataReader.GetInt32("percentage");
-                    bool actief = dataReader.GetBoolean("actief");
+                    bool actief = dataReader.GetBoolean("active");
 
 
                     Aanbieding aanbieding = new Aanbieding { ID_A = ID_A, soort = soort, percentage = percentage, actief = actief };
@@ -370,7 +370,7 @@ namespace Webshop_gr02.DatabaseControllers
             int aanbieding_a = dataReader.GetInt32("ID_A");
             string soort = dataReader.GetString("soort");
             int percentage = dataReader.GetInt32("percentage");
-            bool actief = dataReader.GetBoolean("actief");
+            bool actief = dataReader.GetBoolean("active");
             Aanbieding aanbieding = new Aanbieding { ID_A = aanbieding_a, soort = soort, percentage = percentage, actief = actief };
 
             return aanbieding;
@@ -1426,7 +1426,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectAanbieding = @"SELECT ID_A as ID_Aanbieding, soort as Soort, percentage as Percentage, actief as Actief  FROM aanbieding";
+                string selectAanbieding = @"SELECT ID_A as ID_Aanbieding, soort as Soort, percentage as Percentage, active as Actief  FROM aanbieding";
                 MySqlCommand cmd = new MySqlCommand(selectAanbieding, conn);
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -1436,7 +1436,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aanbieding_ID = dataReader.GetInt32("ID_A");
                     soort = dataReader.GetString("soort");
                     percentage = dataReader.GetInt32("percentage");
-                    actief = dataReader.GetBoolean("actie");
+                    actief = dataReader.GetBoolean("active");
 
                     Aanbieding aanbieding = new Aanbieding { ID_A = aanbieding_ID, soort = soort, percentage = percentage, actief = actief };
 
@@ -1464,13 +1464,13 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String insertString = @"INSERT INTO aanbieding (soort, percentage, actief)
-                                        VALUES (@soort, @percentage, @actief)";
+                String insertString = @"INSERT INTO aanbieding (soort, percentage, active)
+                                        VALUES (@soort, @percentage, @active)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
                 MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
-                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@active", MySqlDbType.Int32);
 
 
                 soortParam.Value = aanbieding.soort;
@@ -1543,12 +1543,12 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"Update aanbieding SET soort=@soort, percentage=@percentage, actief=@actief where ID_A=@ID_A";
+                string insertString = @"Update aanbieding SET soort=@soort, percentage=@percentage, active=@active where ID_A=@ID_A";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
                 MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Int32);
-                MySqlParameter actiefParam = new MySqlParameter("@actief", MySqlDbType.Int32);
+                MySqlParameter actiefParam = new MySqlParameter("@active", MySqlDbType.Int32);
                 MySqlParameter ID_AParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
 
                 soortParam.Value = aanbieding.soort;
