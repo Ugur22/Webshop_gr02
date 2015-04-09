@@ -1,26 +1,28 @@
 ﻿@model Webshop_gr02.Models.Categorie
-
 @{
     ViewBag.Title = "WijzigenCategorie";
 }
 
-<h2>WijzigenCategorie</h2>
-  @using (Html.BeginForm("WijzigenCategorie", "Categorie"))
-  {
-  
-    <fieldset>
-        <legend>Categorie wijzigen</legend>
+<div class="content_wrap">
 
-         @Html.HiddenFor(model =>  model.ID_C)
-        <div class="editor-label">
-           Soort
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Naam)
-        </div>
-        
-        <p>
-            <input type="submit" value="Wijzig" />
-        </p>
-    </fieldset>
-   }
+    <h2>WijzigenCategorie</h2>
+    @using (Html.BeginForm("WijzigenCategorie", "Categorie"))
+    {
+  
+        <fieldset>
+            <legend>Categorie wijzigen</legend>
+
+            @Html.HiddenFor(model => model.ID_C)
+            <div class="editor-label">
+                Soort
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Naam)
+            </div>
+
+            <p>
+                <input type="submit" value="Wijzig" />
+            </p>
+        </fieldset>
+    }
+</div>
