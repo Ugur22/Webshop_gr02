@@ -59,5 +59,58 @@ namespace Webshop_gr02.Controllers
 
 
         }
+        public ActionResult VerwijderenCategorie(int ID_C)
+        {
+            try
+            {
+                authDBController.VerwijderCategorie(ID_C);
+
+            }
+
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+
+                return View();
+            }
+            return RedirectToAction("Overzichtcategorie", "Categorie");
+        }
+
+        [HttpPost]
+        public ActionResult WijzigenCategorie(Categorie categorie)
+        {
+            try
+            {
+                authDBController.UpdateCategorie(categorie);
+
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
+                return View();
+            }
+            return RedirectToAction("Overzichtcategorie", "Categorie");
+        }
+
+        public ActionResult WijzigenCategorie(int ID_C)
+        {
+            try
+            {
+
+                //Te wijzigen game ophalen
+                Categorie categorie = authDBController.GetCategorie(ID_C);
+                return View(categorie);
+            }
+            catch (Exception e)
+            {
+                ViewBag.FoutMelding = "Er is iets fout gegaan: " + e;
+                return View();
+            }
+
+
+
+        }
+
     }
 }

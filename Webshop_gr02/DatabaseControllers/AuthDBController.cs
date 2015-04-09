@@ -51,6 +51,199 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+        public List<Categorie> GetCategorieën()
+        {
+            List<Categorie> categorieën = new List<Categorie>();
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT * FROM categorie";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    int ID_C = dataReader.GetInt32("ID_C");
+                    string naam = dataReader.GetString("naam");
+
+
+                    Categorie categorie = new Categorie { ID_C = ID_C, Naam = naam };
+                    categorieën.Add(categorie);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van categorieën mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return categorieën;
+        }
+        protected Categorie GetCategorieFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int ID_C = dataReader.SafeGetInt32("ID_C");
+            string categorieNaam = dataReader.SafeGetString("naam");
+            Categorie categorie = new Categorie { ID_C = ID_C, Naam = categorieNaam };
+
+            return categorie;
+        }
+
+
+        public Categorie GetCategorie(int ID_C)
+        {
+            Categorie categorie = null;
+            try
+            {
+                conn.Open();
+
+                string selectQuerycategorie = @"SELECT * FROM categorie WHERE ID_C = @ID_C";
+                MySqlCommand cmd = new MySqlCommand(selectQuerycategorie, conn);
+
+                MySqlParameter categorieIDParam = new MySqlParameter("@ID_A", MySqlDbType.Int32);
+                categorieIDParam.Value = ID_C;
+                cmd.Parameters.Add(ID_C);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    categorie = GetCategorieFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return categorie;
+        }
+
+        public void UpdateCategorie(Categorie categorie)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"update categorie set naam = @naam where ID_C = @ID_C";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter categorieNaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter idParam = new MySqlParameter("@ID_C", MySqlDbType.Int16);
+
+                categorieNaamParam.Value = categorie.Naam;
+                idParam.Value = categorie.ID_C;
+
+                cmd.Parameters.Add(categorieNaamParam);
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Genre niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void VerwijderCategorie(int ID_C)
+        {
+            Console.WriteLine(ID_C);
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+
+                String DeleteCategorieString = @"DELETE FROM categorie WHERE ID_C = @ID_C";
+
+                MySqlCommand cmd = new MySqlCommand(DeleteCategorieString, conn);
+                MySqlParameter IdParam = new MySqlParameter("@ID_C", MySqlDbType.Int32);
+
+                IdParam.Value = ID_C;
+
+                cmd.Parameters.Add(IdParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("categorie  niet verwijderd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+        public Categorie categorie(int ID_C)
+        {
+            Categorie Categorie = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"SELECT * FROM categorie WHERE ID_C = @ID_C";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter categorieidParam = new MySqlParameter("@ID_C", MySqlDbType.Int32);
+                categorieidParam.Value = ID_C;
+                cmd.Parameters.Add(categorieidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Categorie = GetCategorieFromDataReader(dataReader);
+
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("categorieën niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return Categorie;
+        }
+
+
+
+
+
+
         public bool isAuthorized(string usernaam, string password)
         {
             try
@@ -122,40 +315,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        public List<Categorie> GetCategorieën()
-        {
-            List<Categorie> categorieën = new List<Categorie>();
-            try
-            {
-                conn.Open();
-
-                string selectQuery = @"SELECT * FROM categorie";
-
-                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int ID_C = dataReader.GetInt32("ID_C");
-                    string naam = dataReader.GetString("naam");
-
-
-                    Categorie categorie = new Categorie { ID_C = ID_C, Naam = naam };
-                    categorieën.Add(categorie);
-                }
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine("Ophalen van categorieën mislukt" + e);
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return categorieën;
-        }
-
+     
         public List<Aanbieding> GetAanbiedingen()
         {
             List<Aanbieding> aanbiedingen = new List<Aanbieding>();
