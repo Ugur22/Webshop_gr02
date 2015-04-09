@@ -5,50 +5,65 @@
 
 
 <div class="content_wrap">
-   
-@using (Html.BeginForm("ToevoegenProduct", "Product", new { @class = "form-group" }))
-{
+
+    @using (Html.BeginForm("ToevoegenProduct", "Product", new { @class = "form-group" }))
+    {
     
     
-    <span style="color:red">@Html.ValidationMessage("Toevoegen is niet gelukt")</span>
+        <span style="color: red">@Html.ValidationMessage("Toevoegen is niet gelukt")</span>
     
-    <fieldset>
-        <legend>Product toevoegen</legend>
+        <fieldset>
+            <legend>Product toevoegen</legend>
 
-        <div class="editor-label">
-            Producttype:
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.SelectedProductTypeID, Model.ProductType)
-            @Html.ValidationMessageFor(model => model.SelectedProductTypeID)
-        </div>
 
-        <div class="editor-label">
-            Naam product:
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Product.naam)
-            @Html.ValidationMessageFor(model => model.Product.naam)
-        </div>
+              
 
-        <div class="editor-label">
-            Voorraad:
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Product.voorraad)
-            @Html.ValidationMessageFor(model => model.Product.voorraad) 
-        </div>
+            <div class="editor-label">
+                Producttype:
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedProductTypeID, Model.ProductType)
+                @Html.ValidationMessageFor(model => model.SelectedProductTypeID)
+            </div>
 
-        <div class="editor-label">
-            Zichtbaar:
-        </div>
-        @Html.RadioButtonFor(model => model.Product.zichtbaar, "1") Ja
+
+                   <div class="editor-label">
+                Maat:
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedeigenschapwaardeID, Model.Eigenschapwaarde)
+                @Html.ValidationMessageFor(model => model.SelectedeigenschapwaardeID)
+            </div>
+            <div class="editor-label">
+                Naam product:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Product.naam)
+                @Html.ValidationMessageFor(model => model.Product.naam)
+            </div>
+
+            <div class="editor-label">
+                Voorraad:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Product.voorraad)
+                @Html.ValidationMessageFor(model => model.Product.voorraad)
+            </div>
+
+            <div class="editor-label">
+                Zichtbaar:
+            </div>
+            @Html.RadioButtonFor(model => model.Product.zichtbaar, "1") Ja
         @Html.RadioButtonFor(model => model.Product.zichtbaar, "0", new { Checked = "checked" }) Nee
         @Html.ValidationMessageFor(model => model.Product.zichtbaar)
 
-        <p>
-            <input type="submit" value="Toevoegen" />
-        </p>
-    </fieldset>
-}
+   
+
+
+
+            <p>
+                <input type="submit" value="Toevoegen" />
+            </p>
+        </fieldset>
+    }
 </div>

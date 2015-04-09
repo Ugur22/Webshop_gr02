@@ -11,7 +11,9 @@ namespace Webshop_gr02.ViewModels
     {
         public Product Product { get; set; }
         public SelectList ProductType { get; set; }
+        public SelectList Eigenschapwaarde { get; set; }
 
         public int SelectedProductTypeID { get; set; }
+        public int SelectedeigenschapwaardeID { get; set; }
     }
 }
