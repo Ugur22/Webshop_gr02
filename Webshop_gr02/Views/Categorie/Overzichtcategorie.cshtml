@@ -22,8 +22,8 @@
                 <tr> 
                     <td>@Model[i].ID_C</td>
                     <td>@Model[i].Naam</td>
-                    <td>@Html.ActionLink("wijzig", "WijzigGenre", new { genreId = @Model[i].ID_C})</td>
-                    <td>@Html.ActionLink("verwijder", "VerwijderGenre", new { genreId = @Model[i].ID_C})</td>
+                    <td>@Html.ActionLink("wijzig", "WijzigenCategorie", new {ID_C = @Model[i].ID_C})</td>
+                    <td>@Html.ActionLink("verwijder", "VerwijderenCategorie", new { ID_C = @Model[i].ID_C})</td>
                 </tr>
             }
         </tbody>
