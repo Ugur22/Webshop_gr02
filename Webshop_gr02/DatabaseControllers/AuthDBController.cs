@@ -1968,7 +1968,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryproduct = @"SELECT * FROM eigenscap_waarde WHERE ID_EW = @ID_EW";
+                string selectQueryproduct = @"SELECT * FROM eigenschap_waarde WHERE ID_EW = @ID_EW";
                 MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
 
                 MySqlParameter eigenschapwaardeidParam = new MySqlParameter("@ID_EW", MySqlDbType.Int32);
