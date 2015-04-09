@@ -1802,7 +1802,6 @@ namespace Webshop_gr02.DatabaseControllers
             return BesteldeProducten;
         }
 
-<<<<<<< HEAD
         public void UpdateOrderedProducts(BestelRegel bestelRegel)
         {
             MySqlTransaction trans = null;
