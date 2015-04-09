@@ -125,7 +125,6 @@
     <Compile Include="Models\Bestelling.cs" />
     <Compile Include="Models\BestelRegel.cs" />
     <Compile Include="Models\Categorie.cs" />
-    <Compile Include="Models\Eigenschap.cs" />
     <Compile Include="Models\Eigenschapwaarde.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />

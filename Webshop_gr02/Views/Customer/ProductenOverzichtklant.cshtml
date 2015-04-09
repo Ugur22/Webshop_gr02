@@ -5,6 +5,7 @@
 }
 
 
+
 <div class="content_wrap">
     <h2>Producten</h2>
        <h2>
@@ -26,6 +27,8 @@
 
         @for (int i = 0; i < Model.Count; i++)
         {
+            var bedrag = Model[i].productType.VerkoopPrijs;
+            
             <div class="col-sm-6 col-md-4">
 
               
@@ -39,40 +42,24 @@
                             </li>
                              @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
                             {
-                              @(Model[i].productType.VerkoopPrijs * ViewBag.nieuweprijs);
+                              <li>Prijs:  € @( bedrag = bedrag * ViewBag.nieuweprijs)</li>
                              }
                             else{
-                             <li>Prijs:  €@Model[i].productType.VerkoopPrijs</li>
+                             <li>Prijs:  €@(bedrag)</li>
                              }
                             
                             <li>Omschrijving:
                                 <br />
                                 @Model[i].productType.Omschrijving</li>
                             <li>Merk: @Model[i].productType.Merk</li>
-                            <li>
-
-                       
-                                <li>Aantal: </li>
-                                <select name="product">
-
-                                    @{
-                                    int y;
-                                    }
-
-                                    @for (y = 1; y < 11; y++)
-                                    {
-                                       
-                                        <option>@( (y))</option>
-                                    }
-                                </select></li>
-
+                           
                             @{
                                     
                                     Console.WriteLine();   
                             }
 
                             <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel",
-                            new { id = @Model[i].ID_P, bedrag = @Model[i].productType.VerkoopPrijs }, new { @class = "btn btn-primary" })</li>
+                            new { id = @Model[i].ID_P, bedrag = bedrag }, new { @class = "btn btn-primary" })</li>
                         </ul>
 
 

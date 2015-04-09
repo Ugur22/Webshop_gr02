@@ -970,10 +970,13 @@ namespace Webshop_gr02.DatabaseControllers
 
                 string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as 
                 zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype, ew.waarde as waarde, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as 
-                verkoop_prijs,pt.merk as merk from product p left join product_type pt on p.ID_PT = pt.ID_PT left join eigenschap_product ep on p.ID_P = ep.ID_P left join
-                eigenschap e on ep.ID_E = e.ID_E left join eigenschap_waarde ew on e.ID_E = ew.ID_E group by p.ID_P;";
+                verkoop_prijs,pt.merk as merk from product p left join product_type pt on p.ID_PT = pt.ID_PT left join eigenschap_waarde ew on p.ID_EW = ew.ID_EW;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+
+
+
+
 
                 while (dataReader.Read())
                 {
@@ -1005,6 +1008,9 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productenLijst;
         }
+
+
+
 
         public List<BestelRegel> GetBestellingOverzicht()
         {
@@ -2004,9 +2010,8 @@ namespace Webshop_gr02.DatabaseControllers
 
             int ID_EW = dataReader.SafeGetInt32("ID_EW");
             string waarde = dataReader.SafeGetString("waarde");
-            int ID_E = dataReader.SafeGetInt32("ID_E");
-            Eigenschap Eigenschap = new Eigenschap { ID_E = ID_E };
-            Eigenschapwaarde Eigenschapwaarde = new Eigenschapwaarde { ID_EW = ID_EW, waarde = waarde, eigenschap = Eigenschap };
+           
+            Eigenschapwaarde Eigenschapwaarde = new Eigenschapwaarde { ID_EW = ID_EW, waarde = waarde};
 
             return Eigenschapwaarde;
         }
