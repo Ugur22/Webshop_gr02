@@ -20,12 +20,13 @@ namespace Webshop_gr02.Models
         public int afzet { get; set; }
         public double BrutoOmzet { get; set; }
         public double NettoOmzet { get; set; }
+        public int ID_EW { get; set; }
+        public Eigenschapwaarde eigenschapwaarde { get; set; }
         public ProductType productType { get; set; }
-        public string Maat { get; set; }
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}", ID_P, naam, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet, productType, Maat);
+            return String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}", ID_P, naam, zichtbaar, prijs, afzet, BrutoOmzet, NettoOmzet, productType, eigenschapwaarde, ID_EW);
         }
     }
 }

@@ -31,7 +31,7 @@
                     <td>@Model[i].zichtbaar</td>
                     <td>@Model[i].productType.ID_PT</td>
                     <td>@Model[i].productType.Naam</td>
-                    <td>@Model[i].Maat</td>
+                    <td>@Model[i].eigenschapwaarde.waarde</td>
                     <td>@Html.ActionLink("wijzigen", "ProductWijzigen", new { ProductId = @Model[i].ID_P })</td>
                     <td>@Html.ActionLink("verwijder", "verwijderenProduct", new { ProductId = @Model[i].ID_P })</td>
                 </tr>

@@ -125,10 +125,11 @@
     <Compile Include="Models\Bestelling.cs" />
     <Compile Include="Models\BestelRegel.cs" />
     <Compile Include="Models\Categorie.cs" />
+    <Compile Include="Models\Eigenschap.cs" />
+    <Compile Include="Models\Eigenschapwaarde.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
-    <Compile Include="Models\ProductEntities.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -309,6 +310,7 @@
     <Content Include="Views\Contact\index.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Session\Promotie\PromotieToevoegen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

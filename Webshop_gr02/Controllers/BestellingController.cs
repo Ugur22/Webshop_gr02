@@ -41,13 +41,13 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
                 return View();
             }
-            
-            
+
+
         }
 
         //public ViewResult Bestelling()
         //{
-        
+
         //    bool goldmember = false;
         //    string welOfNiet = "";
 
@@ -74,7 +74,11 @@ namespace Webshop_gr02.Controllers
 
         //}
 
+
+
         
+
+
 
         public ActionResult OverzichtBesteldeProducten()
         {

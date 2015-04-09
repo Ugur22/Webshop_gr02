@@ -528,13 +528,14 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar, ID_PT=@ID_PT  where ID_P=@ID_P";
+                string insertString = @"update product set naam=@naam, voorraad=@voorraad,zichtbaar=@zichtbaar,ID_EW=@ID_EW, ID_PT=@ID_PT  where ID_P=@ID_P";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter productnaamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
                 MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
+                MySqlParameter ID_EWTParam = new MySqlParameter("@ID_EW", MySqlDbType.Int32);
                 MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
 
                 productnaamParam.Value = product.naam;
@@ -542,12 +543,14 @@ namespace Webshop_gr02.DatabaseControllers
                 zichtbaarParam.Value = product.zichtbaar;
                 ID_PTParam.Value = product.productType.ID_PT;
                 idParam.Value = product.ID_P;
+                ID_EWTParam.Value = product.ID_EW;
 
                 cmd.Parameters.Add(productnaamParam);
                 cmd.Parameters.Add(voorraadParam);
                 cmd.Parameters.Add(zichtbaarParam);
                 cmd.Parameters.Add(ID_PTParam);
                 cmd.Parameters.Add(idParam);
+                cmd.Parameters.Add(ID_EWTParam);
 
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
@@ -574,23 +577,26 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Open();
                 trans = conn.BeginTransaction();
 
-                String insertString = @"INSERT INTO product (naam, voorraad, zichtbaar, ID_PT) values (@naam, @voorraad, @zichtbaar, @ID_PT)";
+                String insertString = @"INSERT INTO product (naam, voorraad, zichtbaar, ID_PT, ID_EW) values (@naam, @voorraad, @zichtbaar, @ID_PT, @ID_EW)";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
                 MySqlParameter zichtbaarParam = new MySqlParameter("@zichtbaar", MySqlDbType.Int32);
                 MySqlParameter ID_PTParam = new MySqlParameter("@ID_PT", MySqlDbType.Int32);
+                MySqlParameter ID_EWParam = new MySqlParameter("@ID_EW", MySqlDbType.Int32);
 
                 naamParam.Value = product.naam;
                 voorraadParam.Value = product.voorraad;
                 zichtbaarParam.Value = product.zichtbaar;
                 ID_PTParam.Value = product.productType.ID_PT;
+                ID_EWParam.Value = product.eigenschapwaarde.ID_EW;
 
                 cmd.Parameters.Add(naamParam);
                 cmd.Parameters.Add(voorraadParam);
                 cmd.Parameters.Add(zichtbaarParam);
                 cmd.Parameters.Add(ID_PTParam);
+                cmd.Parameters.Add(ID_EWParam);
 
                 cmd.Prepare();
 
@@ -951,24 +957,21 @@ namespace Webshop_gr02.DatabaseControllers
             int zichtbaar = 0;
             int ID_PT = 0;
             string naamPT = "";
-            string maat = "";
             string image_path = "";
             float verkoopprijs = 0;
             string omschrijving = "";
             string merk = "";
+            string waarde = "";
 
 
             try
             {
                 conn.Open();
 
-                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as zichtbaar, 
-                                              pt.ID_PT as ID_PT, pt.naam as naam_producttype, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as verkoop_prijs,pt.merk as merk,  e.naam as naame
-                                       from product p
-                                       left join product_type pt on p.ID_PT = pt.ID_PT
-										left join eigenschap_product ep on p.ID_P = ep.ID_P
-                                       left join eigenschap e on ep.ID_E = E.ID_E
-                                       group by p.ID_P;";
+                string selectQuery = @"select p.ID_p as ID_P, p.naam as naam, p.voorraad as voorraad, p.zichtbaar as 
+                zichtbaar, pt.ID_PT as ID_PT, pt.naam as naam_producttype, ew.waarde as waarde, pt.image_path as image_path,pt.omschrijving as omschrijving ,pt.verkoop_prijs as 
+                verkoop_prijs,pt.merk as merk from product p left join product_type pt on p.ID_PT = pt.ID_PT left join eigenschap_product ep on p.ID_P = ep.ID_P left join
+                eigenschap e on ep.ID_E = e.ID_E left join eigenschap_waarde ew on e.ID_E = ew.ID_E group by p.ID_P;";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -984,10 +987,11 @@ namespace Webshop_gr02.DatabaseControllers
                     image_path = dataReader.SafeGetString("image_path");
                     verkoopprijs = dataReader.SafeGetInt32("verkoop_prijs");
                     naamPT = dataReader.SafeGetString("naam_producttype");
-                    maat = dataReader.SafeGetString("naame");
+                    waarde = dataReader.SafeGetString("waarde");
 
+                    Eigenschapwaarde eigenschapwaarde = new Eigenschapwaarde { waarde = waarde };
                     ProductType productType = new ProductType { ID_PT = ID_PT, Naam = naamPT, ImagePath = image_path, VerkoopPrijs = verkoopprijs, Omschrijving = omschrijving, Merk = merk };
-                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, Maat = maat };
+                    Product product = new Product { ID_P = ID_P, naam = naam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType, eigenschapwaarde = eigenschapwaarde };
                     productenLijst.Add(product);
                 }
             }
@@ -1696,17 +1700,17 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
-                    {
-                        productID = dataReader.GetInt32("Product_ID");
-                        naamProduct = dataReader.GetString("Naam");
-                        aantalProducten = dataReader.GetInt32("Aantal");
-                        bedragBestelling = dataReader.GetDouble("Bedrag");
-                        datumBestelling = dataReader.GetDateTime("Datum");
-                        BestelRegel BesteldProduct = new BestelRegel {ID_P = productID,  naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
+                {
+                    productID = dataReader.GetInt32("Product_ID");
+                    naamProduct = dataReader.GetString("Naam");
+                    aantalProducten = dataReader.GetInt32("Aantal");
+                    bedragBestelling = dataReader.GetDouble("Bedrag");
+                    datumBestelling = dataReader.GetDateTime("Datum");
+                    BestelRegel BesteldProduct = new BestelRegel { ID_P = productID, naam = naamProduct, aantal = aantalProducten, bedrag = bedragBestelling };
 
-                        BesteldeProducten.Add(BesteldProduct);
-                    }
-                    
+                    BesteldeProducten.Add(BesteldProduct);
+                }
+
             }
             catch (MySqlException e)
             {
@@ -1719,7 +1723,7 @@ namespace Webshop_gr02.DatabaseControllers
             return BesteldeProducten;
         }
 
-       
+
 
         public void InsertBestelling()
         {
@@ -1735,7 +1739,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-             
+
 
                 String insertString = @"INSERT INTO bestelling (ID_K, status, datum) VALUES (@ID_K, @status, @datum)";
 
@@ -1756,7 +1760,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(ID_KParam);
                 cmd.Parameters.Add(statusParam);
                 cmd.Parameters.Add(datumParam);
-               
+
 
                 cmd.Prepare();
 
@@ -1776,13 +1780,14 @@ namespace Webshop_gr02.DatabaseControllers
 
         }
 
-        public int HaalBestelNummerUitDB() {
+        public int HaalBestelNummerUitDB()
+        {
             int ID_B = 0;
             //int ID_K = get uit sessie;
 
             try
             {
-           
+
                 conn.Open();
 
                 string selectQuery = @"SELECT br.ID_P as ID_P, br.ID_B as ID_B
@@ -1792,23 +1797,23 @@ ORDER BY br.ID_B DESC
 LIMIT 1;";
 
 
-                    MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
-                    MySqlDataReader dataReader = cmd.ExecuteReader();
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
-                        ID_B = dataReader.GetInt32("ID_B");
-                    }
-                }
-                catch (MySqlException e)
+                while (dataReader.Read())
                 {
-                    Console.WriteLine("Ophalen van ID_B mislukt" + e);
+                    ID_B = dataReader.GetInt32("ID_B");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van ID_B mislukt" + e);
 
-                }
-                finally
-                {
-                    conn.Close();
-                }
+            }
+            finally
+            {
+                conn.Close();
+            }
 
 
 
@@ -1816,14 +1821,15 @@ LIMIT 1;";
             return ID_B;
         }
 
-        public void InsertBestelRegel(int ID_B) {
+        public void InsertBestelRegel(int ID_B)
+        {
 
             //ID_P, ID_B(haal uit database), aantal, totaalbedrag
-   
-           // int ID_P = get uit view
+
+            // int ID_P = get uit view
             //int aantal = get uit view
-           // float totaalbedrag = get uit view
-           
+            // float totaalbedrag = get uit view
+
 
             MySqlTransaction trans = null;
             try
@@ -1883,9 +1889,99 @@ LIMIT 1;";
             InsertBestelRegel(ID_B);
         }
 
+
+        public Eigenschapwaarde GetEigenschapWaarde(string eigenschapwaardeID)
+        {
+            Eigenschapwaarde Eigenschapwaarde = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"SELECT * FROM eigenscap_waarde WHERE ID_EW = @ID_EW";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter eigenschapwaardeidParam = new MySqlParameter("@ID_EW", MySqlDbType.Int32);
+                eigenschapwaardeidParam.Value = eigenschapwaardeID;
+                cmd.Parameters.Add(eigenschapwaardeidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    Eigenschapwaarde = GetEigenschapWaardeFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return Eigenschapwaarde;
         }
 
-    
+
+
+        protected Eigenschapwaarde GetEigenschapWaardeFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int ID_EW = dataReader.SafeGetInt32("ID_EW");
+            string waarde = dataReader.SafeGetString("waarde");
+            int ID_E = dataReader.SafeGetInt32("ID_E");
+            Eigenschap Eigenschap = new Eigenschap { ID_E = ID_E };
+            Eigenschapwaarde Eigenschapwaarde = new Eigenschapwaarde { ID_EW = ID_EW, waarde = waarde, eigenschap = Eigenschap };
+
+            return Eigenschapwaarde;
+        }
+
+
+        public List<Eigenschapwaarde> GetEigenschapwaardes()
+        {
+            List<Eigenschapwaarde> eigenschapwaarde = new List<Eigenschapwaarde>();
+            int EigenschapwaardeId = 0;
+            string waarde = "";
+
+            try
+            {
+                conn.Open();
+
+                string selectQueryOmzetMonthly = @"SELECT ID_EW as ID_EW, waarde as waarde FROM eigenschap_waarde";
+                MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    EigenschapwaardeId = dataReader.GetInt32("ID_EW");
+                    waarde = dataReader.GetString("waarde");
+
+                    Eigenschapwaarde Eigenschapwaarde = new Eigenschapwaarde { waarde = waarde, ID_EW = EigenschapwaardeId };
+
+                    eigenschapwaarde.Add(Eigenschapwaarde);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return eigenschapwaarde;
+        }
 
     }
+
+
+
+
+
+}
 

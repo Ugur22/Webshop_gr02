@@ -28,16 +28,21 @@
 
 
                             <li>
-                             @*   <select name="product">
+                       @*         <select name="product">
                                     @for (int y = 40; y < 50; y++)
                                     {
 
-                                        <option>@("Maat: " + (y))</option>
+                                        <option>@((y))</option>
+                                       
                                     }
+                                 
                                 </select></li>*@
+                         
 
                             <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>
+
+                             
                         </ul>
 
 

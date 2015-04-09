@@ -35,6 +35,14 @@
                 @Html.ValidationMessageFor(model => model.Product.voorraad)
             </div>
 
+               <div class="editor-label">
+                Maat:
+            </div>
+             <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedeigenschapwaardeID, Model.Eigenschapwaarde)
+                @Html.ValidationMessageFor(model => model.SelectedeigenschapwaardeID)
+            </div>
+
             <div class="editor-label">
                 Zichtbaar:
             </div>
