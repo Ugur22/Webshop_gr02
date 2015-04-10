@@ -128,6 +128,7 @@
     <Compile Include="Models\Eigenschapwaarde.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductContext.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
