@@ -110,6 +110,12 @@
             <div class="page-wrap">
                 @RenderBody()
             </div>
+            <div id="footer_wrap">
+                <hr />
+                <a href="../Contact/AboutUs">Over ons</a> | 
+                <a href="../Contact/PrivacyPolicy">Privacy Policy</a>
+            </div>
+            
         <div id="login_popup_inside" style="display: none;" class="login_popup_inside"> 
 			<div class="title">
 				Login met je intosport account
@@ -132,7 +138,20 @@
 				    <span id="error_login" class="form_error">@Html.ValidationMessage("loginfout")</span>
 				    <div class="box">
 					    <div class="login_register">
-						    <div class="login_button"><button id="submit" class="request_login" type="submit">Inloggen</button><br/></div><br /><br /><br /><div class="forgot_pw"><br /><a href="/users/reclaim">Wachtwoord vergeten?</a></div><br />
+						    <div class="login_button">
+                                <button id="submit" class="request_login" type="submit">
+                                    Inloggen
+                                </button>
+                                <br/>
+						    </div>
+                            <br /><br /><br />
+                            <div class="forgot_pw">
+                                <br />
+                                <a href="/users/reclaim">
+                                    Wachtwoord vergeten?
+                                </a>
+                            </div>
+                            <br />
 					    </div>
 					    <hr />
 					    <h3>Nog geen Intosport account?</h3>

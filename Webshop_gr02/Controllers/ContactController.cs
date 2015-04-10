@@ -12,5 +12,15 @@ namespace Webshop_gr02.Controllers
         {
             return View();
         }
+
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
     }
 }
