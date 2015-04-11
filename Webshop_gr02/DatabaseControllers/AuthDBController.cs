@@ -441,8 +441,8 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter huisnummerParam = new MySqlParameter("@huisnummer", MySqlDbType.VarChar);
 
                 ID_GParam.Value = ID_G;
-                postcodeParam.Value = registratie.klant.Postcode;
-                huisnummerParam.Value = registratie.klant.Huisnummer;
+                postcodeParam.Value = registratie.klant.postcode;
+                huisnummerParam.Value = registratie.klant.huisnummer;
 
                 cmd.Parameters.Add(ID_GParam);
 
