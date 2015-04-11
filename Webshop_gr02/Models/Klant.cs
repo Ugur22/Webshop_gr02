@@ -7,13 +7,16 @@ namespace Webshop_gr02.Models
 {
     public class Klant
     {
-        public String Postcode { get; set; }
-        public String Huisnummer { get; set; }
+
+        public int ID_G { get; set; }
+        public string postcode { get; set; }
+        public string huisnummer { get; set; }
+        public int ID_GM { get; set; }
 
 
         public override string ToString()
         {
-            return String.Format("{0} {1}", Postcode, Huisnummer);
+            return String.Format("{0} {1} {2} {3}", ID_G, postcode, huisnummer, ID_GM);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Webshop_gr02.Models
     {
 
         public int ID_B { get; set; }
-        public BestelRegel bestelRegel { get; set; }
+        public List<BestelRegel> bestelRegel { get; set; }
         public string status { get; set; }
         public string datum { get; set; }
 

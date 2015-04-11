@@ -1,5 +1,4 @@
-﻿@using Webshop_gr02.Controllers
-@using Webshop_gr02.Models
+﻿
 @model List<Webshop_gr02.Models.Product>
 @{
     ViewBag.Title = "Cart";
@@ -7,7 +6,7 @@
 
 @{
     
-    var CPVList = Session["cart"] as List<Item>;
+    var CPVList = Session["cart"] as List<Webshop_gr02.Controllers.Item>;
 }
 
 <div class="content_wrap">
@@ -23,7 +22,7 @@
             <th>sub totaal</th>
         </tr>
 
-        @foreach (Item CPV in CPVList)
+        @foreach (Webshop_gr02.Controllers.Item CPV in CPVList)
         {
          
             <tr>
