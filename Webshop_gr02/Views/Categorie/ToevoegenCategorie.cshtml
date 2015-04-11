@@ -4,8 +4,9 @@
     ViewBag.Title = "categorie";
 }
 
-
+ @Html.ValidationSummary(true)
 <div class="content_wrap">   
+
     
     <form method="post"  action="/Categorie/ToevoegenCategorie">
     <span style="color:red">@Html.ValidationMessage("toevoegen is niet gelukt")</span> 

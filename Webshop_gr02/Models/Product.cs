@@ -9,9 +9,7 @@ namespace Webshop_gr02.Models
 {
     public class Product
     {
-
-        [Key]
-        [Column(Order = 0)]
+ [Key]
         public int ID_P { get; set; }
         public string naam { get; set; }
         public int voorraad { get; set; }

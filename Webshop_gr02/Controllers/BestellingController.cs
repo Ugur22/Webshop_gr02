@@ -84,6 +84,8 @@ namespace Webshop_gr02.Controllers
         authDBController.BestelProduct(id, aantal, bedrag);
 
         return RedirectToAction("BestellingGelukt", "Bestelling");
+
+
         }
 
 

@@ -30,9 +30,8 @@
                 Actief:
             </div>
             <div class="editor-field">
-               @Html.RadioButtonFor(model => model.actief, "1") Ja
-               @Html.RadioButtonFor(model => model.actief, "0", new { Checked = "checked" }) Nee
-               @Html.ValidationMessageFor(model => model.actief)
+               @Html.RadioButtonFor(model => model.actief, true) Ja
+               @Html.RadioButtonFor(model => model.actief, false, new { Checked = true }) Nee
             </div>
             <p>
                 <input type="submit" value="Toevoegen" name="Command" />

@@ -352,15 +352,131 @@ namespace Webshop_gr02.DatabaseControllers
             return aanbiedingen;
         }
 
-        public void InsertRegistratie(Registratie registratie)
-        {
+        public int HaalRolID() {
+            int ID_rol = 0;
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select rol_id from rol where rolnaam = 'klant';";
+
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_rol = dataReader.GetInt32("rol_id");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van ID_B mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ID_rol;
+        
+        }
+        public int HaalIDG(string email) {
+            int ID_G = 0;
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select ID_G from gebruiker where email = @email;";
+
+                MySqlParameter EmailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
+                EmailParam.Value = email;
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                cmd.Parameters.Add(EmailParam);
+                cmd.Prepare();
+                
+               
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_G = dataReader.GetInt32("ID_G");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van ID_B mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ID_G;
+        
+        }
+
+
+        public void InsertKlant(Registratie registratie, string email ) {
+
+            int ID_G = HaalIDG(email);
             MySqlTransaction trans = null;
             try
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                String insertString = @"INSERT INTO gebruiker (voornaam, tussenvoegsel, achternaam, username, password, email, geslacht)
-                VALUES (@voornaam, @tussenvoegsel, @achternaam, @username, @password, @email, @geslacht)";
+                String insertString = @"INSERT INTO klant (ID_G, postcode, huisnummer)
+                VALUES (@ID_G, @postcode, @huisnummer)";
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+
+                MySqlParameter ID_GParam = new MySqlParameter("@ID_G", MySqlDbType.Int32);
+                MySqlParameter postcodeParam = new MySqlParameter("@postcode", MySqlDbType.VarChar);
+                MySqlParameter huisnummerParam = new MySqlParameter("@huisnummer", MySqlDbType.VarChar);
+
+                ID_GParam.Value = ID_G;
+                postcodeParam.Value = registratie.klant.Postcode;
+                huisnummerParam.Value = registratie.klant.Huisnummer;
+
+                cmd.Parameters.Add(ID_GParam);
+
+                cmd.Parameters.Add(postcodeParam);
+                cmd.Parameters.Add(huisnummerParam);
+               
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void InsertRegistratie(Registratie registratie, int ID_rol)
+        {
+            
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                String insertString = @"INSERT INTO gebruiker (voornaam, tussenvoegsel, achternaam, username, password, email, geslacht, ID_rol)
+                VALUES (@voornaam, @tussenvoegsel, @achternaam, @username, @password, @email, @geslacht, @ID_rol)";
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter voornaamParam = new MySqlParameter("@voornaam", MySqlDbType.VarChar);
                 MySqlParameter tussenvoegselParam = new MySqlParameter("@tussenvoegsel", MySqlDbType.VarChar);
@@ -369,6 +485,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter passwordParam = new MySqlParameter("@password", MySqlDbType.VarChar);
                 MySqlParameter emailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
                 MySqlParameter geslachtParam = new MySqlParameter("@geslacht", MySqlDbType.VarChar);
+                MySqlParameter ID_rolParam = new MySqlParameter("@ID_rol", MySqlDbType.Int32);
 
                 voornaamParam.Value = registratie.Voornaam;
                 tussenvoegselParam.Value = registratie.Tussenvoegsel;
@@ -377,6 +494,7 @@ namespace Webshop_gr02.DatabaseControllers
                 passwordParam.Value = registratie.Password;
                 emailParam.Value = registratie.Email;
                 geslachtParam.Value = registratie.Geslacht;
+                ID_rolParam.Value = ID_rol;
 
                 cmd.Parameters.Add(voornaamParam);
                 cmd.Parameters.Add(tussenvoegselParam);
@@ -385,6 +503,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(passwordParam);
                 cmd.Parameters.Add(emailParam);
                 cmd.Parameters.Add(geslachtParam);
+                cmd.Parameters.Add(ID_rolParam);
 
                 cmd.Prepare();
 
@@ -2508,6 +2627,142 @@ namespace Webshop_gr02.DatabaseControllers
         //}
 
 
+        public List<GoldMember> getGoldMember()
+        {
+            List<GoldMember> goldMemberLijst = new List<GoldMember>();
+
+            int ID_GM = 0;
+            float percentage = 0;
+            float min_bedrag = 0;
+
+              try
+            {
+                conn.Open();
+
+                string selectQuery = @"select * from goldmember;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+
+
+
+
+                while (dataReader.Read())
+                {
+                    ID_GM = dataReader.SafeGetInt32("ID_GM");
+                    percentage = dataReader.SafeGetFloat("percentage");
+                    min_bedrag = dataReader.SafeGetFloat("max_bedrag");
+                   
+
+                    GoldMember goldMember = new GoldMember { ID_GM = ID_GM, percentage = percentage, min_bedrag = min_bedrag};
+                    goldMemberLijst.Add(goldMember);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van goldmember mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return goldMemberLijst;
+        }
+
+        protected GoldMember GetGoldMemberFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int ID_GM = dataReader.GetInt32("ID_GM");
+            float percentage = dataReader.GetFloat("percentage");
+            float minimumBedrag = dataReader.GetInt32("max_bedrag");
+
+            GoldMember goldMember = new GoldMember { ID_GM = ID_GM, percentage = percentage, min_bedrag = minimumBedrag};
+
+            return goldMember;
+        }
+
+        public GoldMember GetGM(int ID_GM)
+        {
+            GoldMember goldMember = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryaanbieding = @"SELECT * FROM goldmember WHERE ID_GM = @ID_GM";
+                MySqlCommand cmd = new MySqlCommand(selectQueryaanbieding, conn);
+
+                MySqlParameter goldmemberIDParam = new MySqlParameter("@ID_GM", MySqlDbType.Int32);
+                goldmemberIDParam.Value = ID_GM;
+                cmd.Parameters.Add(goldmemberIDParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    goldMember = GetGoldMemberFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return goldMember;
+        }
+
+        public void UpdateGM(GoldMember goldMember)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"Update goldmember SET percentage=@percentage, max_bedrag=@min_bedrag where ID_GM=@ID_GM";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Float);
+                MySqlParameter minBedragParam = new MySqlParameter("@min_bedrag", MySqlDbType.Float);
+                MySqlParameter ID_GMParam = new MySqlParameter("@ID_GM", MySqlDbType.Int32);
+
+                percentageParam.Value = goldMember.percentage;
+                minBedragParam.Value = goldMember.min_bedrag;
+                ID_GMParam.Value = goldMember.ID_GM;
+
+
+                cmd.Parameters.Add(percentageParam);
+                cmd.Parameters.Add(minBedragParam);
+                cmd.Parameters.Add(ID_GMParam);
+             
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        
+        }
+
+       
+
         
 
     }
@@ -2516,5 +2771,5 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-}
+
 

@@ -25,16 +25,26 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                authDBController.InsertCategorie(categorie);
+
+                if (ModelState.IsValid)
+                {
+                    authDBController.InsertCategorie(categorie);
+                    return RedirectToAction("Overzichtcategorie", "Categorie");
+                }
+                else
+                {
+                    return View();
+                }
 
             }
+
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
 
 
             }
-            return RedirectToAction("Overzichtcategorie", "Categorie");
+            return View();
         }
 
         public ActionResult ToevoegenCategorie()
@@ -81,8 +91,15 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                authDBController.UpdateCategorie(categorie);
-
+                if (ModelState.IsValid)
+                {
+                    authDBController.UpdateCategorie(categorie);
+                    return RedirectToAction("Overzichtcategorie", "Categorie");
+                }
+                else
+                {
+                    return View();
+                }
 
             }
             catch (Exception e)
@@ -90,7 +107,7 @@ namespace Webshop_gr02.Controllers
                 ViewBag.FoutMelding("Er is iets fout gegaan: " + e);
                 return View();
             }
-            return RedirectToAction("Overzichtcategorie", "Categorie");
+
         }
 
         public ActionResult WijzigenCategorie(int ID_C)

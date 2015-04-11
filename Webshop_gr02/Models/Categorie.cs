@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,8 @@ namespace Webshop_gr02.Models
     public class Categorie
     {
         public int ID_C { get; set; }
+        [Required(ErrorMessage = "Naam is een verplicht veld")]
+        [StringLength(20, ErrorMessage = "De naam mag maximaal 20 karakers bevatten.")]
         public String Naam { get; set; }
 
         public override string ToString()

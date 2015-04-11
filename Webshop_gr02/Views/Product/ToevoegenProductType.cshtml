@@ -7,6 +7,8 @@
 
     @using (Html.BeginForm("ToevoegenProductType", "Product", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
+        
+        @Html.ValidationSummary(true)
         <span style="color: red">@Html.ValidationMessage("toevoegen is niet gelukt")</span>
         <fieldset>
             <legend>Producttype toevoegen</legend>
@@ -57,7 +59,6 @@
             <div class="editor-field">
                 
                     @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
-                    @Html.ValidationMessageFor(model => model.ProductType.ImagePath)
             
                 <div>
                     @ViewBag.Message
@@ -68,9 +69,12 @@
 				Zichtbaar:
 			</div>
 			<br>
-			@Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "1") Ja
-			@Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "0", new { Checked = "checked" }) Nee 
-			@Html.ValidationMessageFor(model => model.ProductType.Zichtbaar)
+
+              @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, true) Ja
+               @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, false, new { Checked = true }) Nee
+
+            
+                 @Html.ValidationMessageFor(model => model.ProductType.Zichtbaar)
 
            <div class="editor-label">
            Aanbieding

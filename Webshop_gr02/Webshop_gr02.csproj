@@ -109,8 +109,11 @@
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\CookieController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\GebruikerController.cs" />
+    <Compile Include="Controllers\GoldMemberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Item.cs" />
+    <Compile Include="Controllers\KlantController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromotieController.cs" />
@@ -126,8 +129,12 @@
     <Compile Include="Models\BestelRegel.cs" />
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\Eigenschapwaarde.cs" />
+    <Compile Include="Models\Gebruiker.cs" />
+    <Compile Include="Models\GoldMember.cs" />
+    <Compile Include="Models\Klant.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductContext.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
@@ -303,7 +310,6 @@
     <Content Include="Views\Customer\ProductenOverzichtklant.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Cart.cshtml" />
     <Content Include="Views\Bestelling\OverzichtBesteldeProducten.cshtml" />
     <Content Include="Views\Contact\index.cshtml">
@@ -311,6 +317,18 @@
     </Content>
     <Content Include="Views\Bestelling\BestellingGelukt.cshtml" />
     <Content Include="Views\Bestelling\WijzigBesteldeProducten.cshtml" />
+    <Content Include="Views\Categorie\WijzigenCategorie.cshtml" />
+    <Content Include="Views\GoldMember\GoldMemberOverzicht.cshtml" />
+    <Content Include="Views\GoldMember\WijzigGoldMember.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Klant\OverzichtKlant.cshtml" />
+    <Content Include="Views\Gebruiker\OverzichtGebruiker.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Gebruiker\WijzigGebruiker.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
