@@ -352,15 +352,131 @@ namespace Webshop_gr02.DatabaseControllers
             return aanbiedingen;
         }
 
-        public void InsertRegistratie(Registratie registratie)
-        {
+        public int HaalRolID() {
+            int ID_rol = 0;
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select rol_id from rol where rolnaam = 'klant';";
+
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_rol = dataReader.GetInt32("rol_id");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van ID_B mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ID_rol;
+        
+        }
+        public int HaalIDG(string email) {
+            int ID_G = 0;
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select ID_G from gebruiker where email = @email;";
+
+                MySqlParameter EmailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
+                EmailParam.Value = email;
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                cmd.Parameters.Add(EmailParam);
+                cmd.Prepare();
+                
+               
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_G = dataReader.GetInt32("ID_G");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van ID_B mislukt" + e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ID_G;
+        
+        }
+
+
+        public void InsertKlant(Registratie registratie, string email ) {
+
+            int ID_G = HaalIDG(email);
             MySqlTransaction trans = null;
             try
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                String insertString = @"INSERT INTO gebruiker (voornaam, tussenvoegsel, achternaam, username, password, email, geslacht)
-                VALUES (@voornaam, @tussenvoegsel, @achternaam, @username, @password, @email, @geslacht)";
+                String insertString = @"INSERT INTO klant (ID_G, postcode, huisnummer)
+                VALUES (@ID_G, @postcode, @huisnummer)";
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+
+                MySqlParameter ID_GParam = new MySqlParameter("@ID_G", MySqlDbType.Int32);
+                MySqlParameter postcodeParam = new MySqlParameter("@postcode", MySqlDbType.VarChar);
+                MySqlParameter huisnummerParam = new MySqlParameter("@huisnummer", MySqlDbType.VarChar);
+
+                ID_GParam.Value = ID_G;
+                postcodeParam.Value = registratie.klant.Postcode;
+                huisnummerParam.Value = registratie.klant.Huisnummer;
+
+                cmd.Parameters.Add(ID_GParam);
+
+                cmd.Parameters.Add(postcodeParam);
+                cmd.Parameters.Add(huisnummerParam);
+               
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void InsertRegistratie(Registratie registratie, int ID_rol)
+        {
+            
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                String insertString = @"INSERT INTO gebruiker (voornaam, tussenvoegsel, achternaam, username, password, email, geslacht, ID_rol)
+                VALUES (@voornaam, @tussenvoegsel, @achternaam, @username, @password, @email, @geslacht, @ID_rol)";
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter voornaamParam = new MySqlParameter("@voornaam", MySqlDbType.VarChar);
                 MySqlParameter tussenvoegselParam = new MySqlParameter("@tussenvoegsel", MySqlDbType.VarChar);
@@ -369,6 +485,7 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlParameter passwordParam = new MySqlParameter("@password", MySqlDbType.VarChar);
                 MySqlParameter emailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
                 MySqlParameter geslachtParam = new MySqlParameter("@geslacht", MySqlDbType.VarChar);
+                MySqlParameter ID_rolParam = new MySqlParameter("@ID_rol", MySqlDbType.Int32);
 
                 voornaamParam.Value = registratie.Voornaam;
                 tussenvoegselParam.Value = registratie.Tussenvoegsel;
@@ -377,6 +494,7 @@ namespace Webshop_gr02.DatabaseControllers
                 passwordParam.Value = registratie.Password;
                 emailParam.Value = registratie.Email;
                 geslachtParam.Value = registratie.Geslacht;
+                ID_rolParam.Value = ID_rol;
 
                 cmd.Parameters.Add(voornaamParam);
                 cmd.Parameters.Add(tussenvoegselParam);
@@ -385,6 +503,7 @@ namespace Webshop_gr02.DatabaseControllers
                 cmd.Parameters.Add(passwordParam);
                 cmd.Parameters.Add(emailParam);
                 cmd.Parameters.Add(geslachtParam);
+                cmd.Parameters.Add(ID_rolParam);
 
                 cmd.Prepare();
 

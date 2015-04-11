@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WorkshopASPNETMVC3_IV_.Models
+namespace Webshop_gr02.Models
 {
     public class Registratie
     {
@@ -13,9 +13,10 @@ namespace WorkshopASPNETMVC3_IV_.Models
         public String Achternaam { get; set; }
         public String Username { get; set; }
         public String Password { get; set; }
+        public String Password2 { get; set; }
         public String Email { get; set; }
         public String Geslacht { get; set; }
-
+        public Klant klant { get; set; }
 
 
         public override string ToString()

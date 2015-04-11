@@ -33,9 +33,14 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
         [HttpPost]
         public ActionResult ToevoegenRegistratie(Registratie registratie)
         {
+            int ID_rol = 0;
+            string email = "";
             try
             {
-                authDBController.InsertRegistratie(registratie);
+                email = registratie.Email;
+                 ID_rol = authDBController.HaalRolID();
+                authDBController.InsertRegistratie(registratie, ID_rol);
+                authDBController.InsertKlant(registratie, email);
 
             }
             catch (Exception e)

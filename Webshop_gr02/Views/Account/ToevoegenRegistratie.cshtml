@@ -1,10 +1,11 @@
-﻿@model WorkshopASPNETMVC3_IV_.Models.Registratie
+﻿
+@model Webshop_gr02.Models.Registratie
 
 @{
     ViewBag.Title = "ToevoegenRegistratie";
 }
 
-{
+
 <div class="content_wrap">   
     
     <form method="post"  action="/Account/ToevoegenRegistratie">
@@ -41,7 +42,7 @@
         </div>
 
         <div class="editor-label">
-            Username:
+            Gebruikersnaam:
         </div>
        
         <div class="editor-field">
@@ -50,7 +51,7 @@
         </div>
 
         <div class="editor-label">
-            Password:
+            Wachtwoord:
         </div>
        
         <div class="editor-field"> 
@@ -60,6 +61,34 @@
             @Html.ValidationMessageFor(model => model.Password) 
 
             
+        </div>
+
+        <div class="editor-label">
+            Herhaal wachtwoord (ter controle):
+        </div>
+        <div class="editor-field"> 
+           
+        
+            @Html.PasswordFor(model => model.Password2)
+            @Html.ValidationMessageFor(model => model.Password2) 
+
+            
+        </div>
+        <div class="editor-label">
+        Postcode:
+
+        </div>
+         <div class="editor-field">
+            @Html.TextBoxFor(model => model.klant.Postcode)
+            @Html.ValidationMessageFor(model => model.klant.Postcode) 
+        </div>
+        <div class="editor-label">
+Huisnummer:
+
+        </div>
+         <div class="editor-field">
+            @Html.TextBoxFor(model => model.klant.Huisnummer)
+            @Html.ValidationMessageFor(model => model.klant.Huisnummer) 
         </div>
 
         <div class="editor-label">
@@ -74,12 +103,15 @@
         <div class="editor-label">
             Geslacht:
         </div>
-       
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Geslacht)
-            @Html.ValidationMessageFor(model => model.Geslacht) 
-        </div>
-        <p>
+
+        <div>
+       @Html.RadioButtonFor(model => model.Geslacht, "M", new { Checked = "checked" }) Man
+        @Html.RadioButtonFor(model => model.Geslacht, "V") Vrouw
+        @Html.ValidationMessageFor(model => model.Geslacht)
+       </div>
+        <br>
+         <p>
+
             <input type="submit" value="Toevoegen" />
         </p>
     </fieldset>
