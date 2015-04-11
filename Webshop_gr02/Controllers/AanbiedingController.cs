@@ -40,7 +40,7 @@ namespace Webshop_gr02.Controllers
 
             return new SelectList(aanbieding, "ID_A", "soort");
         }
-       
+
         public ActionResult WijzigAanbieding(int aanbiedingId)
         {
             try
@@ -56,21 +56,31 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-   
+
         [HttpPost]
         public ActionResult WijzigAanbieding(Aanbieding aanbieding)
         {
             Console.WriteLine(aanbieding);
             try
             {
-                authDBController.UpdateAanbieding(aanbieding);
-                
+                if (ModelState.IsValid)
+                {
+                    authDBController.UpdateAanbieding(aanbieding);
+                    return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+                }
+                else
+                {
+                    return View();
+                }
+
+
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+                return View();
             }
-            return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
         }
         //public ActionResult WijzigAanbieding()
         //{
@@ -88,21 +98,32 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                authDBController.InsertAanbieding(aanbieding);
+
+                if (ModelState.IsValid)
+                {
+                    authDBController.InsertAanbieding(aanbieding);
+                    return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+                }
+                else
+                {
+                    return View();
+                }
+
 
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
+                return View();
             }
-            return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
         }
 
         [HttpPost]
         public ActionResult CreateAanbieding(String soort, int percentage, String actief)
         {
-           bool isActief = actief == "on";
-           Aanbieding aanbieding = new Aanbieding { soort = soort, percentage = percentage, actief = isActief };
+            bool isActief = actief == "on";
+            Aanbieding aanbieding = new Aanbieding { soort = soort, percentage = percentage, actief = isActief };
             try
             {
                 authDBController.InsertAanbieding(aanbieding);
@@ -153,12 +174,12 @@ namespace Webshop_gr02.Controllers
             try
             {
                 authDBController.UpdateAanbieding(aanbieding);
-                
+
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
-               
+
             }
             return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
         }

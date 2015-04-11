@@ -33,7 +33,6 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-
                 GoldMember goldMember = authDBController.GetGM(ID_GM);
                 return View(goldMember);
             }
@@ -50,14 +49,26 @@ namespace Webshop_gr02.Controllers
             Console.WriteLine(goldMember);
             try
             {
-                authDBController.UpdateGM(goldMember);
+
+                if (ModelState.IsValid)
+                {
+                    authDBController.UpdateGM(goldMember);
+                    return RedirectToAction("GoldMemberOverzicht", "GoldMember");
+                }
+                else
+                {
+                    return View();
+                }
+
+
 
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
+                return View();
             }
-            return RedirectToAction("GoldMemberOverzicht", "GoldMember");
+
         }
 
     }
