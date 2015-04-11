@@ -1,0 +1,36 @@
+﻿@model Webshop_gr02.Models.GoldMember
+
+@{
+    ViewBag.Title = "WijzigGoldMember";
+}
+
+<div class="content_wrap">
+    <h2>Wijzig gegevens Goldmember type</h2>
+   @using (Html.BeginForm("WijzigGoldMember", "GoldMember")){
+  
+    <fieldset>
+       
+
+         @Html.HiddenFor(model =>  model.ID_GM)
+        <div class="editor-label">
+           Percentage
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.percentage)
+        </div>
+         <div class="editor-label">
+           Minimum bedrag
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model =>  model.min_bedrag)
+        </div>       
+      
+       
+        <p>
+            <input type="submit" value="Wijzig" />
+        </p>
+    </fieldset>
+   }
+
+</div>
+
