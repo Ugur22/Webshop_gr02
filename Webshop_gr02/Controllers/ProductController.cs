@@ -83,9 +83,9 @@ namespace Webshop_gr02.Controllers
                 ProductTypeViewModel viewModel = new ProductTypeViewModel();
 
                 List<ProductType> productType = authDBController.GetAllProductTypes();
-                List<Eigenschapwaarde> Eigenschapwaarde = authDBController.GetEigenschapwaardes();
+                viewModel.Eigenschapwaarde = GetEigenschapwaarde();
 
-                viewModel.Eigenschapwaarde = new SelectList(Eigenschapwaarde, "ID_EW", "waarde");
+               
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam");
 
                 return View(viewModel);
@@ -104,9 +104,8 @@ namespace Webshop_gr02.Controllers
             {
 
 
-                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
+                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
                 viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID.ToString());
-
 
 
                 authDBController.InsertProduct(viewModel.Product);
@@ -167,10 +166,8 @@ namespace Webshop_gr02.Controllers
 
                 Product Product = authDBController.GetProduct(productId);
 
-                List<Eigenschapwaarde> Eigenschapwaarde = authDBController.GetEigenschapwaardes();
 
-                viewModel.Eigenschapwaarde = new SelectList(Eigenschapwaarde, "ID_EW", "waarde");
-
+                viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam", Product.productType.ID_PT);
 
                 viewModel.Product = Product;
@@ -186,6 +183,7 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
+
 
         [HttpPost]
         public ActionResult ProductWijzigen(ProductTypeViewModel viewModel)
