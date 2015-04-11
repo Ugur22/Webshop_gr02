@@ -304,7 +304,6 @@
     <Content Include="Views\Customer\ProductenOverzichtklant.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Cart.cshtml" />
     <Content Include="Views\Bestelling\OverzichtBesteldeProducten.cshtml" />
     <Content Include="Views\Contact\index.cshtml">
@@ -312,6 +311,7 @@
     </Content>
     <Content Include="Views\Bestelling\BestellingGelukt.cshtml" />
     <Content Include="Views\Bestelling\WijzigBesteldeProducten.cshtml" />
+    <Content Include="Views\Categorie\WijzigenCategorie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

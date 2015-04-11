@@ -17,8 +17,8 @@
     <table>
         <tr>
 
-            <th>Option</th>
-            <th>Name</th>
+            <th>naam</th>
+            <th>prijs</th>
             <th>Aantal</th>
             <th>sub totaal</th>
         </tr>
@@ -28,7 +28,7 @@
          
             <tr>
                 @* <td>@Html.ActionLink("Deleten", "Delete", "ShoppingCart",
-                    new { id = item.Producttype.ID_PT }, new { @class = "btn btn-primary" })</td>*@
+                    new { id = CPV.Product.ID_P }, new { @class = "btn btn-primary" })</td>*@
                 <td>@CPV.Product.naam</td>
                 <td>@CPV.Product.productType.VerkoopPrijs</td>
                 <td>@CPV.Quantity</td>
