@@ -11,9 +11,7 @@ namespace Webshop_gr02.Models
     {
  [Key]
         public int ID_P { get; set; }
- [Required(ErrorMessage = "Naam is een verplicht veld")]
         public string naam { get; set; }
-         [Required(ErrorMessage = "voorraad is een verplicht veld")]
         public int voorraad { get; set; }
         public int zichtbaar { get; set; }
         public double prijs { get; set; }

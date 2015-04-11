@@ -59,7 +59,7 @@
             <div class="editor-field">
                 
                     @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
-                    @Html.ValidationMessageFor(model => model.ProductType.ImagePath)
+                  @Html.ValidationMessageFor(model => model.ProductType.ImagePath)
             
                 <div>
                     @ViewBag.Message
@@ -72,6 +72,8 @@
 			<br>
 			@Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "1") Ja
 			@Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "0", new { Checked = "checked" }) Nee 
+            
+                 @Html.ValidationMessageFor(model => model.ProductType.Zichtbaar)
 
            <div class="editor-label">
            Aanbieding
