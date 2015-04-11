@@ -5,73 +5,78 @@
 
 <h2>Wijzig Product type</h2>
 <div class="content_wrap">
-@using (Html.BeginForm("WijzigProductType", "Product")) {
-    <fieldset>
-        <legend>Product Type wijzigen</legend>
-
-        
-        <div class="editor-label">
-           Naam
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.ProductType.Naam)
-        </div>
-         <div class="editor-label">
-           Inkoop prijs
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.ProductType.InkoopPrijs)
-        </div>
-         <div class="editor-label">
-           Verkoop prijs
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.ProductType.VerkoopPrijs)
-        </div>
-         <div class="editor-label">
-           Omschrijving
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.ProductType.Omschrijving)
-        </div>
-         <div class="editor-label">
-           Image
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.ProductType.ImagePath)
-        </div>
-         <div class="editor-label">
-           Zichtbaar
-        </div>
-        <div class="editor-field">
-          
-        @Html.RadioButtonFor(model =>  model.ProductType.Zichtbaar, "1") Ja
-        @Html.RadioButtonFor(model =>  model.ProductType.Zichtbaar, "0", new { Checked = "checked" }) Nee
-        @Html.ValidationMessageFor(model =>  model.ProductType.Zichtbaar)   
-        </div>
-         <div class="editor-label">
-           Aanbieding
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.SelectedAanbiedingID, Model.Aanbiedingen)
-        </div>
-        <div class="editor-label">
-          Merk
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.ProductType.Merk)
-        </div>
-
-        @Html.HiddenFor(model =>  model.ProductType.ID_PT)
+    @using (Html.BeginForm("WijzigProductType", "Product"))
+    {
+        <fieldset>
+            <legend>Product Type wijzigen</legend>
 
 
+            <div class="editor-label">
+                Naam
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.Naam)
+                @Html.ValidationMessageFor(model => model.ProductType.Naam)
+            </div>
+            <div class="editor-label">
+                Inkoop prijs
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.InkoopPrijs)
+                @Html.ValidationMessageFor(model => model.ProductType.InkoopPrijs)
+            </div>
+            <div class="editor-label">
+                Verkoop prijs
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.VerkoopPrijs)
+                @Html.ValidationMessageFor(model => model.ProductType.VerkoopPrijs)
+            </div>
+            <div class="editor-label">
+                Omschrijving
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.Omschrijving)
+                @Html.ValidationMessageFor(model => model.ProductType.Omschrijving)
+            </div>
+            <div class="editor-label">
+                Image
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.ImagePath)
+            </div>
+            <div class="editor-label">
+                Zichtbaar
+            </div>
+            <div class="editor-field">
 
-        <p>
-            <input type="submit" value="Wijzig" />
-        </p>
-    </fieldset>
-}
+                @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "1") Ja
+        @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "0", new { Checked = "checked" }) Nee
+            </div>
+            <div class="editor-label">
+                Aanbieding
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedAanbiedingID, Model.Aanbiedingen)
+            </div>
+            <div class="editor-label">
+                Merk
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ProductType.Merk)
+                @Html.ValidationMessageFor(model => model.ProductType.Merk)
+            </div>
 
-    </div>
+            @Html.HiddenFor(model => model.ProductType.ID_PT)
+
+
+
+            <p>
+                <input type="submit" value="Wijzig" />
+            </p>
+        </fieldset>
+    }
+
+</div>
 
 

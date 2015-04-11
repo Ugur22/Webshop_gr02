@@ -14,10 +14,15 @@ namespace Webshop_gr02.Models
         [Column(Order = 0)]
 
         public int ID_PT { get; set; }
+         [Required(ErrorMessage = "Naam is een verplicht veld")]
         public String Naam { get; set; }
+         [Required(ErrorMessage = "InkoopPrijs is een verplicht veld")]
         public float InkoopPrijs { get; set; }
+         [Required(ErrorMessage = "VerkoopPrijs is een verplicht veld")]
         public float VerkoopPrijs { get; set; }
+         [Required(ErrorMessage = "Omschrijving is een verplicht veld")]
         public String Omschrijving { get; set; }
+             [Required(ErrorMessage = "Merk is een verplicht veld")]
         public String Merk { get; set; }
         public String ImagePath { get; set; }
         public Boolean Zichtbaar { get; set; }

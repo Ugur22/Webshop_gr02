@@ -23,10 +23,22 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
 
-                authDBController.InsertProductType(viewModel.ProductType);
-                return RedirectToAction("ProductTypeOverzicht", "Product");
+                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                if (ModelState.IsValid)
+                {
+
+                    authDBController.InsertProductType(viewModel.ProductType);
+                    return RedirectToAction("ProductTypeOverzicht", "Product");
+                }
+                else
+                {
+                    viewModel.Aanbiedingen = GetAanbiedingen();
+                    return View(viewModel);
+
+                }
+
+
 
 
             }
@@ -93,11 +105,13 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
+
+
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
                 viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID.ToString());
 
-             
-    
+
+
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
 
