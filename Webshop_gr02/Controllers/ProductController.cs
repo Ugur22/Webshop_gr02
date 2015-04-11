@@ -74,9 +74,8 @@ namespace Webshop_gr02.Controllers
                 ProductTypeViewModel viewModel = new ProductTypeViewModel();
 
                 List<ProductType> productType = authDBController.GetAllProductTypes();
-                List<Eigenschapwaarde> Eigenschapwaarde = authDBController.GetEigenschapwaardes();
+                viewModel.Eigenschapwaarde  = GetEigenschapwaarde();
 
-                viewModel.Eigenschapwaarde = new SelectList(Eigenschapwaarde, "ID_EW", "waarde");
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam");
 
                 return View(viewModel);
@@ -93,11 +92,11 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
-                viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID.ToString());
+                viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
 
              
-    
+                
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
 
@@ -156,10 +155,8 @@ namespace Webshop_gr02.Controllers
 
                 Product Product = authDBController.GetProduct(productId);
 
-                List<Eigenschapwaarde> Eigenschapwaarde = authDBController.GetEigenschapwaardes();
-
-                viewModel.Eigenschapwaarde = new SelectList(Eigenschapwaarde, "ID_EW", "waarde");
-
+              
+                viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam", Product.productType.ID_PT);
 
                 viewModel.Product = Product;
@@ -186,7 +183,7 @@ namespace Webshop_gr02.Controllers
                 // authDBController.UpdateProductType(viewModel.ProductType);
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
 
-                viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID.ToString());
+                viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
                 authDBController.UpdateProduct(viewModel.Product);
 
 
@@ -207,9 +204,8 @@ namespace Webshop_gr02.Controllers
             {
                 ProductTypeAanbiedingen viewModel = new ProductTypeAanbiedingen();
 
-                List<Aanbieding> aanbieding = authDBController.GetAanbiedingen();
-
-                viewModel.Aanbiedingen = new SelectList(aanbieding, "ID_A", "soort");
+               
+                viewModel.Aanbiedingen = GetAanbiedingen(); ;
 
                 return View(viewModel);
             }
@@ -229,7 +225,7 @@ namespace Webshop_gr02.Controllers
 
             return new SelectList(aanbieding, "ID_A", "soort");
         }
-
+     
         private SelectList GetEigenschapwaarde()
         {
             List<Eigenschapwaarde> eigenschapwaarde = authDBController.GetEigenschapwaardes();
@@ -266,7 +262,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-        public ActionResult WijzigProductType(string productTypeId)
+        public ActionResult WijzigProductType(int productTypeId)
         {
             try
             {
@@ -277,7 +273,7 @@ namespace Webshop_gr02.Controllers
 
                 //Viewmodel vullen
                 viewModel.ProductType = productType;
-                viewModel.SelectedAanbiedingID = productType.Aanbieding.ID_A;
+                viewModel.SelectedAanbiedingID = productType.Aanbieding == null ? 0 : productType.Aanbieding.ID_A;
                 //SelectList ophalen voor aanbieding.
                 viewModel.Aanbiedingen = GetAanbiedingen();
 

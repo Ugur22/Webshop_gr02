@@ -62,7 +62,5 @@ namespace Webshop_gr02.Controllers
 
         }
 
-
-
     }
 }

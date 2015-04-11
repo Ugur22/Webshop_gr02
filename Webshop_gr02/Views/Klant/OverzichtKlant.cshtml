@@ -1,0 +1,39 @@
+﻿@model List<Webshop_gr02.ViewModels.Klant_Gebruiker>
+@{
+    ViewBag.Title = "OverzichtKlant";
+}
+
+<h2>OverzichtKlant</h2>
+
+<div class="content_wrap">
+    <h2>Overzicht Product</h2>
+    <p id="Button">@Html.ActionLink("Product Toevoegen", "ToevoegenProduct", new { }, new { @class = "btn btn-primary" })</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Voornaam</th>
+                <th>Tussenvoegsel</th>
+                <th>Achternaam</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Geslacht</th>
+                <th>Wijzigen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@Model[i].Gebruiker.Voornaam</td>
+                    <td>@Model[i].Gebruiker.Tussenvoegsel</td>
+                    <td>@Model[i].Gebruiker.Achternaam</td>
+                    <td>@Model[i].Gebruiker.Username</td>
+                    <td>@Model[i].Gebruiker.Email</td>
+                    <td>@Model[i].Gebruiker.Geslacht</td>
+                    <td>@Html.ActionLink("wijzigen", "GebruikerWijzigen", new { ID_G = @Model[i].Gebruiker.ID_G })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

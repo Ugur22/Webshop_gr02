@@ -53,7 +53,7 @@
 //                cart = (List<Item>)Session["cart"];
 //                int index = isExisting(id);
 //                if (index == -1)
-//                    //cart.Add(new Item(storeDB.Product.Find(id), 1));
+//                    cart.Add(new Item(storeDB.Product.Find(id), 1));
 //                else
 //                    cart[index].Quantity++;
 //                Session["cart"] = cart;
