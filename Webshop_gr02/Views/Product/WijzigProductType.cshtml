@@ -50,8 +50,8 @@
             </div>
             <div class="editor-field">
 
-                @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "1") Ja
-        @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, "0", new { Checked = "checked" }) Nee
+              @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, true) Ja
+               @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, false, new { Checked = true }) Nee
             </div>
             <div class="editor-label">
                 Aanbieding

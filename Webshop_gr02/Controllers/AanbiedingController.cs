@@ -63,10 +63,18 @@ namespace Webshop_gr02.Controllers
             Console.WriteLine(aanbieding);
             try
             {
-            
+
+                if (ModelState.IsValid)
+                {
                     authDBController.UpdateAanbieding(aanbieding);
                     return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
-   
+                }
+                else
+                {
+                    return View();
+                }
+
+
 
 
             }
@@ -93,11 +101,15 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-
-             
+                if (ModelState.IsValid)
+                {
                     authDBController.InsertAanbieding(aanbieding);
                     return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
-               
+                }
+                else
+                {
+                    return View();
+                }
 
 
             }
@@ -106,6 +118,7 @@ namespace Webshop_gr02.Controllers
                 ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
                 return View();
             }
+
 
         }
 

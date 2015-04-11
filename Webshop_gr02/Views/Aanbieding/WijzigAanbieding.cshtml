@@ -1,5 +1,4 @@
 ﻿@model Webshop_gr02.Models.Aanbieding
-
 @{
     ViewBag.Title = "WijzigenAanbieding";
 }
@@ -7,44 +6,45 @@
 
 <div class="content_wrap">
     <h2>Wijzig aanbieding type</h2>
-   @using (Html.BeginForm("WijzigAanbieding", "Aanbieding")){
+    @using (Html.BeginForm("WijzigAanbieding", "Aanbieding"))
+    {
   
-    <fieldset>
-        <legend>Aanbieding wijzigen</legend>
+        <fieldset>
+            <legend>Aanbieding wijzigen</legend>
 
-         @Html.HiddenFor(model =>  model.ID_A)
-        <div class="editor-label">
-           Soort
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.soort)
-            @Html.ValidationMessageFor(model => model.soort)
-        </div>
-         <div class="editor-label">
-           Percentage
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model =>  model.percentage)
-             @Html.ValidationMessageFor(model => model.percentage)
-        </div>
-         <div class="editor-label">
-           Actief
-        </div>
-       @* <div class="editor-field">
+            @Html.HiddenFor(model => model.ID_A)
+            <div class="editor-label">
+                Soort
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.soort)
+                @Html.ValidationMessageFor(model => model.soort)
+            </div>
+            <div class="editor-label">
+                Percentage
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.percentage)
+                @Html.ValidationMessageFor(model => model.percentage)
+            </div>
+            <div class="editor-label">
+                Actief
+            </div>
+            @* <div class="editor-field">
             @Html.TextBoxFor(model =>  model.actief)
         </div>*@
-        <div class="editor-field">
-      
-        @Html.RadioButtonFor(model =>  model.actief, "1") Ja
-        @Html.RadioButtonFor(model =>  model.actief, "0", new { Checked = "checked" }) Nee
+            <div class="editor-field">
+
+                @Html.RadioButtonFor(model => model.actief, true) Ja
+               @Html.RadioButtonFor(model => model.actief, false, new { Checked = true }) Nee
        
-        </div>
-      
-       
-        <p>
-            <input type="submit" value="Wijzig" />
-        </p>
-    </fieldset>
-   }
+            </div>
+
+
+            <p>
+                <input type="submit" value="Wijzig" />
+            </p>
+        </fieldset>
+    }
 
 </div>

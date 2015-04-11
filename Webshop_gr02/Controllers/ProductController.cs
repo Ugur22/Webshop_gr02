@@ -23,14 +23,19 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-              
 
-                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                if (ModelState.IsValid)
+                {
+                    viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                    authDBController.InsertProductType(viewModel.ProductType);
+                    return RedirectToAction("ProductTypeOverzicht", "Product");
+                }
+                else
+                {
+                    viewModel.Aanbiedingen = GetAanbiedingen();
+                    return View(viewModel);
 
-
-
-                authDBController.InsertProductType(viewModel.ProductType);
-                return RedirectToAction("ProductTypeOverzicht", "Product");
+                }
 
 
             }
@@ -98,12 +103,12 @@ namespace Webshop_gr02.Controllers
             try
             {
 
-      
+
                 viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID.ToString());
                 viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID.ToString());
 
-             
-    
+
+
                 authDBController.InsertProduct(viewModel.Product);
                 return RedirectToAction("ProductenOverzicht", "Product");
 
@@ -260,9 +265,19 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-                authDBController.UpdateProductType(viewModel.ProductType);
-                return RedirectToAction("ProductTypeOverzicht", "Product");
+
+                if (ModelState.IsValid)
+                {
+                    viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                    authDBController.UpdateProductType(viewModel.ProductType);
+                    return RedirectToAction("ProductTypeOverzicht", "Product");
+                }
+                else
+                {
+                    viewModel.Aanbiedingen = GetAanbiedingen();
+                    return View(viewModel);
+
+                }
 
             }
             catch (Exception e)

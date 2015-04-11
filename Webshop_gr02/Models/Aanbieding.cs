@@ -13,6 +13,7 @@ namespace Webshop_gr02.Models
         public string soort { get; set; }
            [Required(ErrorMessage = "percentage is een verplicht veld")]
         public int percentage { get; set; }
+
         public bool actief { get; set; }
 
 

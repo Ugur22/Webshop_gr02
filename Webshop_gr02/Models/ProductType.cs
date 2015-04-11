@@ -24,9 +24,7 @@ namespace Webshop_gr02.Models
         public String Omschrijving { get; set; }
         [Required(ErrorMessage = "Merk is een verplicht veld")]
         public String Merk { get; set; }
-              [Required(ErrorMessage = "ImagePath is een verplicht veld")]
         public String ImagePath { get; set; }
-         [Required(ErrorMessage = "Zichtbaar is een verplicht veld")]
         public Boolean Zichtbaar { get; set; }
         public int ID_A;
         public Aanbieding Aanbieding { get; set; }
