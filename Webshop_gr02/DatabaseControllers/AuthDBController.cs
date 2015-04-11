@@ -2250,6 +2250,142 @@ namespace Webshop_gr02.DatabaseControllers
             return eigenschapwaarde;
         }
 
+        public List<GoldMember> getGoldMember()
+        {
+            List<GoldMember> goldMemberLijst = new List<GoldMember>();
+
+            int ID_GM = 0;
+            float percentage = 0;
+            float min_bedrag = 0;
+
+              try
+            {
+                conn.Open();
+
+                string selectQuery = @"select * from goldmember;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+
+
+
+
+                while (dataReader.Read())
+                {
+                    ID_GM = dataReader.SafeGetInt32("ID_GM");
+                    percentage = dataReader.SafeGetFloat("percentage");
+                    min_bedrag = dataReader.SafeGetFloat("max_bedrag");
+                   
+
+                    GoldMember goldMember = new GoldMember { ID_GM = ID_GM, percentage = percentage, min_bedrag = min_bedrag};
+                    goldMemberLijst.Add(goldMember);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van goldmember mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return goldMemberLijst;
+        }
+
+        protected GoldMember GetGoldMemberFromDataReader(MySqlDataReader dataReader)
+        {
+
+            int ID_GM = dataReader.GetInt32("ID_GM");
+            float percentage = dataReader.GetFloat("percentage");
+            float minimumBedrag = dataReader.GetInt32("max_bedrag");
+
+            GoldMember goldMember = new GoldMember { ID_GM = ID_GM, percentage = percentage, min_bedrag = minimumBedrag};
+
+            return goldMember;
+        }
+
+        public GoldMember GetGM(int ID_GM)
+        {
+            GoldMember goldMember = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryaanbieding = @"SELECT * FROM goldmember WHERE ID_GM = @ID_GM";
+                MySqlCommand cmd = new MySqlCommand(selectQueryaanbieding, conn);
+
+                MySqlParameter goldmemberIDParam = new MySqlParameter("@ID_GM", MySqlDbType.Int32);
+                goldmemberIDParam.Value = ID_GM;
+                cmd.Parameters.Add(goldmemberIDParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    goldMember = GetGoldMemberFromDataReader(dataReader);
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return goldMember;
+        }
+
+        public void UpdateGM(GoldMember goldMember)
+        {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"Update goldmember SET percentage=@percentage, max_bedrag=@min_bedrag where ID_GM=@ID_GM";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter percentageParam = new MySqlParameter("@percentage", MySqlDbType.Float);
+                MySqlParameter minBedragParam = new MySqlParameter("@min_bedrag", MySqlDbType.Float);
+                MySqlParameter ID_GMParam = new MySqlParameter("@ID_GM", MySqlDbType.Int32);
+
+                percentageParam.Value = goldMember.percentage;
+                minBedragParam.Value = goldMember.min_bedrag;
+                ID_GMParam.Value = goldMember.ID_GM;
+
+
+                cmd.Parameters.Add(percentageParam);
+                cmd.Parameters.Add(minBedragParam);
+                cmd.Parameters.Add(ID_GMParam);
+             
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        
+        }
+
+       
+
         
 
     }
@@ -2258,5 +2394,5 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-}
+
 
