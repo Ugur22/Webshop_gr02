@@ -391,9 +391,7 @@ namespace Webshop_gr02.DatabaseControllers
         }
 
 
-        public int HaalRolID()
-        {
-
+     
         public bool checkUsername(string username) {
             bool isAanwezig = false;
             string usernameDB = "";
@@ -3032,7 +3030,7 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-}
+
 
 
 
