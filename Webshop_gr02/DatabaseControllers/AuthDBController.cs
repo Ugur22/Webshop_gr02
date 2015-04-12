@@ -2492,7 +2492,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQueryOmzetMonthly = @"SELECT * FROM gebruiker";
+                string selectQueryOmzetMonthly = @"SELECT * FROM gebruiker where ID_rol = '1'";
 
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
