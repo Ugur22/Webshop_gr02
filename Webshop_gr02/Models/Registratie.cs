@@ -22,15 +22,16 @@ namespace Webshop_gr02.Models
         public String Achternaam { get; set; }
 
         [Required(ErrorMessage = "Vul een gebruikersnaam in")]
-        [RegularExpression("/^[a-z0-9_-]{3,25}$/", ErrorMessage = "Geen geldige gebruikersnaam.")]
+        [RegularExpression("^[a-z0-9_-]{3,25}$", ErrorMessage = "Geen geldige gebruikersnaam.")]
         public String Username { get; set; }
 
         [Required(ErrorMessage = "Vul een wachtwoord in")]
-        [RegularExpression("/^[a-z0-9_-]{6,25}$/", ErrorMessage = "Geen geldig wachtwoord.")]
+        [RegularExpression("^[A-Za-z0-9_]{6,25}$", ErrorMessage = "Geen geldig wachtwoord. Het wachtwoord moet ten minste 6 tekens lang zijn en mag geen @ of spatie bevatten.")]
         public String Password { get; set; }
 
         [Required(ErrorMessage = "Bevestig uw wachtwoord")]
-        [RegularExpression("/^[a-z0-9_-]{6,25}$/", ErrorMessage = "Geen geldig wachtwoord.")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Beide wachtwoorden komen niet overeen.")]
         public String Password2 { get; set; }
 
         [Required(ErrorMessage = "Vul uw email-adres in")]
