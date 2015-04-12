@@ -393,7 +393,7 @@ namespace Webshop_gr02.DatabaseControllers
 
      
         public bool checkUsername(string username) {
-            bool isAanwezig = false;
+            bool isAanwezig = true;
             string usernameDB = "";
            
 
@@ -434,15 +434,72 @@ namespace Webshop_gr02.DatabaseControllers
 
             if (username.Equals(usernameDB))
             {
-                isAanwezig = true;
+                isAanwezig = false;
             }
             else {
 
-                isAanwezig = false;
+                isAanwezig = true;
             }
 
             return isAanwezig;
         }
+
+        public bool checkEmail(string email) {
+
+            bool isAanwezig = true;
+            string emailDB = "";
+            
+
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select email from gebruiker where email = @email;";
+
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlParameter emailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
+                emailParam.Value = email;
+
+                cmd.Parameters.Add(emailParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    emailDB = dataReader.GetString("email");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van email mislukt" + e);
+
+            }
+
+
+            finally
+            {
+                conn.Close();
+            }
+
+            if (email.Equals(emailDB))
+            {
+                isAanwezig = false;
+            }
+            else
+            {
+
+                isAanwezig = true;
+            }
+
+            return isAanwezig;
+        
+        }
+
 
         public int HaalRolID() {
 

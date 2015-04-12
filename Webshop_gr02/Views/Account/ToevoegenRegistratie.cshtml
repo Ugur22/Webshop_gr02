@@ -48,6 +48,7 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Username)
             @Html.ValidationMessageFor(model => model.Username) 
+            <span style="color:red">@Html.ValidationMessage("registratiefout")</span> 
         </div>
 
         <div class="editor-label">
@@ -98,6 +99,7 @@ Huisnummer:
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email) 
+            <span style="color:red">@Html.ValidationMessage("emailfout")</span> 
         </div>
 
         <div class="editor-label">

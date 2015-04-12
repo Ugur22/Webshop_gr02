@@ -48,12 +48,41 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
                 //isAanwezig = authDBController.checkUsername(username);
                 if (ModelState.IsValid)
                 {
+                    bool auth = authDBController.checkUsername(registratie.Username);
+
+                    if (auth==true)
+                    {
+
+                        bool emailauth = authDBController.checkEmail(registratie.Email);
+
+                        if (emailauth == true)
+                        {
+
+                            email = registratie.Email;
+
+                            ID_rol = authDBController.HaalRolID();
+                            authDBController.InsertRegistratie(registratie, ID_rol);
+                            authDBController.InsertKlant(registratie, email);
+                        }
+                        else {
+
+                            ModelState.AddModelError("emailfout", "Dit email-adres wordt al gebruikt.");
+                            return View();
+                        
+                        }
+                       
+
+                    }
+                    else
+                    {
+
+
+                        ModelState.AddModelError("registratiefout", "Deze gebruikersnaam wordt al gebruikt");
+                        return View();
+
+                    }
                   
-                    email = registratie.Email;
-                    
-                    ID_rol = authDBController.HaalRolID();
-                    authDBController.InsertRegistratie(registratie, ID_rol);
-                    authDBController.InsertKlant(registratie, email);
+                   
                 }
                 else {
                     return View();
