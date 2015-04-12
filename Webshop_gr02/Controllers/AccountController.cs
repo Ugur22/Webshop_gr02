@@ -30,17 +30,35 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             return RedirectToAction("index", "Home");
         }
 
+
+
         [HttpPost]
         public ActionResult ToevoegenRegistratie(Registratie registratie)
         {
             int ID_rol = 0;
             string email = "";
+            //string username = "";
+            //bool isAanwezig = false;
+
+           
+
             try
             {
-                email = registratie.Email;
-                 ID_rol = authDBController.HaalRolID();
-                authDBController.InsertRegistratie(registratie, ID_rol);
-                authDBController.InsertKlant(registratie, email);
+                //username = registratie.Username;
+                //isAanwezig = authDBController.checkUsername(username);
+                if (ModelState.IsValid)
+                {
+                  
+                    email = registratie.Email;
+                    
+                    ID_rol = authDBController.HaalRolID();
+                    authDBController.InsertRegistratie(registratie, ID_rol);
+                    authDBController.InsertKlant(registratie, email);
+                }
+                else {
+                    return View();
+                    
+                }
 
             }
             catch (Exception e)

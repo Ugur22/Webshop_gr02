@@ -352,6 +352,58 @@ namespace Webshop_gr02.DatabaseControllers
             return aanbiedingen;
         }
 
+        public bool checkUsername(string username) {
+            bool isAanwezig = false;
+            string usernameDB = "";
+           
+
+            try
+            {
+
+                conn.Open();
+
+                string selectQuery = @"select username from gebruiker where username = @username;";
+
+
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+                MySqlParameter usernameParam = new MySqlParameter("@username", MySqlDbType.VarChar);
+                usernameParam.Value = username;
+
+                cmd.Parameters.Add(usernameParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    usernameDB = dataReader.GetString("username");
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van username mislukt" + e);
+
+            }
+
+
+            finally
+            {
+                conn.Close();
+            }
+
+            if (username.Equals(usernameDB))
+            {
+                isAanwezig = true;
+            }
+            else {
+
+                isAanwezig = false;
+            }
+
+            return isAanwezig;
+        }
+
         public int HaalRolID() {
             int ID_rol = 0;
 
