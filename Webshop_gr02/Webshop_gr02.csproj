@@ -329,6 +329,7 @@
     <Content Include="Views\Gebruiker\WijzigGebruiker.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\OverzichtGebruiker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
