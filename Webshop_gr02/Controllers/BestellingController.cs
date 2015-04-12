@@ -76,12 +76,14 @@ namespace Webshop_gr02.Controllers
         //}
 
 
-        public ActionResult ProductBestel(int id, float bedrag) {
+        public ActionResult ProductBestel(int id, float bedrag, int voorraad) {
 
             Console.WriteLine(id);
           int aantal = 1;
-        
+
+          voorraad = voorraad - aantal;
         authDBController.BestelProduct(id, aantal, bedrag);
+        authDBController.WijzigVoorraad(id, voorraad);
 
         return RedirectToAction("BestellingGelukt", "Bestelling");
 

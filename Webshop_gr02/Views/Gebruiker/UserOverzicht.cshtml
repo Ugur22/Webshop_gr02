@@ -1,0 +1,91 @@
+﻿@model Webshop_gr02.Models.Gebruiker
+@{
+    ViewBag.Title = "Gegevens overzicht";
+}
+<div class="content_wrap">
+    <h2>Gegevens overzicht</h2>
+
+    <div class="user_info">
+        <div class="row">
+            <div class="user_info_list_left">
+			    Voornaam:
+		    </div>
+            <div class="user_info_list_right">
+                @Model.Voornaam
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Tussenvoegsels:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Tussenvoegsel
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Achternaam:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Achternaam
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Geslacht
+            </div>
+            <div class="user_info_list_right">
+                @if (Model.Geslacht.Equals("m") || Model.Geslacht.Equals("M")){
+                    @: man
+                }
+                else if (Model.Geslacht.Equals("v") || Model.Geslacht.Equals("V"))
+                {
+                    @: vrouw
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Username:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Username
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Password:
+            </div>
+            <div class="user_info_list_right"> 
+                ******
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Email:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Email
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Postcode:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Klant.postcode
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Huisnummer:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Klant.huisnummer
+            </div>
+        </div>
+        <div class="row_last">
+            @Html.ActionLink("Gegevens wijzigen", "wijzigenKlantGegevens", new { username = Model.Username }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>

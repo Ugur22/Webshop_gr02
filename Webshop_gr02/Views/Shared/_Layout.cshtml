@@ -28,46 +28,49 @@
             function func() {
                 document.getElementById('login_popup_inside').style.visibility = "hidden";
                 document.getElementById('login_popup_outside').style.visibility = "hidden";
+
             }
 
-        }
-    </script>
-</head>
-<body>
-    <div id="login_popup_outside" class="popup_outside" onclick="closeLoginPopup()"></div>
-    <div id="header_wrap">
-        <div id="header_content">
-            <div id="logoz_zonder_tekst">
-                @if (User.IsInRole("BEHEERDER"))
-                {
-                    <p>BEHEERDER</p>
-                }
-                else if (User.IsInRole("MANAGER"))
-                {
-                    <p>MANAGER</p>
-                }
-                else if (User.IsInRole("KLANT"))
-                { 
-                    <p>KLANT</p>
-                }
-                else if (User.IsInRole("PROMOTIEMEDEWERKER"))
-                {
-                    <p>PROMOTIEMEDEWERKER</p>
-                }
-            </div>
-            @if (Request.IsAuthenticated)
-            {
-                     
-                <div id="login_1">
-                    @Html.ActionLink("Uitloggen", "../Account/Logout")
-                </div>
-            }
-            else
-            {
-                <div id="login">
-                    <p>
-                        <a href="#" title="Inloggen" onclick="showLoginPopup('login_popup_inside')">Login</a>
-                        |
+        }</script>
+    </head>
+    <body>
+        <div id="login_popup_outside" class="popup_outside" onclick="closeLoginPopup()"></div>
+            <div id="header_wrap">
+                <div id="header_content">
+                    <div id="logoz_zonder_tekst">
+                        @if (User.IsInRole("BEHEERDER"))
+                        {
+                            <p>BEHEERDER</p>
+                        }
+                        else if (User.IsInRole("MANAGER"))
+                        {
+                            <p>MANAGER</p>
+                        }
+                        else if (User.IsInRole("KLANT"))
+                        { 
+                            <p>KLANT</p>
+                        }
+                        else if (User.IsInRole("PROMOTIEMEDEWERKER"))
+                        {
+                            <p>PROMOTIEMEDEWERKER</p>
+                        }
+                    </div>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <div id="login_1">
+                            @if (User.IsInRole("KLANT"))
+                            { 
+                                @Html.ActionLink(User.Identity.Name, "../Gebruiker/UserOverzicht", new {  username = User.Identity.Name})
+                                @:|
+                            }
+                            @Html.ActionLink("Uitloggen", "../Account/Logout")
+                        </div>
+                    }else{
+                        <div id="login">
+                            <p>
+                                <a href="#" title="Inloggen" onclick="showLoginPopup('login_popup_inside')">Login</a>
+                                |
+
                                 @Html.ActionLink("Inloggen_link", "../Account/Logon")
                     </p>
                 </div>
@@ -104,6 +107,7 @@
                                     <li>@Html.ActionLink("klanten overzicht", "../Gebruiker/OverzichtGebruiker")</li>
                                 </li>
 
+<<<<<<< HEAD
                             </ul>
                         </li>
                     }
@@ -111,6 +115,27 @@
                     @* <li>@Html.ActionLink("Mijn gegevens", "../Gebruiker/OverzichtGebruiker")</li>*@
                     <li>@Html.ActionLink("Contact", "../Contact")</li>
                 </ul>
+=======
+                                        <li>@Html.ActionLink("Aanbieding overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
+                                        
+                                        <li>@Html.ActionLink("Goldmember overzicht", "../GoldMember/GoldMemberOverzicht")</li>
+                                        <li>@Html.ActionLink("klanten overzicht", "../Gebruiker/OverzichtGebruiker")</li>
+                                        
+                                    </ul>
+                                </li>
+                            }
+                            <li>@Html.ActionLink("Producten", "../Customer/ProductenOverzichtklant")</li>
+                           @* <li>@Html.ActionLink("Mijn gegevens", "../Gebruiker/OverzichtGebruiker")</li>*@
+                            <li>@Html.ActionLink("Contact", "../Contact")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="banner">
+                <img id="bannerImage" src="../../Images/bannerhoofd.png" alt="Banner" />
+            </div>
+            <div class="page-wrap">
+
             </div>
         </div>
     </div>
