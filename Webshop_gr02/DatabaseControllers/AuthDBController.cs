@@ -2758,14 +2758,140 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
-        
+
+        public Gebruiker getGebruikerGegevens(string username)
+        {
+            Gebruiker gebruiker = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryGebruiker = @"SELECT * 
+                                                FROM GEBRUIKER g
+                                                JOIN KLANT k on g.ID_G = k.ID_G
+                                                WHERE g.username = @username;";
+                MySqlCommand cmd = new MySqlCommand(selectQueryGebruiker, conn);
+
+                MySqlParameter usernameParam = new MySqlParameter("@username", MySqlDbType.VarChar);
+                usernameParam.Value = username;
+                cmd.Parameters.Add(usernameParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    int ID_G = dataReader.SafeGetInt32("ID_G");
+                    string voornaam = dataReader.SafeGetString("voornaam");
+                    string Tussenvoegsel = dataReader.SafeGetString("tussenvoegsel");
+                    string Achternaam = dataReader.SafeGetString("achternaam");
+                    string Username = dataReader.SafeGetString("username");
+                    string Password = dataReader.SafeGetString("password");
+                    string Email = dataReader.SafeGetString("email");
+                    string Geslacht = dataReader.SafeGetString("geslacht");
+                    string Postcode = dataReader.SafeGetString("postcode");
+                    string Huisnummer = dataReader.SafeGetString("huisnummer");
+                    //ID_rol = dataReader.GetInt32("ID_rol");
+
+                    Klant klant = new Klant { ID_G = ID_G, postcode = Postcode, huisnummer = Huisnummer};
+
+                    gebruiker = new Gebruiker { ID_G = ID_G, Voornaam = voornaam, Tussenvoegsel = Tussenvoegsel, Achternaam = Achternaam, Username = Username, Password = Password, Email = Email, Geslacht = Geslacht, Klant = klant };
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("aanbieding Type niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return gebruiker;
         }
+
+        public void updateGebruikerGegevens(Gebruiker gebruiker, int ID)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string updateGebruikerString = @"UPDATE gebruiker SET voornaam=@voornaam, tussenvoegsel=@tussenvoegsel, achternaam=@achternaam, username=@username, password=@password, email=@email, geslacht=@geslacht WHERE ID_G=@ID_G";
+
+                MySqlCommand cmd = new MySqlCommand(updateGebruikerString, conn);
+                MySqlParameter voornaamParam = new MySqlParameter("@voornaam", MySqlDbType.VarChar);
+                MySqlParameter tussenvoegselParam = new MySqlParameter("@tussenvoegsel", MySqlDbType.VarChar);
+                MySqlParameter achternaamParam = new MySqlParameter("@achternaam", MySqlDbType.VarChar);
+                MySqlParameter usernameParam = new MySqlParameter("@username", MySqlDbType.VarChar);
+                MySqlParameter passwordParam = new MySqlParameter("@password", MySqlDbType.VarChar);
+                MySqlParameter emailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
+                MySqlParameter geslachtParam = new MySqlParameter("@geslacht", MySqlDbType.VarChar);
+                MySqlParameter ID_GParam = new MySqlParameter("@ID_G", MySqlDbType.Int32);
+
+                voornaamParam.Value = gebruiker.Voornaam;
+                tussenvoegselParam.Value = gebruiker.Tussenvoegsel;
+                achternaamParam.Value = gebruiker.Achternaam;
+                usernameParam.Value = gebruiker.Username;
+                passwordParam.Value = gebruiker.Password;
+                emailParam.Value = gebruiker.Email;
+                geslachtParam.Value = gebruiker.Geslacht;
+                ID_GParam.Value = ID;
+
+                cmd.Parameters.Add(voornaamParam);
+                cmd.Parameters.Add(tussenvoegselParam);
+                cmd.Parameters.Add(achternaamParam);
+                cmd.Parameters.Add(usernameParam);
+                cmd.Parameters.Add(passwordParam);
+                cmd.Parameters.Add(emailParam);
+                cmd.Parameters.Add(geslachtParam);
+                cmd.Parameters.Add(ID_GParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+
+                string updateGebruikerKlantString = @"UPDATE klant SET postcode=@postcode, huisnummer=@huisnummer WHERE ID_G=@ID_G";
+
+                MySqlCommand cmdKlant = new MySqlCommand(updateGebruikerKlantString, conn);
+                MySqlParameter postcodeParam = new MySqlParameter("@postcode", MySqlDbType.VarChar);
+                MySqlParameter huisnummerParam = new MySqlParameter("@huiSnummer", MySqlDbType.VarChar);
+                MySqlParameter ID_GKlantParam = new MySqlParameter("@ID_G", MySqlDbType.Int32);
+
+                postcodeParam.Value = gebruiker.Klant.postcode;
+                huisnummerParam.Value = gebruiker.Klant.huisnummer;
+                ID_GKlantParam.Value = ID;
+
+                cmdKlant.Parameters.Add(postcodeParam);
+                cmdKlant.Parameters.Add(huisnummerParam);
+                cmdKlant.Parameters.Add(ID_GKlantParam);
+
+                cmdKlant.Prepare();
+                cmdKlant.ExecuteNonQuery();
+
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Aanbieding niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        
+    }
 
        
 
         
 
-    }
+}
 
 
 

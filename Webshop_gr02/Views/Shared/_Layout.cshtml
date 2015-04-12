@@ -56,8 +56,12 @@
                     </div>
                     @if (Request.IsAuthenticated)
                     {
-                     
                         <div id="login_1">
+                            @if (User.IsInRole("KLANT"))
+                            { 
+                                @Html.ActionLink(User.Identity.Name, "../Gebruiker/UserOverzicht", new {  username = User.Identity.Name})
+                                @:|
+                            }
                             @Html.ActionLink("Uitloggen", "../Account/Logout")
                         </div>
                     }else{
@@ -97,7 +101,7 @@
                                         <li>@Html.ActionLink("Aanbieding overzicht", "../Aanbieding/OverzichtAanbiedingen")</li>
                                         
                                         <li>@Html.ActionLink("Goldmember overzicht", "../GoldMember/GoldMemberOverzicht")</li>
-                                        <li><li>@Html.ActionLink("klanten overzicht", "../Gebruiker/OverzichtGebruiker")</li></li>
+                                        <li>@Html.ActionLink("klanten overzicht", "../Gebruiker/OverzichtGebruiker")</li>
                                         
                                     </ul>
                                 </li>
