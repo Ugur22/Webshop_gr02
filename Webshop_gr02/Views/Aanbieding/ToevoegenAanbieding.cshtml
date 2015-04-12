@@ -8,7 +8,7 @@
     <form method="post" action="/Aanbieding/ToevoegenAanbieding">
         <span style="color: red">@Html.ValidationMessage("toevoegen is niet gelukt")</span>
         <fieldset>
-            <legend> Aanbiedingen toevoegen</legend>
+            <legend>Aanbiedingen toevoegen</legend>
 
             <div class="editor-label">
                 Soort:
@@ -16,6 +16,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.soort)
                 @Html.ValidationMessageFor(model => model.soort)
+                <span style="color: red">@Html.ValidationMessage("aanbiedingfout")</span>
             </div>
 
             <div class="editor-label">
@@ -30,7 +31,7 @@
                 Actief:
             </div>
             <div class="editor-field">
-               @Html.RadioButtonFor(model => model.actief, true) Ja
+                @Html.RadioButtonFor(model => model.actief, true) Ja
                @Html.RadioButtonFor(model => model.actief, false, new { Checked = true }) Nee
             </div>
             <p>

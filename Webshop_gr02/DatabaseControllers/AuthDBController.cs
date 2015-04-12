@@ -26,7 +26,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
 
-                string selectQuerycategorie = @"SELECT naam FROM categorie WHERE naam != @naam ";
+                string selectQuerycategorie = @"SELECT naam FROM categorie WHERE naam = @naam ";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuerycategorie, conn);
 
@@ -391,11 +391,12 @@ namespace Webshop_gr02.DatabaseControllers
         }
 
 
-     
-        public bool checkUsername(string username) {
+
+        public bool checkUsername(string username)
+        {
             bool isAanwezig = false;
             string usernameDB = "";
-           
+
 
             try
             {
@@ -436,7 +437,8 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 isAanwezig = true;
             }
-            else {
+            else
+            {
 
                 isAanwezig = false;
             }
@@ -444,7 +446,8 @@ namespace Webshop_gr02.DatabaseControllers
             return isAanwezig;
         }
 
-        public int HaalRolID() {
+        public int HaalRolID()
+        {
 
             int ID_rol = 0;
 
@@ -1562,6 +1565,38 @@ namespace Webshop_gr02.DatabaseControllers
             return gold;
         }
 
+        public bool checkproducttype(string naam)
+        {
+            try
+            {
+                conn.Open();
+
+                string selectQuerytypep = @"SELECT naam FROM product_type WHERE naam = @naam ";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuerytypep, conn);
+
+                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                naamParam.Value = naam;
+                cmd.Parameters.Add(naamParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                return dataReader.Read();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+
 
         public List<ProductType> GetTypeLijst()
         {
@@ -1841,6 +1876,41 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return productTypes;
         }
+
+        public bool checkAanbieding(string soort)
+        {
+            try
+            {
+                conn.Open();
+
+                string selectQuerycategorie = @"SELECT soort FROM aanbieding WHERE soort = @soort ";
+
+                MySqlCommand cmd = new MySqlCommand(selectQuerycategorie, conn);
+
+                MySqlParameter soortParam = new MySqlParameter("@soort", MySqlDbType.VarChar);
+                soortParam.Value = soort;
+                cmd.Parameters.Add(soortParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                return dataReader.Read();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+
+
+
 
         public Aanbieding GetAanbieding(string aanbiedingID)
         {
@@ -2435,7 +2505,8 @@ namespace Webshop_gr02.DatabaseControllers
             InsertBestelRegel(ID_B, ID_P, aantal, bedrag);
         }
 
-        public void WijzigVoorraad(int ID_P, int voorraad) {
+        public void WijzigVoorraad(int ID_P, int voorraad)
+        {
 
             MySqlTransaction trans = null;
             try
@@ -2469,7 +2540,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Close();
             }
-        
+
         }
 
 
@@ -2932,7 +3003,7 @@ namespace Webshop_gr02.DatabaseControllers
                     string Huisnummer = dataReader.SafeGetString("huisnummer");
                     //ID_rol = dataReader.GetInt32("ID_rol");
 
-                    Klant klant = new Klant { ID_G = ID_G, postcode = Postcode, huisnummer = Huisnummer};
+                    Klant klant = new Klant { ID_G = ID_G, postcode = Postcode, huisnummer = Huisnummer };
 
                     gebruiker = new Gebruiker { ID_G = ID_G, Voornaam = voornaam, Tussenvoegsel = Tussenvoegsel, Achternaam = Achternaam, Username = Username, Password = Password, Email = Email, Geslacht = Geslacht, Klant = klant };
                 }
@@ -3023,10 +3094,10 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
-        
-    }
 
     }
+
+}
 
 
 

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Pup Up";
+    Layout = null;
+}
+
+<br />
+<h2>PopUp</h2>
+<p>
+
+<p>
+Hello, this is a modal jquery popup !
+</p>
+<p>
+
+<p><a href="javascript:void(0);" class="close">Hola, Now close it</a></p>
+<p>
+Index.cshtml
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br />
+<h2>@ViewBag.Message</h2>
+<p>
+
+<p>
+   @Html.ActionLink("Click here to open modal popup", "Popup", "Home", null, new { @class = "openPopup", data_dialog_id = "popuplDialog", data_dialog_title = "Popup"})
+</p>
+<p>

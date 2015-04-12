@@ -21,7 +21,7 @@ namespace Webshop_gr02.Controllers
         private AuthDBController authDBController = new AuthDBController();
 
 
- 
+
 
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace Webshop_gr02.Controllers
 
                     bool auth = authDBController.checkCategorie(categorie.Naam);
 
-                    if (auth)
+                    if (!auth)
                     {
 
                         authDBController.InsertCategorie(categorie);
@@ -47,9 +47,9 @@ namespace Webshop_gr02.Controllers
                     {
 
 
-                        ModelState.AddModelError("categoriefout", "categorie fout");
-                    return View();
-             
+                        ModelState.AddModelError("categoriefout", "Categorie bestaat al voer een andere naam in");
+                        return View();
+
                     }
 
                 }
@@ -118,8 +118,22 @@ namespace Webshop_gr02.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    authDBController.UpdateCategorie(categorie);
-                    return RedirectToAction("Overzichtcategorie", "Categorie");
+
+                    bool auth = authDBController.checkCategorie(categorie.Naam);
+
+                    if (!auth)
+                    {
+                        authDBController.UpdateCategorie(categorie);
+                        return RedirectToAction("Overzichtcategorie", "Categorie");
+
+
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError("categoriefout", "Categorie bestaat al voer een andere naam in");
+                        return View();
+                    }
                 }
                 else
                 {

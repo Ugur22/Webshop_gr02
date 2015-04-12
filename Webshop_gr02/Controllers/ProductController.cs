@@ -26,18 +26,19 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
 
                     authDBController.InsertProductType(viewModel.ProductType);
                     return RedirectToAction("ProductTypeOverzicht", "Product");
-
                 }
                 else
                 {
+
                     viewModel.Aanbiedingen = GetAanbiedingen();
                     return View(viewModel);
-                }
 
+                }
 
 
             }
@@ -107,6 +108,9 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
+
+
+
                     viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
                     viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
 

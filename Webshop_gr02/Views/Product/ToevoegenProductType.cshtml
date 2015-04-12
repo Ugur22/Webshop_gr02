@@ -5,8 +5,8 @@
 
 <div class="content_wrap">
 
-    @using (Html.BeginForm("ToevoegenProductType", "Product", FormMethod.Post, new { enctype = "multipart/form-data" })) 
-{
+    @using (Html.BeginForm("ToevoegenProductType", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
         
         @Html.ValidationSummary(true)
         <span style="color: red">@Html.ValidationMessage("toevoegen is niet gelukt")</span>
@@ -19,6 +19,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.ProductType.Naam)
                 @Html.ValidationMessageFor(model => model.ProductType.Naam)
+                <span style="color: red">@Html.ValidationMessage("producttypefout")</span>
             </div>
 
             <div class="editor-label">
@@ -57,31 +58,31 @@
                 Selecteer een afbeelding wanneer gewenst:
             </div>
             <div class="editor-field">
-                
-                    @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
-            
+
+                @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
+
                 <div>
                     @ViewBag.Message
                 </div>
             </div>
 
             <div class="editor-label">
-				Zichtbaar:
-			</div>
-			<br>
+                Zichtbaar:
+            </div>
+            <br>
 
-              @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, true) Ja
+            @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, true) Ja
                @Html.RadioButtonFor(model => model.ProductType.Zichtbaar, false, new { Checked = true }) Nee
 
             
                  @Html.ValidationMessageFor(model => model.ProductType.Zichtbaar)
 
-           <div class="editor-label">
-           Aanbieding
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.SelectedAanbiedingID, Model.Aanbiedingen)
-        </div>
+            <div class="editor-label">
+                Aanbieding
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.SelectedAanbiedingID, Model.Aanbiedingen)
+            </div>
             <p>
                 <input type="submit" value="Toevoegen" name="Command" />
             </p>

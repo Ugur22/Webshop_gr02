@@ -19,6 +19,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.Naam)
                  @Html.ValidationMessageFor(model => model.Naam) 
+<span style="color:red">@Html.ValidationMessage("categoriefout")</span> 
             </div>
 
             <p>

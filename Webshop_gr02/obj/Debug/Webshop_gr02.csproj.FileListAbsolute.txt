@@ -60,3 +60,4 @@ C:\Users\Laurens\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02
 C:\Users\Laurens\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache
 C:\Users\Laurens\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.dll
 C:\Users\Laurens\Documents\Visual Studio 2012\Projects\Webshop_gr02\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.pdb
+C:\Users\Ugur\Documents\GitHub\Webshop_gr02\Webshop_gr02\obj\Debug\Webshop_gr02.csprojResolveAssemblyReference.cache

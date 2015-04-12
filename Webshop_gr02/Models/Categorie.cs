@@ -12,7 +12,6 @@ namespace Webshop_gr02.Models
         public int ID_C { get; set; }
         [Required(ErrorMessage = "Naam is een verplicht veld")]
         [StringLength(20, ErrorMessage = "De naam mag maximaal 20 karakers bevatten.")]
-        [Remote("IsEmailAvailable", "CategorieController")]
         public String Naam { get; set; }
 
         public override string ToString()

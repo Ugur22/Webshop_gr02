@@ -19,6 +19,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.soort)
                 @Html.ValidationMessageFor(model => model.soort)
+                <span style="color: red">@Html.ValidationMessage("aanbiedingfout")</span>
             </div>
             <div class="editor-label">
                 Percentage
