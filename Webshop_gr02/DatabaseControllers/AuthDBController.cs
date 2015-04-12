@@ -2387,6 +2387,43 @@ namespace Webshop_gr02.DatabaseControllers
             InsertBestelRegel(ID_B, ID_P, aantal, bedrag);
         }
 
+        public void WijzigVoorraad(int ID_P, int voorraad) {
+
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"update product set voorraad = @voorraad where ID_P = @ID_P";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter voorraadParam = new MySqlParameter("@voorraad", MySqlDbType.Int32);
+                MySqlParameter idParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+
+                voorraadParam.Value = voorraad;
+                idParam.Value = ID_P;
+
+                cmd.Parameters.Add(voorraadParam);
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("voorraad niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        
+        }
+
 
         public Eigenschapwaarde GetEigenschapWaarde(int eigenschapwaardeID)
         {
