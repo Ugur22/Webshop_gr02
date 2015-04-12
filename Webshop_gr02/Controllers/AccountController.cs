@@ -37,10 +37,17 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             string email = "";
             try
             {
-                email = registratie.Email;
-                 ID_rol = authDBController.HaalRolID();
-                authDBController.InsertRegistratie(registratie, ID_rol);
-                authDBController.InsertKlant(registratie, email);
+                if (ModelState.IsValid)
+                {
+
+                    email = registratie.Email;
+                    ID_rol = authDBController.HaalRolID();
+                    authDBController.InsertRegistratie(registratie, ID_rol);
+                    authDBController.InsertKlant(registratie, email);
+                }
+                else {
+                    return View();
+                }
 
             }
             catch (Exception e)
