@@ -79,7 +79,28 @@ namespace Webshop_gr02.Controllers
             return View();
         }
 
+        [Authorize(Roles = "KLANT")]
+        public ActionResult UserOverzicht(string username)
+        {
+            Gebruiker gebruiker = authDBController.getGebruikerGegevens(username);
 
+            return View(gebruiker);
+        }
 
+        [Authorize(Roles = "KLANT")]
+        public ActionResult wijzigenKlantGegevens(string username)
+        {
+            Gebruiker gebruiker = authDBController.getGebruikerGegevens(username);
+            return View(gebruiker);
+        }
+
+        [Authorize(Roles = "KLANT")]
+        [HttpPost]
+        public ActionResult wijzigenKlantGegevens(Gebruiker gebruiker, int ID)
+        {
+            Console.WriteLine(gebruiker);
+            authDBController.updateGebruikerGegevens(gebruiker, ID);
+            return RedirectToAction("UserOverzicht", new { username = gebruiker.Username });
+        }
     }
 }

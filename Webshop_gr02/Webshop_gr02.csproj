@@ -330,6 +330,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\OverzichtGebruiker.cshtml" />
+    <Content Include="Views\Gebruiker\UserOverzicht.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Gebruiker\wijzigenKlantGegevens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
