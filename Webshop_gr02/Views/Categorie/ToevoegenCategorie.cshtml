@@ -1,33 +1,31 @@
 ﻿@model Webshop_gr02.Models.Categorie
-
 @{
     ViewBag.Title = "categorie";
 }
 
- @Html.ValidationSummary(true)
-<div class="content_wrap">   
+@Html.ValidationSummary(true)
+<div class="content_wrap">
+       <span style="color:red">@Html.ValidationMessage("categoriefout")</span> 
 
-    
-    <form method="post"  action="/Categorie/ToevoegenCategorie">
-    <span style="color:red">@Html.ValidationMessage("toevoegen is niet gelukt")</span> 
-    <fieldset>
-        <legend>Categorie toevoegen</legend>
+    <form method="post" action="/Categorie/ToevoegenCategorie">
+        <span style="color: red">@Html.ValidationMessage("toevoegen is niet gelukt")</span>
+        <fieldset>
+            <legend>Categorie toevoegen</legend>
+
+            <div class="editor-label">
+                Naam categorie
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Naam)
+                @Html.ValidationMessageFor(model => model.Naam)
+            </div>
+            <p>
+                <input type="submit" value="Toevoegen" />
+            </p>
+        </fieldset>
 
 
-        <div class="editor-label">
-            Naam categorie
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Naam)
-            @Html.ValidationMessageFor(model => model.Naam) 
-        </div>
-        <p>
-            <input type="submit" value="Toevoegen" />
-        </p>
-    </fieldset>
-
-        
-        </form> 
+    </form>
 
 
 </div>
