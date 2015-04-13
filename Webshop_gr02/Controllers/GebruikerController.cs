@@ -53,6 +53,9 @@ namespace Webshop_gr02.Controllers
         [HttpPost]
         public ActionResult WijzigGebruiker(Gebruiker gebruiker)
         {
+
+         
+          
             try
             {
                 authDBController.UpdateGebruiker(gebruiker);
@@ -64,12 +67,16 @@ namespace Webshop_gr02.Controllers
             return RedirectToAction("OverzichtGebruiker", "Gebruiker");
         }
 
+
+
         [Authorize(Roles = "KLANT")]
         public ActionResult UserOverzicht(string username)
         {
             Gebruiker gebruiker = authDBController.getGebruikerGegevens(username);
             return View(gebruiker);
         }
+
+
 
         [Authorize(Roles = "KLANT")]
         public ActionResult wijzigenKlantGegevens(string username)
@@ -78,12 +85,25 @@ namespace Webshop_gr02.Controllers
             return View(gebruiker);
         }
 
+
+
         [Authorize(Roles = "KLANT")]
         [HttpPost]
         public ActionResult wijzigenKlantGegevens(Gebruiker gebruiker, int ID)
         {
-            authDBController.updateGebruikerGegevens(gebruiker, ID);
-            return RedirectToAction("UserOverzicht", new { username = gebruiker.Username });
+            if (ModelState.IsValid)
+            {
+
+                authDBController.updateGebruikerGegevens(gebruiker, ID);
+                return RedirectToAction("UserOverzicht", new { username = gebruiker.Username });
+
+
+            }
+            else
+            {
+                return View(gebruiker);
+
+            }
         }
     }
 }

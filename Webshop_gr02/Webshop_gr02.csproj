@@ -139,6 +139,7 @@
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Bestelling_BestelRegel.cs" />
     <Compile Include="ViewModels\Klant_Gebruiker.cs" />
     <Compile Include="ViewModels\ProductTypeAanbiedingen.cs" />
     <Compile Include="ViewModels\ProductTypeViewModel.cs" />
