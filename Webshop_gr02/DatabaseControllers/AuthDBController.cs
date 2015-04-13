@@ -3081,60 +3081,6 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-
-
-
-        //public List<Gebruiker> GetGebruiker(int ID_G)
-        //{
-        //    List<Gebruiker> gebruikers = new List<Gebruiker>();
-        //    ID_G = 0;
-        //    string voornaam = "";
-        //    string Tussenvoegsel;
-        //    string Achternaam;
-        //    string Username;
-        //    // string Password ;
-        //    string Email;
-        //    string Geslacht;
-        //    // int ID_rol;
-
-
-        //    try
-        //    {
-        //        conn.Open();
-
-        //        string selectQueryOmzetMonthly = @"SELECT * FROM gebruiker";
-        //        MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
-
-        //        MySqlDataReader dataReader = cmd.ExecuteReader();
-
-        //        while (dataReader.Read())
-        //        {
-        //            ID_G = dataReader.GetInt32("ID_G");
-        //            voornaam = dataReader.GetString("voornaam");
-        //            Tussenvoegsel = dataReader.GetString("tussenvoegsel");
-        //            Achternaam = dataReader.GetString("achternaam");
-        //            Username = dataReader.GetString("username");
-        //            Email = dataReader.GetString("email");
-        //            Geslacht = dataReader.GetString("geslacht");
-        //            //ID_rol = dataReader.GetInt32("ID_rol");
-
-        //            Gebruiker gebruiker = new Gebruiker { ID_G = ID_G, Voornaam = voornaam, Tussenvoegsel = Tussenvoegsel, Achternaam = Achternaam, Username = Username, Email = Email, Geslacht = Geslacht };
-
-        //            gebruikers.Add(gebruiker);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //    }
-        //    finally
-        //    {
-        //        conn.Close();
-        //    }
-        //    return gebruikers;
-        //}
-
-
         public List<GoldMember> getGoldMember()
         {
             List<GoldMember> goldMemberLijst = new List<GoldMember>();
@@ -3267,6 +3213,8 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
+
+
         public Gebruiker getGebruikerGegevens(string username)
         {
             Gebruiker gebruiker = null;
@@ -3318,6 +3266,7 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             return gebruiker;
+
         }
 
         public void updateGebruikerGegevens(Gebruiker gebruiker, int ID)
@@ -3392,6 +3341,60 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
+
+        public BestelRegel GetBestellingOverzichtKlant()
+        {
+            BestelRegel bestelRegels = new BestelRegel();
+
+            int ID_P;
+            int ID_B ;
+            string productNaam;
+            int aantal;
+            double bedrag;
+            string status;
+            string datum;
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT br.ID_P as productID, br.ID_B as bestellingID, br.aantal as aantal, br.bedrag as bedrag, p.naam as productNaam, b.status as status, b.datum as datum
+                                        FROM bestel_regel br left join bestelling b on br.ID_B = b.ID_B
+                                        LEFT JOIN klant k on b.ID_K = k.ID_G 
+                                        LEFT JOIN product p on br.ID_P = p.ID_P
+                                        WHERE k.ID_G = 1 AND b.status = 'betaald'
+                                        Group by p.ID_P;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    ID_P = dataReader.SafeGetInt32("productID");
+                    ID_B = dataReader.SafeGetInt32("bestellingID");
+                    productNaam = dataReader.SafeGetString("productNaam");
+                    aantal = dataReader.SafeGetInt32("aantal");
+                    bedrag = dataReader.SafeGetFloat("bedrag");
+                    status = dataReader.SafeGetString("status");
+                    datum = dataReader.SafeGetString("datum");
+
+
+
+                    Bestelling bestelling = new Bestelling { status = status, datum = datum };
+                    Product product = new Product { naam = productNaam };
+                    BestelRegel bestelRegel = new BestelRegel { ID_B = ID_B, ID_P = ID_P, bedrag = bedrag, aantal = aantal, bestelling = bestelling, product = product };
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return bestelRegels;
+        }
+        
 
     }
 
