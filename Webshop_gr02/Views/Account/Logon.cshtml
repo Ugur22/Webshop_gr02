@@ -22,10 +22,10 @@
             Wachtwoord
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.PassWord)
+            @Html.PasswordFor(model => model.PassWord)
             @Html.ValidationMessageFor(model => model.PassWord) 
         </div>
-        <p>
+        <p class="row_last">
             <input type="submit" value="log in" />
         </p>
     </fieldset>
