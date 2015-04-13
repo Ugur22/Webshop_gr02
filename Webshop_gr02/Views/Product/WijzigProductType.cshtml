@@ -45,6 +45,8 @@
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.ProductType.ImagePath)
+                  @Html.ValidationMessageFor(model => model.ProductType.ImagePath
+                  )
             </div>
             <div class="editor-label">
                 Zichtbaar

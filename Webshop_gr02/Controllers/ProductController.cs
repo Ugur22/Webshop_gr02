@@ -123,35 +123,35 @@ namespace Webshop_gr02.Controllers
                 if (ModelState.IsValid)
                 {
 
-                         bool auth = authDBController.checkProduct(viewModel.Product.naam);
+                    bool auth = authDBController.checkProducttoevoegn(viewModel.Product.naam);
 
-                         if (!auth)
-                         {
+                    if (auth)
+                    {
 
-                             viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
-                             viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
+                        viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                        viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
 
-                             authDBController.InsertProduct(viewModel.Product);
-                             return RedirectToAction("ProductenOverzicht", "Product");
-
-
-                         }
-                         else
-                         {
-
-                             ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
-                             viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-                             viewModel.ProductType = GetProducttype();
-                             return View(viewModel);
+                        authDBController.InsertProduct(viewModel.Product);
+                        return RedirectToAction("ProductenOverzicht", "Product");
 
 
-                         }
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
+                        viewModel.Eigenschapwaarde = GetEigenschapwaarde();
+                        viewModel.ProductType = GetProducttype();
+                        return View(viewModel);
+
+
+                    }
 
                 }
                 else
                 {
                     viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-                    viewModel.ProductType = GetProduct();
+                    viewModel.ProductType = GetProducttype();
                     return View(viewModel);
 
                 }
@@ -243,9 +243,9 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    bool auth = authDBController.checkProduct(viewModel.Product.naam);
+                    bool auth = authDBController.checkProduct(viewModel.Product.naam, viewModel.Product.ID_P);
 
-                    if (!auth)
+                    if (auth)
                     {
 
 
@@ -274,7 +274,7 @@ namespace Webshop_gr02.Controllers
                 else
                 {
                     viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-                    viewModel.ProductType = GetProduct();
+                    viewModel.ProductType = GetProducttype();
                     return View(viewModel);
 
                 }

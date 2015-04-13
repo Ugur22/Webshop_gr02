@@ -42,5 +42,11 @@ namespace Webshop_gr02
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Session_Start()
+        {
+
+
+        }
     }
 }

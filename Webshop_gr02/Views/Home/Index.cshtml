@@ -1,9 +1,53 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model List<Webshop_gr02.Models.Product>
+@{
+    ViewBag.Title = "ProductenOverzichtklant";
 }
+
+<h2>ProductenOverzichtklant</h2>
+<h4>           
+    @if(User.IsInRole("KLANT"))
+    {
+        if(@ViewBag.goldmember == true)
+        {
+            @ViewBag.tekstgm @:Je krijgt @ViewBag.percentage% korting op alle producten. 
+        }
+    }
+</h4>
+
 <div class="content_wrap">
-    <h1>Welkom bij intosport</h1>
-    <p>
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    </p>
+    <h2>Producten</h2>
+    <div class="row">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var bedrag = Model[i].productType.VerkoopPrijs;
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail" id="collumproduct">
+                    <img src="../Images/@Model[i].productType.ImagePath" id="productImage">
+                    <div class="caption">
+                        <ul>
+                            <li>
+                                <h3>
+                                    @Model[i].naam
+                                </h3>
+                            </li>
+
+                            <li>prijs€ @Model[i].productType.VerkoopPrijs</li>
+
+                            <li>Omschrijving:
+                                <br />
+                                @Model[i].productType.Omschrijving
+                            </li>
+                            <li>Merk: @Model[i].productType.Merk
+                            </li>
+                            <li id="Button">@Html.ActionLink("Bestel", "../Account/Logon",
+                            new { }, new { @class = "btn btn-primary" })</li>
+
+                            @*      <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
+                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

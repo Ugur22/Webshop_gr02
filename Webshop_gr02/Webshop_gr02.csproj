@@ -119,6 +119,7 @@
     <Compile Include="Controllers\PromotieController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Controllers\WinkelWagenController.cs" />
     <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
     <Compile Include="DatabaseControllers\AuthDBController.cs" />
     <Compile Include="Global.asax.cs">
@@ -287,7 +288,7 @@
     <Content Include="Views\HaalCookieTest\Index.cshtml" />
     <Content Include="Views\Home\Bronze.cshtml" />
     <Content Include="Views\Home\Gold.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Indexx.cshtml" />
     <Content Include="Views\Home\Platina.cshtml" />
     <Content Include="Views\Home\Silver.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
@@ -336,6 +337,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Gebruiker\wijzigenKlantGegevens.cshtml" />
+    <Content Include="Views\WinkelWagen\OverzichtWinkelWagen.cshtml" />
+    <Content Include="Views\Bestelling\OverzichtBestellingKlant.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
