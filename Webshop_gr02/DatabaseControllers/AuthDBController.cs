@@ -392,7 +392,8 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-        public bool checkUsername(string username) {
+        public bool checkUsername(string username)
+        {
             bool isAanwezig = true;
 
             string usernameDB = "";
@@ -446,11 +447,12 @@ namespace Webshop_gr02.DatabaseControllers
             return isAanwezig;
         }
 
-        public bool checkEmail(string email) {
+        public bool checkEmail(string email)
+        {
 
             bool isAanwezig = true;
             string emailDB = "";
-            
+
 
 
             try
@@ -499,12 +501,13 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             return isAanwezig;
-        
+
         }
 
 
 
-        public int HaalRolID() {
+        public int HaalRolID()
+        {
 
             int ID_rol = 0;
 
@@ -1394,8 +1397,68 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-        public bool checkProduct(string naam)
+        public bool checkProduct(string naam, int ID_P)
         {
+
+            bool isAanwezig = true;
+            string naamdb = "";
+            int id_Pdb = 0;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"SELECT naam, ID_P FROM product WHERE naam = @naam and ID_P = @ID_P ";
+
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                MySqlParameter ID_PParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                naamParam.Value = naam;
+                ID_PParam.Value = ID_P;
+                cmd.Parameters.Add(naamParam);
+                cmd.Parameters.Add(ID_PParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    naamdb = dataReader.GetString("naam");
+                    id_Pdb = dataReader.GetInt32("ID_P");
+
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            if (naam.Equals(naamdb) && ID_P.Equals(id_Pdb))
+            {
+                isAanwezig = true;
+
+            }
+            else
+            {
+                isAanwezig = false;
+
+            }
+
+            return isAanwezig;
+        }
+
+
+        public bool checkProducttoevoegn(string naam)
+        {
+
+            bool isAanwezig = true;
+            string naamdb = "";
+
             try
             {
                 conn.Open();
@@ -1406,23 +1469,42 @@ namespace Webshop_gr02.DatabaseControllers
 
                 MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
                 naamParam.Value = naam;
+
                 cmd.Parameters.Add(naamParam);
                 cmd.Prepare();
 
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                return dataReader.Read();
+                while (dataReader.Read())
+                {
+                    naamdb = dataReader.GetString("naam");
+
+                }
             }
             catch (MySqlException e)
             {
                 Console.WriteLine(e);
-                return false;
+
             }
             finally
             {
                 conn.Close();
             }
+
+            if (naam.Equals(naamdb))
+            {
+                isAanwezig = false;
+
+            }
+            else
+            {
+                isAanwezig = true;
+
+            }
+
+            return isAanwezig;
         }
+
 
 
 
@@ -1488,6 +1570,68 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
             return productenLijst;
+        }
+
+
+        public List<BestelRegel> GetBestellinglijst(string username)
+        {
+            List<BestelRegel> bestellingenLijst = new List<BestelRegel>();
+
+            int ID_K = haalIDK(username);
+            int ID_B = 0;
+            int ID_P = 0;
+            string productNaam = "";
+            int aantal = 0;
+            float bedrag = 0;
+
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"select p.naam as naam, br.aantal as aantal, br.bedrag as bedrag, br.ID_B  ID_B, br.ID_P as ID_P
+                from bestel_regel br left join product p on br.ID_P = p.ID_P
+                left join bestelling b on br.ID_B = b.ID_B
+
+                where b.status = 'basket' and b.ID_K = @ID_K;";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+
+
+                MySqlParameter ID_KParam = new MySqlParameter("@ID_K", MySqlDbType.Int32);
+
+                ID_KParam.Value = ID_K;
+
+
+                cmd.Parameters.Add(ID_KParam);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+
+                    productNaam = dataReader.SafeGetString("naam");
+                    aantal = dataReader.SafeGetInt32("aantal");
+                    bedrag = dataReader.SafeGetFloat("bedrag");
+                    ID_P = dataReader.SafeGetInt32("ID_P");
+                    ID_B = dataReader.SafeGetInt32("ID_B");
+
+
+
+
+                    Product product = new Product { naam = productNaam };
+                    BestelRegel bestelRegel = new BestelRegel { bedrag = bedrag, aantal = aantal, product = product, ID_P = ID_P, ID_B = ID_B };
+
+                    bestellingenLijst.Add(bestelRegel);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return bestellingenLijst;
         }
 
 
@@ -1653,7 +1797,7 @@ namespace Webshop_gr02.DatabaseControllers
         {
 
             float max_bedrag = haalMaxBedrag();
-      
+
             bool gold = false;
             double totaalAankoop = 0;
             int ID_K = haalIDK(username);
@@ -2432,14 +2576,14 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-        
+
 
         public void InsertBestelling(string username)
         {
 
             int ID_K = haalIDK(username);
             //getID_K uit sessie
-            string status = "besteld";
+            string status = "basket";
             string datum = DateTime.Now.ToString("yyyy-MM-dd");
 
 
@@ -2447,9 +2591,9 @@ namespace Webshop_gr02.DatabaseControllers
             try
             {
                 conn.Open();
-                
 
-                
+
+
                 trans = conn.BeginTransaction();
 
                 String insertString = @"INSERT INTO bestelling (ID_K, status, datum) VALUES (@ID_K, @status, @datum)";
@@ -2539,14 +2683,14 @@ namespace Webshop_gr02.DatabaseControllers
         {
             int ID_B = 0;
             int ID_K = haalIDK(username);
-      
+
 
             try
             {
 
                 conn.Open();
 
-                
+
 
                 string selectQuery = @"SELECT b.ID_B as ID_B
                                         FROM bestelling b 

@@ -28,7 +28,14 @@ namespace Webshop_gr02.Controllers
             {
 
                 List<Product> product = authDBController.GetProductLijst();
-                goldmember = authDBController.ControleerGoldMember(username);
+                if (User.Identity.IsAuthenticated)
+                {
+                    goldmember = authDBController.ControleerGoldMember(username);
+                }
+                else
+                {
+                    goldmember = false;
+                }
                 percentage = authDBController.haalPercentageGM();
 
                 if (percentage > 0)

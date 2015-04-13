@@ -1,8 +1,5 @@
 ﻿@model List<Webshop_gr02.Models.Product>
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 @{
 ViewBag.Title = "ProductenOverzichtklant";
 }
@@ -53,7 +50,7 @@ ViewBag.Title = "ProductenOverzichtklant";
                             <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel",
                             new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad,  username = User.Identity.Name }, new { @class = "btn btn-primary" })</li>
 
-                    @*              <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
+                            @*      <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
                         </ul>
                     </div>
