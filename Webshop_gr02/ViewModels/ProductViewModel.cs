@@ -9,8 +9,6 @@ namespace Webshop_gr02.ViewModels
 {
     public class ProductViewModel
     {
-
-
         public ProductType ProductType { get; set; }
         public SelectList Products { get; set; }
 
