@@ -11,6 +11,7 @@ namespace Webshop_gr02.Models
         public int  ID_A { get; set; }
         [Required(ErrorMessage = "Soort is een verplicht veld")]
         public string soort { get; set; }
+
            [Required(ErrorMessage = "percentage is een verplicht veld")]
         public int percentage { get; set; }
 
