@@ -1,5 +1,92 @@
-﻿@{
+﻿@model Webshop_gr02.ViewModels.RegisterAdminViewModel
+@{
     ViewBag.Title = "ToevoegenAdmin";
 }
 
-<h2>ToevoegenAdmin</h2>
+<div class="content_wrap">   
+    
+    <h2>Toevoegen Admin</h2>
+
+    @using (Html.BeginForm("ToevoegenAdmin", "Account", FormMethod.Post))
+    {
+    <span style="color:red">@Html.ValidationMessage("toevoegen is niet gelukt")</span> 
+
+        <div class="editor-label">
+            Rol:
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SelectedRolID, Model.Rollen)
+            @Html.ValidationMessageFor(model => model.SelectedRolID)
+        </div>
+        <div class="editor-label">
+            Voornaam:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Registratie.Voornaam)
+            @Html.ValidationMessageFor(model => model.Registratie.Voornaam) 
+        </div>
+
+        <div class="editor-label">
+            Tussenvoegsels:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Registratie.Tussenvoegsel)
+            @Html.ValidationMessageFor(model => model.Registratie.Tussenvoegsel) 
+        </div>
+
+        <div class="editor-label">
+            Achternaam:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Registratie.Achternaam)
+            @Html.ValidationMessageFor(model => model.Registratie.Achternaam) 
+        </div>
+
+        <div class="editor-label">
+            Gebruikersnaam:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Registratie.Username)
+            @Html.ValidationMessageFor(model => model.Registratie.Username) 
+            <span style="color:red">@Html.ValidationMessage("registratiefout")</span> 
+        </div>
+
+        <div class="editor-label">
+            Wachtwoord:
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.Registratie.Password)
+            @Html.ValidationMessageFor(model => model.Registratie.Password)
+        </div>
+
+        <div class="editor-label">
+            Herhaal wachtwoord (ter controle):
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.Registratie.Password2)
+            @Html.ValidationMessageFor(model => model.Registratie.Password2)
+        </div>
+
+        <div class="editor-label">
+            Email:
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Registratie.Email)
+            @Html.ValidationMessageFor(model => model.Registratie.Email) 
+            <span style="color:red">@Html.ValidationMessage("emailfout")</span> 
+        </div>
+
+        <div class="editor-label">
+            Geslacht:
+        </div>
+        <div>
+            @Html.RadioButtonFor(model => model.Registratie.Geslacht, "M", new { Checked = "checked" }) Man
+            @Html.RadioButtonFor(model => model.Registratie.Geslacht, "V") Vrouw
+            @Html.ValidationMessageFor(model => model.Registratie.Geslacht)
+        </div>
+        <br />
+        <p>
+            <input type="submit" value="Toevoegen" />
+        </p>
+    } 
+</div>

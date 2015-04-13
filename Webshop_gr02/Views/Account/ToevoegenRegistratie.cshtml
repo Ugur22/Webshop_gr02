@@ -1,10 +1,8 @@
-﻿
-@model Webshop_gr02.Models.Registratie
+﻿@model Webshop_gr02.Models.Registratie
 
 @{
     ViewBag.Title = "ToevoegenRegistratie";
 }
-
 
 <div class="content_wrap">   
     
@@ -13,11 +11,9 @@
     <fieldset>
         <legend>Registratie toevoegen</legend>
 
-
         <div class="editor-label">
             Voornaam:
         </div>
-       
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Voornaam)
             @Html.ValidationMessageFor(model => model.Voornaam) 
@@ -26,7 +22,6 @@
         <div class="editor-label">
             Tussenvoegsels:
         </div>
-       
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Tussenvoegsel)
             @Html.ValidationMessageFor(model => model.Tussenvoegsel) 
@@ -35,7 +30,6 @@
         <div class="editor-label">
             Achternaam:
         </div>
-       
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Achternaam)
             @Html.ValidationMessageFor(model => model.Achternaam) 
@@ -44,7 +38,6 @@
         <div class="editor-label">
             Gebruikersnaam:
         </div>
-       
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Username)
             @Html.ValidationMessageFor(model => model.Username) 
@@ -54,38 +47,29 @@
         <div class="editor-label">
             Wachtwoord:
         </div>
-       
-        <div class="editor-field"> 
-           
-        
+        <div class="editor-field">
             @Html.PasswordFor(model => model.Password)
-            @Html.ValidationMessageFor(model => model.Password) 
-
-            
+            @Html.ValidationMessageFor(model => model.Password)
         </div>
 
         <div class="editor-label">
             Herhaal wachtwoord (ter controle):
         </div>
-        <div class="editor-field"> 
-           
-        
+        <div class="editor-field">
             @Html.PasswordFor(model => model.Password2)
-            @Html.ValidationMessageFor(model => model.Password2) 
-
-            
+            @Html.ValidationMessageFor(model => model.Password2)
         </div>
+
         <div class="editor-label">
         Postcode:
-
         </div>
          <div class="editor-field">
             @Html.TextBoxFor(model => model.klant.postcode)
             @Html.ValidationMessageFor(model => model.klant.postcode) 
         </div>
-        <div class="editor-label">
-Huisnummer:
 
+        <div class="editor-label">
+            Huisnummer:
         </div>
          <div class="editor-field">
             @Html.TextBoxFor(model => model.klant.huisnummer)
@@ -95,7 +79,6 @@ Huisnummer:
         <div class="editor-label">
             Email:
         </div>
-       
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email) 
@@ -105,17 +88,15 @@ Huisnummer:
         <div class="editor-label">
             Geslacht:
         </div>
-
         <div>
-       @Html.RadioButtonFor(model => model.Geslacht, "M", new { Checked = "checked" }) Man
-        @Html.RadioButtonFor(model => model.Geslacht, "V") Vrouw
-        @Html.ValidationMessageFor(model => model.Geslacht)
-       </div>
+            @Html.RadioButtonFor(model => model.Geslacht, "M", new { Checked = "checked" }) Man
+            @Html.RadioButtonFor(model => model.Geslacht, "V") Vrouw
+            @Html.ValidationMessageFor(model => model.Geslacht)
+        </div>
         <br>
-         <p>
-
+        <p>
             <input type="submit" value="Toevoegen" />
         </p>
     </fieldset>
-        </form> 
+    </form> 
 </div>

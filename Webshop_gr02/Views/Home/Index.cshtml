@@ -1,21 +1,19 @@
 ﻿@model List<Webshop_gr02.Models.Product>
 @{
-    ViewBag.Title = "ProductenOverzichtklant";
+    ViewBag.Title = "Home";
 }
-
-<h2>ProductenOverzichtklant</h2>
-<h4>
-    @if (User.IsInRole("KLANT"))
-    {
-        if (@ViewBag.goldmember == true)
-        {
-        @ViewBag.tekstgm @:Je krijgt @ViewBag.percentage% korting op alle producten. 
-        }
-    }
-</h4>
 
 <div class="content_wrap">
     <h2>Producten</h2>
+    <h4>
+        @if (User.IsInRole("KLANT"))
+        {
+            if (@ViewBag.goldmember == true)
+            {
+            @ViewBag.tekstgm @:Je krijgt @ViewBag.percentage% korting op alle producten. 
+            }
+        }
+    </h4>
     <div class="row">
         @for (int i = 0; i < Model.Count; i++)
         {

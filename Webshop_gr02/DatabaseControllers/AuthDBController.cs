@@ -3394,19 +3394,91 @@ namespace Webshop_gr02.DatabaseControllers
             }
             return bestelRegels;
         }
-        
 
+        public List<GebruikersRollen> getAllGebruikersRollen()
+        {
+            List<GebruikersRollen> gebruikersRollen = new List<GebruikersRollen>();
+            try
+            {
+                conn.Open();
+
+                string selectQuery = @"SELECT * FROM intosport.rol
+                                        WHERE rolnaam != 'KLANT'";
+                MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    int Rol_id = dataReader.SafeGetInt32("rol_id");
+                    string Rolnaam = dataReader.SafeGetString("rolnaam");
+
+                    GebruikersRollen gebruikersRol = new GebruikersRollen { rol_id = Rol_id, rolnaam = Rolnaam };
+                    gebruikersRollen.Add(gebruikersRol);
+                }
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Ophalen van bestelregels mislukt" + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return gebruikersRollen;
+        }
+
+        public void InsertAdmin(Registratie registratie)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                String insertString = @"INSERT INTO gebruiker (voornaam, tussenvoegsel, achternaam, username, password, email, geslacht, ID_rol)
+                VALUES (@voornaam, @tussenvoegsel, @achternaam, @username, @password, @email, @geslacht, @ID_rol)";
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter voornaamParam = new MySqlParameter("@voornaam", MySqlDbType.VarChar);
+                MySqlParameter tussenvoegselParam = new MySqlParameter("@tussenvoegsel", MySqlDbType.VarChar);
+                MySqlParameter achternaamParam = new MySqlParameter("@achternaam", MySqlDbType.VarChar);
+                MySqlParameter usernameParam = new MySqlParameter("@username", MySqlDbType.VarChar);
+                MySqlParameter passwordParam = new MySqlParameter("@password", MySqlDbType.VarChar);
+                MySqlParameter emailParam = new MySqlParameter("@email", MySqlDbType.VarChar);
+                MySqlParameter geslachtParam = new MySqlParameter("@geslacht", MySqlDbType.VarChar);
+                MySqlParameter ID_rolParam = new MySqlParameter("@ID_rol", MySqlDbType.Int32);
+
+                voornaamParam.Value = registratie.Voornaam;
+                tussenvoegselParam.Value = registratie.Tussenvoegsel;
+                achternaamParam.Value = registratie.Achternaam;
+                usernameParam.Value = registratie.Username;
+                passwordParam.Value = registratie.Password;
+                emailParam.Value = registratie.Email;
+                geslachtParam.Value = registratie.Geslacht;
+                ID_rolParam.Value = registratie.rol_id;
+
+                cmd.Parameters.Add(voornaamParam);
+                cmd.Parameters.Add(tussenvoegselParam);
+                cmd.Parameters.Add(achternaamParam);
+                cmd.Parameters.Add(usernameParam);
+                cmd.Parameters.Add(passwordParam);
+                cmd.Parameters.Add(emailParam);
+                cmd.Parameters.Add(geslachtParam);
+                cmd.Parameters.Add(ID_rolParam);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Gebruiker niet toegevoegd: " + e);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
