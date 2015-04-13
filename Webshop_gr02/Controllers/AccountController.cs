@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Webshop_gr02.Models;
 using Webshop_gr02.DatabaseControllers;
 using WorkshopASPNETMVC3_IV_.Models;
+using Webshop_gr02.ViewModels;
 
 namespace WorkshopASPNETMVC3_IV_.Controllers
 {
@@ -30,71 +31,47 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             return RedirectToAction("index", "Home");
         }
 
-
-
         [HttpPost]
         public ActionResult ToevoegenRegistratie(Registratie registratie)
         {
             int ID_rol = 0;
             string email = "";
-            //string username = "";
-            //bool isAanwezig = false;
-
-           
-
+            
             try
             {
-                //username = registratie.Username;
-                //isAanwezig = authDBController.checkUsername(username);
                 if (ModelState.IsValid)
                 {
                     bool auth = authDBController.checkUsername(registratie.Username);
 
                     if (auth==true)
                     {
-
                         bool emailauth = authDBController.checkEmail(registratie.Email);
 
                         if (emailauth == true)
                         {
-
                             email = registratie.Email;
-
                             ID_rol = authDBController.HaalRolID();
                             authDBController.InsertRegistratie(registratie, ID_rol);
                             authDBController.InsertKlant(registratie, email);
                         }
                         else {
-
                             ModelState.AddModelError("emailfout", "Dit email-adres wordt al gebruikt.");
                             return View();
-                        
                         }
-                       
-
                     }
                     else
                     {
-
-
                         ModelState.AddModelError("registratiefout", "Deze gebruikersnaam wordt al gebruikt");
                         return View();
-
                     }
-                  
-                   
                 }
                 else {
                     return View();
-                    
                 }
-
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "er is iets fout gegaan:" + e;
-
-
             }
             return RedirectToAction("LogOn", "Account");
         }
@@ -107,7 +84,6 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnViewModel viewModel, String returnUrl)
         {
-          
             if (ModelState.IsValid)
             {
                 bool auth = authDBController.isAuthorized(viewModel.UserName, viewModel.PassWord);
@@ -140,7 +116,55 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
         [Authorize(Roles = "BEHEERDER")]
         public ActionResult ToevoegenAdmin()
         {
-            return View();
+            try
+            {
+                RegisterAdminViewModel viewModel = new RegisterAdminViewModel();
+                List<GebruikersRollen> gebruikersRollen = authDBController.getAllGebruikersRollen();
+                viewModel.Rollen = new SelectList(gebruikersRollen, "rol_id", "rolnaam");
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
+
+        [Authorize(Roles = "BEHEERDER")]
+        [HttpPost]
+        public ActionResult ToevoegenAdmin(RegisterAdminViewModel viewModel)
+        {
+            Console.WriteLine(viewModel);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    bool auth = authDBController.checkUsername(viewModel.Registratie.Username);
+
+                    if (auth)
+                    {
+                        viewModel.Registratie.rol_id = viewModel.SelectedRolID;
+                        
+                        authDBController.InsertAdmin(viewModel.Registratie);
+                        return RedirectToAction("OverzichtGebruiker", "Gebruiker");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
         }
     }
 }

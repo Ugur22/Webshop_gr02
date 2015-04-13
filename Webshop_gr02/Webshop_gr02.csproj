@@ -112,7 +112,6 @@
     <Compile Include="Controllers\CartTestController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="Controllers\CookieController.cs" />
     <Compile Include="Controllers\GebruikerController.cs" />
     <Compile Include="Controllers\GoldMemberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromotieController.cs" />
-    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\WinkelWagenController.cs" />
     <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
@@ -136,6 +134,7 @@
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\Eigenschapwaarde.cs" />
     <Compile Include="Models\Gebruiker.cs" />
+    <Compile Include="Models\GebruikersRollen.cs" />
     <Compile Include="Models\GoldMember.cs" />
     <Compile Include="Models\Klant.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
@@ -150,6 +149,7 @@
     <Compile Include="ViewModels\ProductTypeAanbiedingen.cs" />
     <Compile Include="ViewModels\ProductTypeViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\RegisterAdminViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\EntityFramework.dll" />
@@ -303,7 +303,6 @@
     <Content Include="Views\Account\ToevoegenRegistratie.cshtml" />
     <Content Include="Views\Categorie\Overzichtcategorie.cshtml" />
     <Content Include="Views\Manager\MinstVerkocht.cshtml" />
-    <Content Include="Views\Manager\ManagerHomepage.cshtml" />
     <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
     <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
@@ -347,6 +346,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Contact\AboutUs.cshtml" />
     <Content Include="Views\Contact\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Account\ToevoegenAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,19 +3,4 @@
 }
 <div class="content_wrap">
     <h1>Manager</h1>
-
-    <p>
-    <img src="/Content/images/silver.jpg" alt="Silver"/>
-    </p>
-
-    <p>
-    @if (User.IsInRole("GOLD")) {
-       @Html.ActionLink("Gouden medaille", "Gold", "Home")
-    }
-    </p>
-    <p>
-    @if (User.IsInRole("BRONZE")) {
-       @Html.ActionLink("Bronzen medaille", "Bronze", "Home")
-    }
-    </p>
 </div>
