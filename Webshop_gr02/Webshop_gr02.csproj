@@ -108,7 +108,6 @@
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\CookieController.cs" />
-    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\GebruikerController.cs" />
     <Compile Include="Controllers\GoldMemberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -288,7 +287,6 @@
     <Content Include="Views\HaalCookieTest\Index.cshtml" />
     <Content Include="Views\Home\Bronze.cshtml" />
     <Content Include="Views\Home\Gold.cshtml" />
-    <Content Include="Views\Home\Indexx.cshtml" />
     <Content Include="Views\Home\Platina.cshtml" />
     <Content Include="Views\Home\Silver.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
