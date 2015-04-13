@@ -1,0 +1,12 @@
+﻿@model Webshop_gr02.Models.Product
+<div class="item">
+    <h3>@Model.naam</h3>
+    @using (Html.BeginForm("AddToCart", "Cart"))
+    {
+        @Html.HiddenFor(x => x.ID_P)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        <input type="submit" value="+ Add to cart" />
+    }
+    <h4>@Model.productType.
+     .ToString("c")</h4>
+</div>
