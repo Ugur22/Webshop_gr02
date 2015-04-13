@@ -1,39 +1,91 @@
-﻿@model List<Webshop_gr02.ViewModels.Klant_Gebruiker>
-@{
-    ViewBag.Title = "OverzichtKlant";
+﻿@model Webshop_gr02.Models.Gebruiker
+    ViewBag.Title = "Gegevens overzicht";
 }
-
-<h2>OverzichtKlant</h2>
-
 <div class="content_wrap">
-    <h2>Overzicht Product</h2>
-    <p id="Button">@Html.ActionLink("Product Toevoegen", "ToevoegenProduct", new { }, new { @class = "btn btn-primary" })</p>
+    <h2>Gegevens overzicht</h2>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Voornaam</th>
-                <th>Tussenvoegsel</th>
-                <th>Achternaam</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Geslacht</th>
-                <th>Wijzigen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <tr>
-                    <td>@Model[i].Gebruiker.Voornaam</td>
-                    <td>@Model[i].Gebruiker.Tussenvoegsel</td>
-                    <td>@Model[i].Gebruiker.Achternaam</td>
-                    <td>@Model[i].Gebruiker.Username</td>
-                    <td>@Model[i].Gebruiker.Email</td>
-                    <td>@Model[i].Gebruiker.Geslacht</td>
-                    <td>@Html.ActionLink("wijzigen", "GebruikerWijzigen", new { ID_G = @Model[i].Gebruiker.ID_G })</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="user_info">
+        <div class="row">
+            <div class="user_info_list_left">
+			    Voornaam:
+		    </div>
+            <div class="user_info_list_right">
+                @Model.Voornaam
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Tussenvoegsels:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Tussenvoegsel
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Achternaam:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Achternaam
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Geslacht
+            </div>
+            <div class="user_info_list_right">
+                @if (Model.Geslacht.Equals("m") || Model.Geslacht.Equals("M"))
+                {
+                    @: man
+                }
+                else if (Model.Geslacht.Equals("v") || Model.Geslacht.Equals("V"))
+                {
+                    @: vrouw
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Username:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Username
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Password:
+            </div>
+            <div class="user_info_list_right"> 
+                ******
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Email:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Email
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Postcode:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Klant.postcode
+            </div>
+        </div>
+        <div class="row">
+            <div class="user_info_list_left">
+                Huisnummer:
+            </div>
+            <div class="user_info_list_right">
+                @Model.Klant.huisnummer
+            </div>
+        </div>
+        <div class="row_last">
+            @Html.ActionLink("Gegevens wijzigen", "wijzigenKlantGegevens", new { username = Model.Username }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
 </div>

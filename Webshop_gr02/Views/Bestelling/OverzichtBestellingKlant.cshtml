@@ -1,1 +1,57 @@
-﻿
+﻿@model Webshop_gr02.Models.BestelRegel
+    @{
+    ViewBag.Title = "Overzicht Bestelde Producten";
+}
+
+
+<h2>Overzicht Bestelling</h2>
+<div class="content_wrap">
+    <div class="klant_info">
+        <div class="row">
+            <div class="klant_info_list_left">
+			    Naam:
+		    </div>
+            <div class="klant_info_list_right">
+                @Model.ID_P
+            </div>
+        </div>
+         <div class="row">
+         <div class="klant_info_list_right">
+                @*@Model.product.naam*@
+            </div>
+            </div>
+
+        <div class="row">
+            <div class="klant_info_list_left">
+                Aantal:
+            </div>
+            <div class="klant_info_list_right">
+                @Model.aantal
+            </div>
+        </div>
+        <div class="row">
+            <div class="klant_info_list_left">
+                Bedrag:
+            </div>
+            <div class="klant_info_list_right">
+                @Model.bedrag
+            </div>
+        </div>
+         <div class="row">
+            <div class="klant_info_list_left">
+                Datum:
+            </div>
+            <div class="klant_info_list_right">
+                @Model.datum
+            </div>
+        </div>
+         <div class="row">
+            <div class="klant_info_list_left">
+                Status:
+            </div>
+            <div class="klant_info_list_right">
+                @Model.status
+            </div>
+        </div>
+        </div>
+</div>
