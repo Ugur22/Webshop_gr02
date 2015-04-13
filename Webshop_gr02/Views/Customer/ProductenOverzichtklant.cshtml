@@ -59,9 +59,9 @@
                             }
 
                             <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel",
-                            new { id = @Model[i].ID_P, bedrag = bedrag }, new { @class = "btn btn-primary" })</li>
+                            new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad }, new { @class = "btn btn-primary" })</li>
 
-                              @*    <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
+                    @*              <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
 
                         </ul>

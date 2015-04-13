@@ -8,7 +8,6 @@ using System.Web.Security;
 using Webshop_gr02.Controllers;
 using Webshop_gr02.DatabaseControllers;
 using Webshop_gr02.Models;
-using WorkshopASPNETMVC3_IV_.Models;
 
 namespace Webshop_gr02.Controllers
 {
@@ -20,6 +19,10 @@ namespace Webshop_gr02.Controllers
 
         private AuthDBController authDBController = new AuthDBController();
 
+
+
+
+
         [HttpPost]
         public ActionResult ToevoegenCategorie(Categorie categorie)
         {
@@ -28,8 +31,26 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    authDBController.InsertCategorie(categorie);
-                    return RedirectToAction("Overzichtcategorie", "Categorie");
+
+
+                    bool auth = authDBController.checkCategorie(categorie.Naam);
+
+                    if (!auth)
+                    {
+
+                        authDBController.InsertCategorie(categorie);
+                        return RedirectToAction("Overzichtcategorie", "Categorie");
+
+                    }
+                    else
+                    {
+
+
+                        ModelState.AddModelError("categoriefout", "Categorie bestaat al voer een andere naam in");
+                        return View();
+
+                    }
+
                 }
                 else
                 {
@@ -69,10 +90,13 @@ namespace Webshop_gr02.Controllers
 
 
         }
+
+
         public ActionResult VerwijderenCategorie(int ID_C)
         {
             try
             {
+
                 authDBController.VerwijderCategorie(ID_C);
 
             }
@@ -93,8 +117,22 @@ namespace Webshop_gr02.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    authDBController.UpdateCategorie(categorie);
-                    return RedirectToAction("Overzichtcategorie", "Categorie");
+
+                    bool auth = authDBController.checkCategorie(categorie.Naam);
+
+                    if (!auth)
+                    {
+                        authDBController.UpdateCategorie(categorie);
+                        return RedirectToAction("Overzichtcategorie", "Categorie");
+
+
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError("categoriefout", "Categorie bestaat al voer een andere naam in");
+                        return View();
+                    }
                 }
                 else
                 {

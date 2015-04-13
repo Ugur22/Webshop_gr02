@@ -48,6 +48,7 @@
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Username)
             @Html.ValidationMessageFor(model => model.Username) 
+            <span style="color:red">@Html.ValidationMessage("registratiefout")</span> 
         </div>
 
         <div class="editor-label">
@@ -79,16 +80,16 @@
 
         </div>
          <div class="editor-field">
-            @Html.TextBoxFor(model => model.klant.Postcode)
-            @Html.ValidationMessageFor(model => model.klant.Postcode) 
+            @Html.TextBoxFor(model => model.klant.postcode)
+            @Html.ValidationMessageFor(model => model.klant.postcode) 
         </div>
         <div class="editor-label">
 Huisnummer:
 
         </div>
          <div class="editor-field">
-            @Html.TextBoxFor(model => model.klant.Huisnummer)
-            @Html.ValidationMessageFor(model => model.klant.Huisnummer) 
+            @Html.TextBoxFor(model => model.klant.huisnummer)
+            @Html.ValidationMessageFor(model => model.klant.huisnummer) 
         </div>
 
         <div class="editor-label">
@@ -98,6 +99,7 @@ Huisnummer:
         <div class="editor-field">
             @Html.TextBoxFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email) 
+            <span style="color:red">@Html.ValidationMessage("emailfout")</span> 
         </div>
 
         <div class="editor-label">

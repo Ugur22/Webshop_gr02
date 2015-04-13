@@ -66,8 +66,22 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    authDBController.UpdateAanbieding(aanbieding);
-                    return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
+                    bool auth = authDBController.checkAanbieding(aanbieding.soort);
+
+                    if (!auth)
+                    {
+                        authDBController.UpdateAanbieding(aanbieding);
+                        return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("aanbiedingfout", "Aanbieding bestaat al voer een andere soort in");
+                        return View();
+
+                    }
                 }
                 else
                 {
@@ -103,8 +117,25 @@ namespace Webshop_gr02.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    authDBController.InsertAanbieding(aanbieding);
-                    return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
+                    bool auth = authDBController.checkAanbieding(aanbieding.soort);
+
+                    if (!auth)
+                    {
+
+
+                        authDBController.InsertAanbieding(aanbieding);
+                        return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
+
+
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError("aanbiedingfout", "Aanbieding bestaat al voer een andere soort in");
+                        return View();
+
+                    }
                 }
                 else
                 {
