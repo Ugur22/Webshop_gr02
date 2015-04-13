@@ -3061,7 +3061,6 @@ namespace Webshop_gr02.DatabaseControllers
             }
         }
 
-
         public Gebruiker getGebruikerGegevens(string username)
         {
             Gebruiker gebruiker = null;
