@@ -4,12 +4,12 @@
 }
 
 <h2>ProductenOverzichtklant</h2>
-<h4>           
-    @if(User.IsInRole("KLANT"))
+<h4>
+    @if (User.IsInRole("KLANT"))
     {
-        if(@ViewBag.goldmember == true)
+        if (@ViewBag.goldmember == true)
         {
-            @ViewBag.tekstgm @:Je krijgt @ViewBag.percentage% korting op alle producten. 
+        @ViewBag.tekstgm @:Je krijgt @ViewBag.percentage% korting op alle producten. 
         }
     }
 </h4>
@@ -39,10 +39,12 @@
                                 Merk: @Model[i].productType.Merk
                             </li>
                             <li id="Button">
-                                <div class="bestelbutton">
-                                    @Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad,  username = User.Identity.Name }, new { @class = "btn btn-primary" })
-                                </div>
-
+                                @if (User.IsInRole("Klant"))
+                                {
+                                    <div class="bestelbutton">
+                                        @Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad,  username = User.Identity.Name }, new { @class = "btn btn-primary" })
+                                    </div>
+                                }
                                 @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
                                 {
                                     <div class="prijs">
@@ -56,7 +58,6 @@
                                     </div>
                                 }
                             </li>
-
                             @*      <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
                         </ul>
