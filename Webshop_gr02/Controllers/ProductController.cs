@@ -26,13 +26,25 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    bool auth = authDBController.checkproducttype(viewModel.ProductType.Naam);
+
+                    if (!auth)
+                    {
+                        viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+
+                        authDBController.InsertProductType(viewModel.ProductType);
+                        return RedirectToAction("ProductTypeOverzicht", "Product");
+
+                    }
+                    else
+                    {
 
 
+                        ModelState.AddModelError("producttypefout", "producttype bestaat al voer een andere naam in");
+                        viewModel.Aanbiedingen = GetAanbiedingen();
+                        return View(viewModel);
 
-                    viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-
-                    authDBController.InsertProductType(viewModel.ProductType);
-                    return RedirectToAction("ProductTypeOverzicht", "Product");
+                    }
                 }
                 else
                 {
@@ -111,13 +123,29 @@ namespace Webshop_gr02.Controllers
                 if (ModelState.IsValid)
                 {
 
+                         bool auth = authDBController.checkProduct(viewModel.Product.naam);
+
+                         if (!auth)
+                         {
+
+                             viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                             viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
+
+                             authDBController.InsertProduct(viewModel.Product);
+                             return RedirectToAction("ProductenOverzicht", "Product");
 
 
-                    viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
-                    viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
+                         }
+                         else
+                         {
 
-                    authDBController.InsertProduct(viewModel.Product);
-                    return RedirectToAction("ProductenOverzicht", "Product");
+                             ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
+                             viewModel.Eigenschapwaarde = GetEigenschapwaarde();
+                             viewModel.ProductType = GetProducttype();
+                             return View(viewModel);
+
+
+                         }
 
                 }
                 else
@@ -215,13 +243,32 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                    bool auth = authDBController.checkProduct(viewModel.Product.naam);
 
-                    viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
-                    authDBController.UpdateProduct(viewModel.Product);
+                    if (!auth)
+                    {
 
 
-                    return RedirectToAction("ProductenOverzicht", "Product");
+                        viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+
+                        viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
+                        authDBController.UpdateProduct(viewModel.Product);
+
+
+                        return RedirectToAction("ProductenOverzicht", "Product");
+
+
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
+
+                        viewModel.Eigenschapwaarde = GetEigenschapwaarde();
+                        viewModel.ProductType = GetProducttype();
+                        return View(viewModel);
+
+                    }
 
                 }
                 else
@@ -290,6 +337,17 @@ namespace Webshop_gr02.Controllers
             return new SelectList(product, "ID_P", "naam");
         }
 
+
+
+        private SelectList GetProducttype()
+        {
+            List<ProductType> ProductType = authDBController.GetTypeLijst();
+            ProductType emptyProductType = new ProductType { ID_PT = 0, Naam = "" };
+            ProductType.Insert(0, emptyProductType);
+
+            return new SelectList(ProductType, "ID_PT", "naam");
+        }
+
         [HttpPost]
         public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
         {
@@ -298,9 +356,25 @@ namespace Webshop_gr02.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-                    authDBController.UpdateProductType(viewModel.ProductType);
-                    return RedirectToAction("ProductTypeOverzicht", "Product");
+
+
+                    bool auth = authDBController.checkproducttype(viewModel.ProductType.Naam);
+
+                    if (!auth)
+                    {
+                        viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                        authDBController.UpdateProductType(viewModel.ProductType);
+                        return RedirectToAction("ProductTypeOverzicht", "Product");
+
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("producttypefout", "producttype bestaat al voer een andere naam in");
+                        viewModel.Aanbiedingen = GetAanbiedingen();
+                        return View(viewModel);
+
+                    }
 
                 }
                 else
