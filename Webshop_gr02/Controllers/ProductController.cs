@@ -17,13 +17,12 @@ namespace Webshop_gr02.Controllers
 
         private AuthDBController authDBController = new AuthDBController();
 
-
+        [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
         public ActionResult ToevoegenProductType(ProductTypeAanbiedingen viewModel)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     bool auth = authDBController.checkproducttype(viewModel.ProductType.Naam);
@@ -31,30 +30,21 @@ namespace Webshop_gr02.Controllers
                     if (!auth)
                     {
                         viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-
                         authDBController.InsertProductType(viewModel.ProductType);
                         return RedirectToAction("ProductTypeOverzicht", "Product");
-
                     }
                     else
                     {
-
-
                         ModelState.AddModelError("producttypefout", "producttype bestaat al voer een andere naam in");
                         viewModel.Aanbiedingen = GetAanbiedingen();
                         return View(viewModel);
-
                     }
                 }
                 else
                 {
-
                     viewModel.Aanbiedingen = GetAanbiedingen();
                     return View(viewModel);
-
                 }
-
-
             }
             catch (Exception e)
             {
@@ -64,6 +54,7 @@ namespace Webshop_gr02.Controllers
 
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult ProductTypeOverzicht()
         {
             try
@@ -79,6 +70,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult ProductenOverzicht()
         {
             try
@@ -93,18 +85,15 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult ToevoegenProduct()
         {
             try
             {
                 ProductTypeViewModel viewModel = new ProductTypeViewModel();
-
                 List<ProductType> productType = authDBController.GetAllProductTypes();
                 viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-
-
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam");
-
                 return View(viewModel);
             }
             catch (Exception e)
@@ -114,12 +103,12 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
         public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
 
@@ -127,40 +116,26 @@ namespace Webshop_gr02.Controllers
 
                     if (auth)
                     {
-
                         viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
                         viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
-
                         authDBController.InsertProduct(viewModel.Product);
                         return RedirectToAction("ProductenOverzicht", "Product");
-
-
                     }
                     else
                     {
-
                         ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
                         viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                         viewModel.ProductType = GetProducttype();
                         return View(viewModel);
-
-
                     }
-
                 }
                 else
                 {
                     viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                     viewModel.ProductType = GetProducttype();
                     return View(viewModel);
-
                 }
-
-
-
-
             }
-
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
@@ -168,6 +143,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult verwijderenProductType(string ProductId)
         {
             try
@@ -175,16 +151,14 @@ namespace Webshop_gr02.Controllers
                 authDBController.verwijderProductType(ProductId);
                 return RedirectToAction("ProductTypeOverzicht", "Product");
             }
-
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
-
                 return View();
             }
         }
 
-
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult verwijderenProduct(int ProductId)
         {
             try
@@ -192,7 +166,6 @@ namespace Webshop_gr02.Controllers
                 authDBController.verwijderProduct(ProductId);
                 return RedirectToAction("ProductenOverzicht", "Product");
             }
-
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
@@ -200,29 +173,17 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-
-
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult ProductWijzigen(string productId)
         {
             try
             {
-
-
                 ProductTypeViewModel viewModel = new ProductTypeViewModel();
-
                 List<ProductType> productType = authDBController.GetAllProductTypes();
-
                 Product Product = authDBController.GetProduct(productId);
-
-
                 viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                 viewModel.ProductType = new SelectList(productType, "ID_PT", "Naam", Product.productType.ID_PT);
-
                 viewModel.Product = Product;
-
-
-
-
                 return View(viewModel);
             }
             catch (Exception e)
@@ -232,73 +193,52 @@ namespace Webshop_gr02.Controllers
             }
         }
 
-
+        [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
         public ActionResult ProductWijzigen(ProductTypeViewModel viewModel)
         {
-            //Console.WriteLine(product);
             try
             {
-
-
                 if (ModelState.IsValid)
                 {
                     bool auth = authDBController.checkProduct(viewModel.Product.naam, viewModel.Product.ID_P);
 
                     if (auth)
                     {
-
-
                         viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
-
                         viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
                         authDBController.UpdateProduct(viewModel.Product);
-
-
                         return RedirectToAction("ProductenOverzicht", "Product");
-
-
                     }
                     else
                     {
-
                         ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
-
                         viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                         viewModel.ProductType = GetProducttype();
                         return View(viewModel);
-
                     }
-
                 }
                 else
                 {
                     viewModel.Eigenschapwaarde = GetEigenschapwaarde();
                     viewModel.ProductType = GetProducttype();
                     return View(viewModel);
-
                 }
-
-
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
                 return View();
             }
-
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult ToevoegenProductType()
         {
-
             try
             {
                 ProductTypeAanbiedingen viewModel = new ProductTypeAanbiedingen();
-
-
-                viewModel.Aanbiedingen = GetAanbiedingen(); ;
-
+                viewModel.Aanbiedingen = GetAanbiedingen();
                 return View(viewModel);
             }
             catch (Exception e)
@@ -314,7 +254,6 @@ namespace Webshop_gr02.Controllers
             List<Aanbieding> aanbieding = authDBController.GetAanbiedingen();
             Aanbieding emptyaanbieding = new Aanbieding { ID_A = 0, soort = "" };
             aanbieding.Insert(0, emptyaanbieding);
-
             return new SelectList(aanbieding, "ID_A", "soort");
         }
 
@@ -323,7 +262,6 @@ namespace Webshop_gr02.Controllers
             List<Eigenschapwaarde> eigenschapwaarde = authDBController.GetEigenschapwaardes();
             Eigenschapwaarde emptyeigenscapwaarde = new Eigenschapwaarde { ID_EW = 0, waarde = "" };
             eigenschapwaarde.Insert(0, emptyeigenscapwaarde);
-
             return new SelectList(eigenschapwaarde, "ID_EW", "waarde");
         }
 
@@ -333,7 +271,6 @@ namespace Webshop_gr02.Controllers
             List<Product> product = authDBController.GetProductLijst();
             Product emptyproduct = new Product { ID_P = 0, naam = "" };
             product.Insert(0, emptyproduct);
-
             return new SelectList(product, "ID_P", "naam");
         }
 
@@ -344,20 +281,17 @@ namespace Webshop_gr02.Controllers
             List<ProductType> ProductType = authDBController.GetTypeLijst();
             ProductType emptyProductType = new ProductType { ID_PT = 0, Naam = "" };
             ProductType.Insert(0, emptyProductType);
-
             return new SelectList(ProductType, "ID_PT", "naam");
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
         public ActionResult WijzigProductType(ProductTypeAanbiedingen viewModel)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
-
-
                     bool auth = authDBController.checkproducttype(viewModel.ProductType.Naam);
 
                     if (!auth)
@@ -365,25 +299,19 @@ namespace Webshop_gr02.Controllers
                         viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
                         authDBController.UpdateProductType(viewModel.ProductType);
                         return RedirectToAction("ProductTypeOverzicht", "Product");
-
-
                     }
                     else
                     {
                         ModelState.AddModelError("producttypefout", "producttype bestaat al voer een andere naam in");
                         viewModel.Aanbiedingen = GetAanbiedingen();
                         return View(viewModel);
-
                     }
-
                 }
                 else
                 {
                     viewModel.Aanbiedingen = GetAanbiedingen();
                     return View(viewModel);
-
                 }
-
             }
             catch (Exception e)
             {
@@ -392,6 +320,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult WijzigProductType(int productTypeId)
         {
             try
@@ -415,13 +344,6 @@ namespace Webshop_gr02.Controllers
                 ViewBag.FoutMelding = "Er is iets fout gegaan: " + e;
                 return View();
             }
-
-
-
         }
-
-
-
-
     }
 }

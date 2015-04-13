@@ -15,6 +15,7 @@ namespace Webshop_gr02.Controllers
     {
         private AuthDBController authDBController = new AuthDBController();
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult GoldMemberOverzicht()
         {
             try
@@ -29,6 +30,7 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         public ActionResult WijzigGoldMember(int ID_GM)
         {
             try
@@ -43,13 +45,13 @@ namespace Webshop_gr02.Controllers
             }
         }
 
+        [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
         public ActionResult WijzigGoldMember(GoldMember goldMember)
         {
             Console.WriteLine(goldMember);
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     authDBController.UpdateGM(goldMember);
@@ -59,17 +61,12 @@ namespace Webshop_gr02.Controllers
                 {
                     return View();
                 }
-
-
-
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
                 return View();
             }
-
         }
-
     }
 }
