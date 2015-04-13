@@ -296,7 +296,6 @@
     <Content Include="Views\Account\ToevoegenRegistratie.cshtml" />
     <Content Include="Views\Categorie\Overzichtcategorie.cshtml" />
     <Content Include="Views\Manager\MinstVerkocht.cshtml" />
-    <Content Include="Views\Manager\ManagerHomepage.cshtml" />
     <Content Include="Views\Promotie\PromotieToevoegen.cshtml" />
     <Content Include="Views\Product\ToevoegenProductType.cshtml" />
     <Content Include="Views\Product\ProductTypeOverzicht.cshtml" />
