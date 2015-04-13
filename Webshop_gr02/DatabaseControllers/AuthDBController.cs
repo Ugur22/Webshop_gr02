@@ -391,16 +391,10 @@ namespace Webshop_gr02.DatabaseControllers
         }
 
 
-<<<<<<< HEAD
 
-        public bool checkUsername(string username)
-        {
-            bool isAanwezig = false;
-=======
-     
         public bool checkUsername(string username) {
             bool isAanwezig = true;
->>>>>>> origin/master
+
             string usernameDB = "";
 
 
@@ -508,13 +502,9 @@ namespace Webshop_gr02.DatabaseControllers
         
         }
 
-<<<<<<< HEAD
-        public int HaalRolID()
-        {
-=======
+
 
         public int HaalRolID() {
->>>>>>> origin/master
 
             int ID_rol = 0;
 

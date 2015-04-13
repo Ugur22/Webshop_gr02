@@ -27,6 +27,8 @@ namespace Webshop_gr02.Controllers
                 if (ModelState.IsValid)
                 {
 
+
+
                     viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
 
                     authDBController.InsertProductType(viewModel.ProductType);
