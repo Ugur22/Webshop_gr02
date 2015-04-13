@@ -46,34 +46,6 @@ namespace Webshop_gr02.Controllers
 
         }
 
-        //public ViewResult Bestelling()
-        //{
-
-        //    bool goldmember = false;
-        //    string welOfNiet = "";
-
-        //    try
-        //    {
-
-        //        goldmember = authDBController.ControleerGoldMember();
-        //        if (goldmember == true)
-        //        {
-        //            welOfNiet = "Je bent GoldMember";
-
-        //        }
-        //        else {
-        //            welOfNiet = "Je bent geen GoldMember";
-        //        }
-        //        ViewBag.goldmembership = welOfNiet;
-        //        return View();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
-        //        return View();
-        //    }
-
-        //}
 
 
         public ActionResult ProductBestel(int id, float bedrag, int voorraad) {

@@ -115,6 +115,9 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
+
+
+           
                 if (ModelState.IsValid)
                 {
 
