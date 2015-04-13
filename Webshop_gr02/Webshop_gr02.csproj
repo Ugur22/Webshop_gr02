@@ -286,9 +286,9 @@
     <Content Include="Views\Cookie\PlaatsCookieTest.cshtml" />
     <Content Include="Views\HaalCookieTest\Index.cshtml" />
     <Content Include="Views\Home\Bronze.cshtml" />
-    <Content Include="Views\Home\Gold.cshtml" />
+    <Content Include="Views\Home\Beheerder.cshtml" />
     <Content Include="Views\Home\Platina.cshtml" />
-    <Content Include="Views\Home\Silver.cshtml" />
+    <Content Include="Views\Home\Manager.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
     <Content Include="Views\Categorie\ToevoegenCategorie.cshtml" />
     <Content Include="Views\Manager\MeestVerkocht.cshtml" />
@@ -338,6 +338,8 @@
     <Content Include="Views\WinkelWagen\OverzichtWinkelWagen.cshtml" />
     <Content Include="Views\Bestelling\OverzichtBestellingKlant.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Contact\AboutUs.cshtml" />
+    <Content Include="Views\Contact\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

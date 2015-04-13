@@ -136,5 +136,11 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = "BEHEERDER")]
+        public ActionResult ToevoegenAdmin()
+        {
+            return View();
+        }
     }
 }

@@ -21,63 +21,75 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
 
         public ActionResult Index()
         {
-            string username = User.Identity.Name;
-            bool goldmember = false;
-            string welOfNiet = "";
-            float percentage = 0;
-            float nieuweprijs = 1;
-            try
+            if (User.IsInRole("BEHEERDER"))
             {
-
-                List<Product> product = authDBController.GetProductLijst();
-                if (User.Identity.IsAuthenticated)
-                {
-                    goldmember = authDBController.ControleerGoldMember(username);
-                }
-                else
-                {
-                    goldmember = false;
-                }
-                percentage = authDBController.haalPercentageGM();
-
-                if (percentage > 0)
-                {
-                    nieuweprijs = (100 - percentage) / 100;
-                }
-
-
-                if (goldmember == true)
-                {
-                    welOfNiet = "Gefeliciteerd! Je bent GoldMember.";
-
-                }
-                else
-                {
-                    welOfNiet = "Je bent geen GoldMember";
-                }
-                ViewBag.percentage = percentage;
-
-                ViewBag.tekstgm = welOfNiet;
-                ViewBag.goldmember = goldmember;
-                ViewBag.nieuweprijs = nieuweprijs;
-
-                return View(product);
+                return RedirectToAction("Beheerder");
             }
-            catch (Exception e)
+            else if (User.IsInRole("MANAGER"))
             {
-                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
-                return View();
+                return RedirectToAction("Manager");
+            }
+            else
+            {
+
+                string username = User.Identity.Name;
+                bool goldmember = false;
+                string welOfNiet = "";
+                float percentage = 0;
+                float nieuweprijs = 1;
+                try
+                {
+
+                    List<Product> product = authDBController.GetProductLijst();
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        goldmember = authDBController.ControleerGoldMember(username);
+                    }
+                    else
+                    {
+                        goldmember = false;
+                    }
+                    percentage = authDBController.haalPercentageGM();
+
+                    if (percentage > 0)
+                    {
+                        nieuweprijs = (100 - percentage) / 100;
+                    }
+
+
+                    if (goldmember == true)
+                    {
+                        welOfNiet = "Gefeliciteerd! Je bent GoldMember.";
+
+                    }
+                    else
+                    {
+                        welOfNiet = "Je bent geen GoldMember";
+                    }
+                    ViewBag.percentage = percentage;
+
+                    ViewBag.tekstgm = welOfNiet;
+                    ViewBag.goldmember = goldmember;
+                    ViewBag.nieuweprijs = nieuweprijs;
+
+                    return View(product);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                    return View();
+                }
             }
         }
         
         [Authorize(Roles = "BEHEERDER")]
-        public ActionResult Gold()
+        public ActionResult Beheerder()
         {
             return View();
         }
 
         [Authorize(Roles = "MANAGER")]
-        public ActionResult Silver()
+        public ActionResult Manager()
         {
             return View();
         }
