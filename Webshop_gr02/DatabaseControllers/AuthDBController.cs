@@ -2299,11 +2299,6 @@ namespace Webshop_gr02.DatabaseControllers
 
                     BesteldeProducten.Add(BesteldProduct);
                 }
-
-
-
-
-
             }
             catch (MySqlException e)
             {
@@ -2316,6 +2311,7 @@ namespace Webshop_gr02.DatabaseControllers
             return BesteldeProducten;
         }
 
+       
         public void UpdateOrderedProducts(BestelRegel bestelRegel)
         {
             MySqlTransaction trans = null;
@@ -2323,7 +2319,7 @@ namespace Webshop_gr02.DatabaseControllers
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-                string insertString = @"UPDATE bestelling SET status=@status";
+                string insertString = @"UPDATE bestelling SET status = @status";
 
                 MySqlCommand cmd = new MySqlCommand(insertString, conn);
                 MySqlParameter statusParam = new MySqlParameter("@status", MySqlDbType.VarChar);
