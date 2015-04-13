@@ -128,6 +128,7 @@
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\Eigenschapwaarde.cs" />
     <Compile Include="Models\Gebruiker.cs" />
+    <Compile Include="Models\GebruikersRollen.cs" />
     <Compile Include="Models\GoldMember.cs" />
     <Compile Include="Models\Klant.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="ViewModels\ProductTypeAanbiedingen.cs" />
     <Compile Include="ViewModels\ProductTypeViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\RegisterAdminViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\EntityFramework.dll" />
@@ -338,6 +340,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Contact\AboutUs.cshtml" />
     <Content Include="Views\Contact\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Account\ToevoegenAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
