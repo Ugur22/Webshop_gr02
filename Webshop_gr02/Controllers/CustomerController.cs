@@ -19,6 +19,7 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult ProductenOverzichtklant()
         {
+            string username = User.Identity.Name;
             bool goldmember = false;
             string welOfNiet = "";
             float percentage = 0;
@@ -27,7 +28,7 @@ namespace Webshop_gr02.Controllers
             {
 
                 List<Product> product = authDBController.GetProductLijst();
-                goldmember = authDBController.ControleerGoldMember();
+                goldmember = authDBController.ControleerGoldMember(username);
                 percentage = authDBController.haalPercentageGM();
 
                 if (percentage > 0)
@@ -38,13 +39,15 @@ namespace Webshop_gr02.Controllers
 
                 if (goldmember == true)
                 {
-                    welOfNiet = "Je bent GoldMember";
+                    welOfNiet = "Gefeliciteerd! Je bent GoldMember.";
 
                 }
                 else
                 {
                     welOfNiet = "Je bent geen GoldMember";
                 }
+                ViewBag.percentage = percentage;
+                
                 ViewBag.tekstgm = welOfNiet;
                 ViewBag.goldmember = goldmember;
                 ViewBag.nieuweprijs = nieuweprijs;

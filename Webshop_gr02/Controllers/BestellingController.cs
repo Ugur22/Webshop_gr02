@@ -14,7 +14,7 @@ namespace Webshop_gr02.Controllers
     {
         private AuthDBController authDBController = new AuthDBController();
 
-        public ActionResult Bestelling()
+        public ActionResult Bestelling(string username)
         {
 
             bool goldmember = false;
@@ -24,7 +24,7 @@ namespace Webshop_gr02.Controllers
             {
                 Bestelling bestelling = authDBController.GetBestelling(1);
                 //List<BestelRegel> bestelRegels = authDBController.GetBestellingOverzicht();
-                goldmember = authDBController.ControleerGoldMember();
+                goldmember = authDBController.ControleerGoldMember(username);
                 if (goldmember == true)
                 {
                     welOfNiet = "Je bent GoldMember";
@@ -48,13 +48,13 @@ namespace Webshop_gr02.Controllers
 
 
 
-        public ActionResult ProductBestel(int id, float bedrag, int voorraad) {
+        public ActionResult ProductBestel(int id, float bedrag, int voorraad, string username) {
 
             Console.WriteLine(id);
           int aantal = 1;
 
           voorraad = voorraad - aantal;
-        authDBController.BestelProduct(id, aantal, bedrag);
+        authDBController.BestelProduct(id, aantal, bedrag, username);
         authDBController.WijzigVoorraad(id, voorraad);
 
         return RedirectToAction("BestellingGelukt", "Bestelling");
