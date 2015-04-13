@@ -38,10 +38,5 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
             return View();
         }
 
-
-        public ActionResult Popup()
-        {
-            return View();
-        }
     }
 }

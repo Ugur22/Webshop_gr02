@@ -1392,6 +1392,42 @@ namespace Webshop_gr02.DatabaseControllers
             return producten;
         }
 
+
+
+        public bool checkProduct(string naam)
+        {
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"SELECT naam FROM product WHERE naam = @naam ";
+
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
+                naamParam.Value = naam;
+                cmd.Parameters.Add(naamParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                return dataReader.Read();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+
+
+
         public List<Product> GetProductLijst()
         {
             List<Product> productenLijst = new List<Product>();
@@ -3086,7 +3122,6 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
-
 
         public Gebruiker getGebruikerGegevens(string username)
         {
