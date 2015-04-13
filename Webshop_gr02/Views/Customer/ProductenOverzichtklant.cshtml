@@ -1,80 +1,59 @@
 ﻿@model List<Webshop_gr02.Models.Product>
->
 @{
-    ViewBag.Title = "ProductenOverzichtklant";
+ViewBag.Title = "ProductenOverzichtklant";
 }
-
-
 
 <div class="content_wrap">
     <h2>Producten</h2>
-       <h2>
-
-           
-                
-              @if(User.IsInRole("KLANT"))
-                            {
-                             if(@ViewBag.goldmember == true)
-                  {
-                    @ViewBag.tekstgm
-                 
+    <h2>           
+        @if(User.IsInRole("KLANT"))
+        {
+            if(@ViewBag.goldmember == true)
+            {
+                @ViewBag.tekstgm
             }
-                             }    
-
-
-       </h2>
+        }
+    </h2>
     <div class="row">
-
         @for (int i = 0; i < Model.Count; i++)
         {
             var bedrag = Model[i].productType.VerkoopPrijs;
-            
             <div class="col-sm-6 col-md-4">
-
-              
                 <div class="thumbnail" id="collumproduct">
                     <img src="../Images/@Model[i].productType.ImagePath" id="productImage">
                     <div class="caption">
-
                         <ul>
                             <li>
-                                <h3>@Model[i].naam</h3>
+                                <h3>
+                                    @Model[i].naam
+                                </h3>
                             </li>
-                             @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
+                            @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
                             {
-                              <li>Prijs:  € @( bedrag = bedrag * ViewBag.nieuweprijs)</li>
-                             }
-                            else{
-                             <li>Prijs:  €@(bedrag)</li>
-                             }
-                            
-                            <li>Omschrijving:
-                                <br />
-                                @Model[i].productType.Omschrijving</li>
-                            <li>Merk: @Model[i].productType.Merk</li>
-                           
-                            @{
-                                    
-                                    Console.WriteLine();   
+                                <li>
+                                    Prijs: € @( bedrag = bedrag * ViewBag.nieuweprijs)
+                                </li>
                             }
-
-                            <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel",
-                            new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad }, new { @class = "btn btn-primary" })</li>
-
-                    @*              <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
+                            else{
+                                <li>
+                                    Prijs: €@(bedrag)
+                                </li>
+                            }
+                            <li>
+                                Omschrijving:
+                                <br />
+                                @Model[i].productType.Omschrijving
+                            </li>
+                            <li>
+                                Merk: @Model[i].productType.Merk
+                            </li>
+                            <li id="Button">@Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad }, new { @class = "btn btn-primary" })</li>
+                            @*<li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
-
                         </ul>
-
-
-
-
                     </div>
                 </div>
             </div>
-                
-                
         }
-
     </div>
 </div>
