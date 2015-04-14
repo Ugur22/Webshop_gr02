@@ -57,14 +57,14 @@
             <div class="editor-label">
                 Selecteer een afbeelding wanneer gewenst:
             </div>
-            <div class="editor-field">  
+            <div class="editor-field">
 
-                @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
+                @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file", Name = "file" })
                 @Html.ValidationMessageFor(model => model.ProductType.ImagePath
                   )
 
-               
-           
+
+
 
                 <div>
                     @ViewBag.Message

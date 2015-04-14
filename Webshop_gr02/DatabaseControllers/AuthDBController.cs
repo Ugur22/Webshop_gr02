@@ -1397,61 +1397,7 @@ namespace Webshop_gr02.DatabaseControllers
 
 
 
-        public bool checkProduct(string naam, int ID_P)
-        {
-
-            bool isAanwezig = true;
-            string naamdb = "";
-            int id_Pdb = 0;
-            try
-            {
-                conn.Open();
-
-                string selectQueryproduct = @"SELECT naam, ID_P FROM product WHERE naam = @naam and ID_P = @ID_P ";
-
-                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
-
-                MySqlParameter naamParam = new MySqlParameter("@naam", MySqlDbType.VarChar);
-                MySqlParameter ID_PParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
-                naamParam.Value = naam;
-                ID_PParam.Value = ID_P;
-                cmd.Parameters.Add(naamParam);
-                cmd.Parameters.Add(ID_PParam);
-                cmd.Prepare();
-
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    naamdb = dataReader.GetString("naam");
-                    id_Pdb = dataReader.GetInt32("ID_P");
-
-                }
-            }
-            catch (MySqlException e)
-            {
-                Console.WriteLine(e);
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-
-            if (naam.Equals(naamdb) && ID_P.Equals(id_Pdb))
-            {
-                isAanwezig = true;
-
-            }
-            else
-            {
-                isAanwezig = false;
-
-            }
-
-            return isAanwezig;
-        }
-
+ 
 
         public bool checkProducttoevoegn(string naam)
         {
