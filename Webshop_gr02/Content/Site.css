@@ -342,9 +342,10 @@ div#banner {
 
 
 #Button {
+    bottom: 37px;
     padding-top: 20px;
-    position: relative;
-    /* right: 47px; */
+    position: absolute;
+    margin: 0 auto;
     margin-left: -20px;
     /* padding-right: 23px; */
     padding-left: -16px;
