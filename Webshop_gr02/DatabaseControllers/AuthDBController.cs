@@ -1085,7 +1085,7 @@ namespace Webshop_gr02.DatabaseControllers
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                     left join bestel_regel br on p.ID_P = br.ID_P
 													left join bestelling b on br.ID_B = b.ID_B
-                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
+                                                    where  b.datum between @firstDate and @secondDate and b.status = 'besteld'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -1144,7 +1144,7 @@ namespace Webshop_gr02.DatabaseControllers
                                                     FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                     left join bestel_regel br on p.ID_P = br.ID_P
 													left join bestelling b on br.ID_B = b.ID_B
-                                                    where  b.datum between @firstDate and @secondDate and b.status like '%betaald%'
+                                                    where  b.datum between @firstDate and @secondDate and b.status = 'besteld'
                                                     GROUP BY pt.ID_PT;";
                 MySqlCommand cmd = new MySqlCommand(selectQueryOmzetMonthly, conn);
 
@@ -1200,9 +1200,9 @@ namespace Webshop_gr02.DatabaseControllers
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join bestel_regel br on p.ID_P = br.ID_P
                                                              left join bestelling b on br.ID_B = b.ID_B
-                                        where b.status like '%betaald%'
+                                        where b.status = 'besteld'
                                         GROUP BY pt.ID_PT
-                                        order by afzet desc, Product_ID 
+                                        order by Afzet desc, Product_ID 
                                         limit 10;";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
@@ -1248,7 +1248,7 @@ namespace Webshop_gr02.DatabaseControllers
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join bestel_regel br on p.ID_P = br.ID_P
 															left join bestelling b on br.ID_B = b.ID_B 
-										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
+										WHERE b.datum between @firstDate and @secondDate and b.status = 'besteld'
                                         GROUP BY pt.ID_PT
                                         order by afzet desc, Product_ID 
                                         limit 10;";
@@ -1306,7 +1306,7 @@ namespace Webshop_gr02.DatabaseControllers
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join bestel_regel br on p.ID_P = br.ID_P
 															left join bestelling b on br.ID_B = b.ID_B 	
-                                        where b.status like '%betaald%'									
+                                        where b.status = 'besteld'									
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
@@ -1353,7 +1353,7 @@ namespace Webshop_gr02.DatabaseControllers
                                         FROM product_type pt left join product p on pt.ID_PT = p.ID_PT
                                                              left join bestel_regel br on p.ID_P = br.ID_P
 															left join bestelling b on br.ID_B = b.ID_B 
-										WHERE b.datum between @firstDate and @secondDate and b.status like '%betaald%'
+										WHERE b.datum between @firstDate and @secondDate and b.status = 'besteld'
                                         GROUP BY pt.ID_PT
                                         order by afzet asc, Product_ID 
                                         limit 10;";
