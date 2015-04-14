@@ -105,12 +105,19 @@ namespace Webshop_gr02.Controllers
 
         [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
-        public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel)
+        public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel, HttpPostedFileBase file)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+
+                    if (file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                        file.SaveAs(path);
+                    }
 
                     bool auth = authDBController.checkProducttoevoegn(viewModel.Product.naam);
 

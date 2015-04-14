@@ -10,7 +10,7 @@ namespace Webshop_gr02.Models
     {
         public int ID_A { get; set; }
         [Required(ErrorMessage = "Soort is een verplicht veld")]
-        [RegularExpression("([a-zA-Z z0-9_-]{2,20}\\s*)+", ErrorMessage = "Geen geldige naam voor een aanbieding")]
+        [RegularExpression("([a-zA-Z z0-9_-]{2,40}\\s*)+", ErrorMessage = "Geen geldige naam voor een aanbieding")]
         public string soort { get; set; }
         [Required(ErrorMessage = "percentage is een verplicht veld")]
         public int percentage { get; set; }

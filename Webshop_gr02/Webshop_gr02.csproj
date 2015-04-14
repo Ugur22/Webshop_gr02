@@ -133,7 +133,6 @@
     <Compile Include="Models\Gebruiker.cs" />
     <Compile Include="Models\GebruikersRollen.cs" />
     <Compile Include="Models\GoldMember.cs" />
-    <Compile Include="Models\IProductRepository.cs" />
     <Compile Include="Models\Klant.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
