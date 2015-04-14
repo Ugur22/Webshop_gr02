@@ -120,7 +120,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PromotieController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
-    <Compile Include="Controllers\WinkelWagenController.cs" />
     <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
     <Compile Include="DatabaseControllers\AuthDBController.cs" />
     <Compile Include="Global.asax.cs">
