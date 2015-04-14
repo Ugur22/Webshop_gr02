@@ -1,4 +1,4 @@
-﻿@model List<Webshop_gr02.Models.BestelRegel>
+﻿@model List<Webshop_gr02.Models.Bestelling>
 
 @{
     ViewBag.Title = "OverzichtBesteldeProducten";
@@ -8,9 +8,11 @@
     <table class="table">
         <thead>
             <tr>
-                <td>Product ID</td>
-                <td>Naam</td>
-                <td>Aantal</td>
+                <td>Bestelling ID</td>
+                <td>Klant ID</td>
+                <td>Voornaam</td>
+                <td>Tussenvoegsel</td>
+                <td>Achternaam</td>
                 <td>Bedrag (in euro's)</td>
                 <td>Datum</td>
                 <td>Status</td>
@@ -25,35 +27,33 @@
                     if (i == count)
                     {
                     <tr>
-                          <td>@Model[i].ID_P</td>
-                          <td>@Model[i].naam</td> 
-                          <td>@Model[i].aantal</td>
-                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
-                          <td>@Model[i].datum)</td> 
+                          <td>@Model[i].ID_B</td>
+                          @*<td>@Model[i].ID_K</td> 
+                          <td>@Model[i].voornaam</td>
+                          <td>@Model[i].tussenvoegsel</td>
+                          <td>@Model[i].achternaam</td>
+                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> *@
+                          <td>@Model[i].datum</td> 
                           <td>@Model[i].status</td>                      
-                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { ProductId = @Model[i].ID_P })</td>
+                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
                 </tr>
                
                     }
                     else
                     {
-
-                         <tr>
-
-                        
                         <tr>
 
-                          <td>@Model[i].ID_P</td>
-                          <td>@Model[i].naam</td> 
-                          <td>@Model[i].aantal</td>
-                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> 
-                          <td>@Model[i].datum)</td> 
+                          <td>@Model[i].ID_B</td>
+                         @* <td>@Model[i].ID_K</td> *@
+                          @*<td>@Model[i].voornaam</td>*@
+@*                          <td>@Model[i].tussenvoegsel</td>*@
+                         @* <td>@Model[i].achternaam</td>*@
+                          @*<td>@String.Format("{0:0.00}", Model[i].bedrag)</td> *@
+                          <td>@Model[i].datum</td> 
                           <td>@Model[i].status</td>                      
-                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { ProductId = @Model[i].ID_P })</td>
-               </tr>
+                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
 
-
-                            </tr>
+                         </tr>
                     }
                             
                 }
