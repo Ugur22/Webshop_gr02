@@ -38,7 +38,7 @@ namespace Webshop_gr02
 
             // Use LocalDB for Entity Framework by default
             Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
-            Database.SetInitializer<ProductContext>(null);
+            //Database.SetInitializer<ProductContext>(null);
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }

@@ -9,31 +9,16 @@ using MySql.Data.MySqlClient;
 
 namespace Webshop_gr02.Controllers
 {
-    
+    [Authorize(Roles = "MANAGER")]
     public class ManagerController : Controller
     {
         // GET: /Manager/
-		
+
         private AuthDBController authDBController = new AuthDBController();
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult ManagerHomepage()
-        {
-            return View();
-        }
 
         public ActionResult OmzetMonthly()
         {
             List<Product> producten = authDBController.getTotalOmzet();
-
-            foreach(Product p in producten){
-                Console.WriteLine(p);
-            }
-
             return View(producten);
         }
 
@@ -41,19 +26,12 @@ namespace Webshop_gr02.Controllers
         public ActionResult OmzetMonthly(string date)
         {
             List<Product> producten = authDBController.getMonthlyOmzet(date);
-
             return View(producten);
         }
 
         public ActionResult MeestVerkocht()
         {
             List<Product> producten = authDBController.GetProductTop10();
-
-            foreach (Product p in producten)
-            {
-                Console.WriteLine(p);
-            }
-
             return View(producten);
         }
 
@@ -61,19 +39,12 @@ namespace Webshop_gr02.Controllers
         public ActionResult MeestVerkocht(string date)
         {
             List<Product> producten = authDBController.getMonthlyProductTop10(date);
-
             return View(producten);
         }
 
         public ActionResult MinstVerkocht()
         {
             List<Product> producten = authDBController.GetProductBottom10();
-
-            foreach (Product p in producten)
-            {
-                Console.WriteLine(p);
-            }
-
             return View(producten);
         }
 
@@ -81,7 +52,6 @@ namespace Webshop_gr02.Controllers
         public ActionResult MinstVerkocht(string date)
         {
             List<Product> producten = authDBController.GetMonthlyProductBottom10(date);
-
             return View(producten);
         }
     }

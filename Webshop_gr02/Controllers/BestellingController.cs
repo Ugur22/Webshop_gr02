@@ -88,6 +88,7 @@ namespace Webshop_gr02.Controllers
         return RedirectToAction("BestellingGelukt", "Bestelling");
 
 
+
         }
 
 
@@ -139,8 +140,53 @@ namespace Webshop_gr02.Controllers
             }
             return RedirectToAction("OverzichtBesteldeProducten", "Bestelling");
         }
+		
+        //public ActionResult OverzichtBestellingKlant()
+        //{
 
-       
+        //    bool goldmember = false;
+        //    string welOfNiet = "";
+
+        //    try
+        //    {
+        //        Bestelling bestelling = authDBController.GetBestelling(1);
+        //        List<BestelRegel> bestelRegels = authDBController.GetBestellingOverzicht();
+        //        goldmember = authDBController.ControleerGoldMember();
+        //        if (goldmember == true)
+        //        {
+        //            welOfNiet = "Je bent GoldMember";
+
+        //        }
+        //        else
+        //        {
+        //            welOfNiet = "Je bent geen GoldMember";
+        //        }
+        //        ViewBag.goldmembership = welOfNiet;
+        //        return View(bestelling);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+        //        return View();
+        //    }
+
+
+        //}
+
+
+        public ActionResult OverzichtBestellingKlant()
+        {
+            try
+            {
+                BestelRegel besteldeProducten = authDBController.GetBestellingOverzichtKlant();
+                return View(besteldeProducten);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Foutmelding = "Er is iets fout gegeaan" + e;
+                return View();
+            }
+        }
 
     }
 }

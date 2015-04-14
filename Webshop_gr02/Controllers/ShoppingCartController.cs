@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Webshop_gr02.Models;
+using Webshop_gr02.DatabaseControllers;
 
 namespace Webshop_gr02.Controllers
 {
     public class ShoppingCartController : Controller
     {
+        private AuthDBController authDBController = new AuthDBController();
+        //ProductTypeEntities storeDB = new ProductTypeEntities();
 
-        ProductContext storeDB = new ProductContext();
+        List<Product> productList = new List<Product>();
+        Product product = new Product();
 
-        List<Item> cart = new List<Item>();
-
-  
-
-        public ActionResult Index()
+        public ActionResult Cart()
         {
-
             return View();
         }
 
         private int isExisting(int id)
         {
-            cart = (List<Item>)Session["cart"];
+            List<Item> cart = (List<Item>)Session["cart"];
             for (int i = 0; i < cart.Count; i++)
                 if (cart[i].Product.ID_P == id)
                     return i;
@@ -34,7 +34,7 @@ namespace Webshop_gr02.Controllers
         public ActionResult Delete(int id)
         {
             int index = isExisting(id);
-            cart = (List<Item>)Session["cart"];
+            List<Item> cart = (List<Item>)Session["cart"];
             cart.RemoveAt(index);
             Session["cart"] = cart;
             return View("Cart");
@@ -42,33 +42,47 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult OrderNow(int id)
         {
-            //if (Session != null)
-            //{
-            //    cart = (List<Item>)Session["cart"];
+            string idString = id.ToString();
+            Product product = authDBController.GetProduct_ProductType(idString);
 
-            //}
+            productList.Add(product);
 
-
-            if (Session["cart"] == null)
+            var sessionlist = Session["cart"] as List<Product>;
+            if (Session != null && Session["cart"] != null)
             {
-
-
-                cart.Add(new Item(storeDB.producten.Find(id), 1));
-                Session["cart"] = cart;
-
+                for (int i = 0; i < sessionlist.Count(); i++)
+                {
+                    productList.Add(sessionlist[i]);
+                }
             }
-            else
-            {
-                cart = (List<Item>)Session["cart"];
-                int index = isExisting(id);
-                if (index == -1)
-                    cart.Add(new Item(storeDB.producten.Find(id), 1));
-                else
-                    cart[index].Quantity++;
-                Session["cart"] = cart;
-            }
-            return View("Cart");
+            Session["cart"] = productList;
+
+            return RedirectToAction("Cart");
         }
 
+        public ActionResult bestellen(string username)
+        {
+            int aantal = 1;
+            var sessionlist = Session["cart"] as List<Product>;
+
+            authDBController.InsertBestelling(username);
+
+            int bestelnummer = authDBController.HaalBestelNummerUitDB(username);
+
+            if (Session != null && Session["cart"] != null)
+            {
+                for (int i = 0; i < sessionlist.Count(); i++)
+                {
+                    authDBController.InsertBestelRegel(bestelnummer, sessionlist[i].ID_P, aantal, sessionlist[i].productType.VerkoopPrijs);
+                    if (sessionlist[i].voorraad > 0)
+                    {
+                        int voorraad = sessionlist[i].voorraad - aantal;
+                        authDBController.WijzigVoorraad(sessionlist[i].ID_P, voorraad);
+                    }
+                }
+            }
+
+            return RedirectToAction("BestellingGelukt", "Bestelling");
+        }
     }
 }

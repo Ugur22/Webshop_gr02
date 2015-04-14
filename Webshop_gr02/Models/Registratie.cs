@@ -12,11 +12,9 @@ namespace Webshop_gr02.Models
         [Required(ErrorMessage= "Vul uw voornaam in")]
         [RegularExpression("([a-zA-Z]{2,20}\\s*)+", ErrorMessage = "Geen geldige voornaam")]
         public String Voornaam { get; set; }
-
         
         [RegularExpression("([a-zA-Z]{2,10}\\s*)+", ErrorMessage = "Geen geldig tussenvoegsel")]
         public String Tussenvoegsel { get; set; }
-
 
         [Required(ErrorMessage = "Vul uw achternaam in")]
         [RegularExpression("([a-zA-Z]{2,20}\\s*)+", ErrorMessage = "Geen geldige achternaam")]
@@ -43,6 +41,7 @@ namespace Webshop_gr02.Models
         
         public Klant klant { get; set; }
 
+        public int rol_id { get; set; }
 
         public override string ToString()
         {

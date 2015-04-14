@@ -246,11 +246,6 @@ td a:hover {
     background-color: #EFEFEF;
 }
 
-
-h3 {
-    font-size: initial;
-}
-
 #productImage {
     height: 200px;
     width: 100%;
@@ -356,7 +351,27 @@ div#banner {
     padding-right: -36px;
 }
 
+.bestelbutton {
+    float:left;
+}
 
+.prijs {
+    margin-top: 7px;
+}
+
+.nieuwe_prijs {
+    font-size:18px;
+    margin-left:10px;
+    font-weight:bold;
+    float:left;
+}
+
+.oude_prijs {
+    font-size: 13px;
+    margin-left:175px;
+    text-decoration:line-through;
+    padding-top:6px;
+}
 
 /* Style fot MinstVerkocht
  ---------------------------------------------------------*/
@@ -674,4 +689,20 @@ span.form_error{
 
 .row_last {
     margin-top:20px;
+}
+
+.klant_info_list_right{
+	float:left;
+	display: inline-block;
+	width: 185px;
+	word-break: break-all;
+	margin-top:5px;
+}
+
+.klant_info_list_left{
+	float: left;
+    width: 200px;
+	font-weight:bold;
+	margin-top: 5px;
+    position: relative;
 }
