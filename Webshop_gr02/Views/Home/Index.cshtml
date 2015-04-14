@@ -41,10 +41,10 @@
                                 {
                                     <div class="bestelbutton">
                                         @Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad, username = User.Identity.Name }, new { @class = "btn btn-primary" })
-                                    </div>@*
-                                    
-                                          <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
-                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
+                                    </div>
+
+                                    <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow", "ShoppingCart",
+                            new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>
                                 }
                                 else
                                 {
@@ -53,7 +53,6 @@
                                 
                                 }
 
-                                
                                 @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
                                 {
                                     <div class="prijs">
