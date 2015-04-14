@@ -19,7 +19,7 @@ namespace Webshop_gr02.Controllers
 
         [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
-        public ActionResult ToevoegenProductType(ProductTypeAanbiedingen viewModel)
+        public ActionResult ToevoegenProductType(ProductTypeAanbiedingen viewModel, HttpPostedFileBase file)
         {
             try
             {
@@ -29,6 +29,15 @@ namespace Webshop_gr02.Controllers
 
                     if (!auth)
                     {
+
+                        if (file.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(file.FileName);
+                            var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                            file.SaveAs(path);
+                        }
+
+
                         viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
                         authDBController.InsertProductType(viewModel.ProductType);
                         return RedirectToAction("ProductTypeOverzicht", "Product");
@@ -105,19 +114,14 @@ namespace Webshop_gr02.Controllers
 
         [Authorize(Roles = "BEHEERDER")]
         [HttpPost]
-        public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel, HttpPostedFileBase file)
+        public ActionResult ToevoegenProduct(ProductTypeViewModel viewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
 
-                    if (file.ContentLength > 0)
-                    {
-                        var fileName = Path.GetFileName(file.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
-                        file.SaveAs(path);
-                    }
+
 
                     bool auth = authDBController.checkProducttoevoegn(viewModel.Product.naam);
 
