@@ -109,7 +109,6 @@
     <Compile Include="Controllers\AanbiedingController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BestellingController.cs" />
-    <Compile Include="Controllers\CartTestController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\GebruikerController.cs" />
@@ -136,10 +135,10 @@
     <Compile Include="Models\Gebruiker.cs" />
     <Compile Include="Models\GebruikersRollen.cs" />
     <Compile Include="Models\GoldMember.cs" />
+    <Compile Include="Models\IProductRepository.cs" />
     <Compile Include="Models\Klant.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductContext.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\Registratie.cs" />
     <Compile Include="Models\User.cs" />

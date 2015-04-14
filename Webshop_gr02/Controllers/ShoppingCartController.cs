@@ -10,11 +10,7 @@ namespace Webshop_gr02.Controllers
     public class ShoppingCartController : Controller
     {
 
-        ProductContext storeDB = new ProductContext();
-
-        List<Item> cart = new List<Item>();
-
-  
+        ProductTypeEntities storeDB = new ProductTypeEntities();
 
         public ActionResult Index()
         {
@@ -24,7 +20,7 @@ namespace Webshop_gr02.Controllers
 
         private int isExisting(int id)
         {
-            cart = (List<Item>)Session["cart"];
+            List<Item> cart = (List<Item>)Session["cart"];
             for (int i = 0; i < cart.Count; i++)
                 if (cart[i].Product.ID_P == id)
                     return i;
@@ -34,7 +30,7 @@ namespace Webshop_gr02.Controllers
         public ActionResult Delete(int id)
         {
             int index = isExisting(id);
-            cart = (List<Item>)Session["cart"];
+            List<Item> cart = (List<Item>)Session["cart"];
             cart.RemoveAt(index);
             Session["cart"] = cart;
             return View("Cart");
@@ -42,27 +38,19 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult OrderNow(int id)
         {
-            //if (Session != null)
-            //{
-            //    cart = (List<Item>)Session["cart"];
-
-            //}
-
-
             if (Session["cart"] == null)
             {
-
-
-                cart.Add(new Item(storeDB.producten.Find(id), 1));
+                List<Item> cart = new List<Item>();
+                cart.Add(new Item(storeDB.Product.Find(id), 1));
                 Session["cart"] = cart;
 
             }
             else
             {
-                cart = (List<Item>)Session["cart"];
+                List<Item> cart = (List<Item>)Session["cart"];
                 int index = isExisting(id);
                 if (index == -1)
-                    cart.Add(new Item(storeDB.producten.Find(id), 1));
+                    cart.Add(new Item(storeDB.producttypes.Find(id), 1));
                 else
                     cart[index].Quantity++;
                 Session["cart"] = cart;

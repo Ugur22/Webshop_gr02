@@ -25,7 +25,13 @@ namespace Webshop_gr02.Models
         public Eigenschapwaarde eigenschapwaarde { get; set; }
         public ProductType productType { get; set; }
 
-       
+
+        public interface IProductRepository
+        {
+            IEnumerable<Product> Getproducts();
+            void UpdateProduct(Product product);
+        }
+
 
         public override string ToString()
         {
