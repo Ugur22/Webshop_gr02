@@ -336,7 +336,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Gebruiker\wijzigenKlantGegevens.cshtml" />
-    <Content Include="Views\Home\Popup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

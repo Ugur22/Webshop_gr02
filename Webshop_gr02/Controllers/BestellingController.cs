@@ -97,8 +97,8 @@ namespace Webshop_gr02.Controllers
         {
             try
             {
-                List<BestelRegel> besteldeProducten = authDBController.GetAllOrderedProducts();
-                return View(besteldeProducten);
+                List<Bestelling> bestelling = authDBController.GetAllOrderedProducts();
+                return View(bestelling);
             }
             catch (Exception e)
             {
@@ -106,17 +106,17 @@ namespace Webshop_gr02.Controllers
                 return View();
             }
         }
-        
-        public ActionResult WijzigBesteldeProducten()
-        {
-            List<BestelRegel> besteldeProducten = authDBController.GetAllOrderedProducts();
 
-            foreach (BestelRegel BR in besteldeProducten)
+        public ActionResult WijzigBesteldeProducten(int BestellingID)
+        {
+            List<Bestelling> bestelling = authDBController.GetAllOrderedProducts();
+
+            foreach (Bestelling BR in bestelling)
             {
                 Console.WriteLine(BR);
             }
 
-            return View(besteldeProducten);
+            return View(bestelling);
         }
 
         public ActionResult BestellingGelukt() {
@@ -125,19 +125,19 @@ namespace Webshop_gr02.Controllers
         }
 
         [HttpPost]
-        public ActionResult WijzigBesteldeProducten(BestelRegel bestelRegel)
+        public ActionResult WijzigBesteldeProducten(Bestelling bestelling)
         {
-            Console.WriteLine(bestelRegel);
+            Console.WriteLine(bestelling);
             try
             {
-                authDBController.UpdateOrderedProducts(bestelRegel);
+                authDBController.UpdateOrderedProducts(bestelling);
 
             }
             catch (Exception e)
             {
                 ViewBag.Foutmelding = "Er is iets fout gegaan:" + e;
             }
-            return RedirectToAction("OverzichtBesteldeProducten", "BestelRegel");
+            return RedirectToAction("OverzichtBesteldeProducten", "Bestelling");
         }
 
        

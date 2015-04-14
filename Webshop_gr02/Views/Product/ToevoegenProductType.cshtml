@@ -60,6 +60,8 @@
             <div class="editor-field">
 
                 @Html.TextBoxFor(model => model.ProductType.ImagePath, new { type = "file" })
+                @Html.ValidationMessageFor(model => model.ProductType.ImagePath
+                  )
 
                 <div>
                     @ViewBag.Message

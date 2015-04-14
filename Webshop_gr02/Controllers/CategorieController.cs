@@ -8,7 +8,6 @@ using System.Web.Security;
 using Webshop_gr02.Controllers;
 using Webshop_gr02.DatabaseControllers;
 using Webshop_gr02.Models;
-using Webshop_gr02.DatabaseControllers;
 
 namespace Webshop_gr02.Controllers
 {

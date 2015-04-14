@@ -25,6 +25,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(model => model.Product.naam)
                 @Html.ValidationMessageFor(model => model.Product.naam)
+                <span style="color: red">@Html.ValidationMessage("productfout")</span>
             </div>
 
             <div class="editor-label">

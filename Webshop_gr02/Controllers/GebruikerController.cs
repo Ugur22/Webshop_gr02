@@ -68,10 +68,6 @@ namespace Webshop_gr02.Controllers
             }
             return RedirectToAction("OverzichtGebruiker", "Gebruiker");
         }
-        //public ActionResult WijzigAanbieding()
-        //{
-        //    return View();
-        //}
 
 
         public ActionResult ToevoegenAanbieding()

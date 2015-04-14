@@ -14,6 +14,8 @@ namespace Webshop_gr02.Controllers
 
         List<Item> cart = new List<Item>();
 
+  
+
         public ActionResult Index()
         {
 
@@ -40,6 +42,13 @@ namespace Webshop_gr02.Controllers
 
         public ActionResult OrderNow(int id)
         {
+            //if (Session != null)
+            //{
+            //    cart = (List<Item>)Session["cart"];
+
+            //}
+
+
             if (Session["cart"] == null)
             {
 
