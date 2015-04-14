@@ -76,9 +76,16 @@ ul {
     -ms-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
-    margin-top: 68px;
     margin-left: 15px;
     float: left;
+}
+
+#logoIntoSport {
+    width: 110px;
+    height: 110px;
+    display: block;
+    margin-left: 40px;
+    margin-bottom: -99px;
 }
 
 #nav {
@@ -90,8 +97,8 @@ ul {
     height: 56px;
     font-size: 14px;
     color: #999;
-    margin-left: 57px;
-    margin-top: 55px;
+    margin-left: 130px;
+    margin-top: 44px;
 }
 
 #nav ul li {

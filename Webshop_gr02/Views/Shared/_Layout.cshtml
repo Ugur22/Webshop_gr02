@@ -16,22 +16,7 @@
     <div id="header_wrap">
         <div id="header_content">
             <div id="logoz_zonder_tekst">
-                @if (User.IsInRole("BEHEERDER"))
-                {
-                    <p>BEHEERDER</p>
-                }
-                else if (User.IsInRole("MANAGER"))
-                {
-                    <p>MANAGER</p>
-                }
-                else if (User.IsInRole("KLANT"))
-                { 
-                    <p>KLANT</p>
-                }
-                else if (User.IsInRole("PROMOTIEMEDEWERKER"))
-                {
-                    <p>PROMOTIEMEDEWERKER</p>
-                }
+                <a href="/"><img id="logoIntoSport" src="../Images/INTOSPORT.png" /></a>
             </div>
             @if (Request.IsAuthenticated)
             {
