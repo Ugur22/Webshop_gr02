@@ -3479,5 +3479,50 @@ namespace Webshop_gr02.DatabaseControllers
                 conn.Close();
             }
         }
+
+        public Product GetProduct_ProductType(string ProductID)
+        {
+            Product Product = null;
+            try
+            {
+                conn.Open();
+
+                string selectQueryproduct = @"SELECT p.ID_P as ID_P, p.naam as Naam, p.voorraad as Voorraad, p.zichtbaar as Zichtbaar, p.ID_PT as ID_PT, pt.verkoop_prijs as Prijs FROM product p
+                                                LEFT JOIN product_type pt on p.ID_PT = pt.ID_PT
+                                                WHERE ID_P = @ID_P";
+                MySqlCommand cmd = new MySqlCommand(selectQueryproduct, conn);
+
+                MySqlParameter productidParam = new MySqlParameter("@ID_P", MySqlDbType.Int32);
+                productidParam.Value = ProductID;
+                cmd.Parameters.Add(productidParam);
+                cmd.Prepare();
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    int productId = dataReader.SafeGetInt32("ID_P");
+                    string productNaam = dataReader.SafeGetString("Naam");
+                    int voorraad = dataReader.SafeGetInt32("Voorraad");
+                    int zichtbaar = dataReader.SafeGetInt32("Zichtbaar");
+                    int ID_PT = dataReader.SafeGetInt32("ID_PT");
+                    int prijs = dataReader.SafeGetInt32("Prijs");
+                    ProductType productType = new ProductType { ID_PT = ID_PT, VerkoopPrijs = prijs };
+                    Product = new Product { ID_P = productId, naam = productNaam, voorraad = voorraad, zichtbaar = zichtbaar, productType = productType };
+                }
+
+            }
+            catch (MySqlException e)
+            {
+                Console.Write("product niet opgehaald: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return Product;
+        }
     }
 }

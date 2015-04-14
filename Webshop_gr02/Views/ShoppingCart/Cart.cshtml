@@ -1,12 +1,12 @@
-﻿
-@model List<Webshop_gr02.Models.Product>
+﻿@using Webshop_gr02.Models;
+@model Webshop_gr02.Models.Product
 @{
     ViewBag.Title = "Cart";
 }
 
 @{
-    
-    var CPVList = Session["cart"] as List<Webshop_gr02.Controllers.Item>;
+    //List<Product> productList = new List<Product>();
+    var sessionlist = Session["cart"] as List<Product>;
 }
 
 <div class="content_wrap">
@@ -14,31 +14,26 @@
     <h2>Cart</h2>
 
     <table>
-        <tr>
-
-            <th>naam</th>
-            <th>prijs</th>
-            <th>Aantal</th>
-            <th>sub totaal</th>
+        <tr width="100%">
+            <th width="43%">Product id</th>
+            <th width="43%">Naam</th>
+            <th width="43%">Prijs</th>
         </tr>
 
-        @foreach (Webshop_gr02.Controllers.Item CPV in CPVList)
-        {
-         
-            <tr>
-                @* <td>@Html.ActionLink("Deleten", "Delete", "ShoppingCart",
-                    new { id = CPV.Product.ID_P }, new { @class = "btn btn-primary" })</td>*@
-                <td>@CPV.Product.naam</td>
-                <td>@CPV.Product.productType.VerkoopPrijs</td>
-                <td>@CPV.Quantity</td>
-                <td>@(CPV.Product.productType.VerkoopPrijs * CPV.Quantity)</td>
-            </tr>
+        @{
+            for (int i = 0; i < sessionlist.Count(); i++ ){
+                <tr>
+                    <td>@sessionlist[i].ID_P</td>
+                    <td>@sessionlist[i].naam</td>
+                    <td>@sessionlist[i].productType.VerkoopPrijs</td>
+                </tr>
+            }
         }
 
     </table>
     <br />
     <br />
-    @Html.ActionLink("Ga verder met winkelen", "ProductenOverzichtKlant")
+    @Html.ActionLink("Ga verder met winkelen", "Index", "Home", new{}, new{ @class = "btn btn-primary" })
 </div>
 
 
