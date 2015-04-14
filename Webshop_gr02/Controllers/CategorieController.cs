@@ -96,18 +96,11 @@ namespace Webshop_gr02.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    bool auth = authDBController.checkCategorie(categorie.Naam);
 
-                    if (!auth)
-                    {
-                        authDBController.UpdateCategorie(categorie);
-                        return RedirectToAction("Overzichtcategorie", "Categorie");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("categoriefout", "Categorie bestaat al voer een andere naam in");
-                        return View();
-                    }
+                    authDBController.UpdateCategorie(categorie);
+                    return RedirectToAction("Overzichtcategorie", "Categorie");
+
+
                 }
                 else
                 {
