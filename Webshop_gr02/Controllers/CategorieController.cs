@@ -100,8 +100,6 @@ namespace Webshop_gr02.Controllers
                     authDBController.UpdateCategorie(categorie);
                     return RedirectToAction("Overzichtcategorie", "Categorie");
 
-              
-                    return View();
 
                 }
                 else

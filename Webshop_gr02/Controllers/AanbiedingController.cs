@@ -65,9 +65,6 @@ namespace Webshop_gr02.Controllers
                     authDBController.UpdateAanbieding(aanbieding);
                     return RedirectToAction("OverzichtAanbiedingen", "Aanbieding");
 
-                    ModelState.AddModelError("aanbiedingfout", "Aanbieding bestaat al voer een andere soort in");
-                    return View();
-
                 }
                 else
                 {

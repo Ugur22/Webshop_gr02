@@ -208,9 +208,6 @@ namespace Webshop_gr02.Controllers
                     viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
                     authDBController.UpdateProduct(viewModel.Product);
                     return RedirectToAction("ProductenOverzicht", "Product");
-                    viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-                    viewModel.ProductType = GetProducttype();
-                    return View(viewModel);
 
                 }
                 else
@@ -290,9 +287,6 @@ namespace Webshop_gr02.Controllers
                     viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
                     authDBController.UpdateProductType(viewModel.ProductType);
                     return RedirectToAction("ProductTypeOverzicht", "Product");
-
-                    viewModel.Aanbiedingen = GetAanbiedingen();
-                    return View(viewModel);
 
                 }
                 else
