@@ -341,7 +341,7 @@ div#banner {
 
 
 
-#Button {
+#Button1 {
     bottom: 37px;
     padding-top: 20px;
     position: absolute;
@@ -351,6 +351,19 @@ div#banner {
     padding-left: -16px;
     padding-right: -36px;
 }
+
+
+#Button {
+    /* bottom: 37px; */
+    padding-top: 20px;
+    position: relative;
+    /* margin: 0 auto; */
+    margin-left: -20px;
+    /* padding-right: 23px; */
+    padding-left: -16px;
+    padding-right: -36px;
+}
+
 
 .bestelbutton {
     float:left;
