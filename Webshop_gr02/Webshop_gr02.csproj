@@ -123,7 +123,6 @@
     <Compile Include="Controllers\WinkelWagenController.cs" />
     <Compile Include="CustomExtensions\MySqlDataReaderExtension.cs" />
     <Compile Include="DatabaseControllers\AuthDBController.cs" />
-    <Compile Include="Entities\Cart.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -313,9 +312,6 @@
     <Content Include="Views\Aanbieding\ToevoegenAanbieding.cshtml" />
     <Content Include="Views\Aanbieding\WijzigAanbieding.cshtml" />
     <Content Include="Views\Bestelling\Bestelling.cshtml" />
-    <Content Include="Views\Customer\ProductenOverzichtklant.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\ShoppingCart\Cart.cshtml" />
     <Content Include="Views\Bestelling\OverzichtBesteldeProducten.cshtml" />
     <Content Include="Views\Contact\index.cshtml">
@@ -349,6 +345,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -25,38 +25,45 @@
                     <div class="caption">
                         <ul>
                             <li>
-                    
+
                                 <h3>
                                     @Model[i].naam
                                 </h3>
                             </li>
-                            <li>
-                                Omschrijving:
+                            <li>Omschrijving:
                                 <br />
                                 @Model[i].productType.Omschrijving
                             </li>
-                            <li>
-                                Merk: @Model[i].productType.Merk
+                            <li>Merk: @Model[i].productType.Merk
                             </li>
                             <li id="Button">
                                 @if (User.IsInRole("Klant"))
                                 {
                                     <div class="bestelbutton">
-                                        @Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad,  username = User.Identity.Name }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink("Bestel", "../Bestelling/ProductBestel", new { id = @Model[i].ID_P, bedrag = bedrag, voorraad = @Model[i].voorraad, username = User.Identity.Name }, new { @class = "btn btn-primary" })
                                     </div>@*
                                     
                                           <li id="Button">@Html.ActionLink("Toevoegen aan winkelwagen", "OrderNow","ShoppingCart",
                             new { id = @Model[i].ID_P }, new { @class = "btn btn-primary" })</li>*@
                                 }
+                                else
+                                {
+                                    <li id="Button">@Html.ActionLink("Bestel", "../Account/Logon",
+                            new { }, new { @class = "btn btn-primary" })</li>
+                                
+                                }
+
+                                
                                 @if (User.IsInRole("KLANT") && @ViewBag.goldmember == true)
                                 {
                                     <div class="prijs">
                                         <div class="nieuwe_prijs">Prijs:  €@(bedrag = bedrag * ViewBag.nieuweprijs) </div>
-                                        <div class="oude_prijs"> €@Model[i].productType.VerkoopPrijs </div>
+                                        <div class="oude_prijs">€@Model[i].productType.VerkoopPrijs </div>
                                     </div>
                                 }
-                                else{
-                                    <div class="prijs" style="margin-left:85px;"> 
+                                else
+                                {
+                                    <div class="prijs" style="margin-left: 85px;">
                                         Prijs: €@(bedrag)
                                     </div>
                                 }
