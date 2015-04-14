@@ -26,36 +26,38 @@
                     var count = Model.Count - 1;
                     if (i == count)
                     {
-                    <tr>
-                          <td>@Model[i].ID_B</td>
-                          @*<td>@Model[i].ID_K</td> 
-                          <td>@Model[i].voornaam</td>
-                          <td>@Model[i].tussenvoegsel</td>
-                          <td>@Model[i].achternaam</td>
-                          <td>@String.Format("{0:0.00}", Model[i].bedrag)</td> *@
-                          <td>@Model[i].datum</td> 
-                          <td>@Model[i].status</td>                      
-                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
-                </tr>
+                        <tr>
+                            <td>@Model[i].ID_B</td>
+                            <td>@Model[i].ID_K</td> 
+                            <td>@Model[i].voornaam</td>
+                            <td>@Model[i].tussenvoegsel</td>
+                            <td>@Model[i].achternaam</td>
+                            <td>@String.Format("{0:0.00}", Model[i].bedrag)</td>
+                            <td>@Model[i].datum.ToString("dd/MM/yyyy")</td> 
+                            <td>@Model[i].status</td>                      
+                            @if (Model[i].status.Equals("Besteld") || Model[i].status.Equals("besteld")){
+                                <td>@Html.ActionLink("Betaald", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
+                            }
+                        </tr>
                
                     }
                     else
                     {
                         <tr>
 
-                          <td>@Model[i].ID_B</td>
-                         @* <td>@Model[i].ID_K</td> *@
-                          @*<td>@Model[i].voornaam</td>*@
-@*                          <td>@Model[i].tussenvoegsel</td>*@
-                         @* <td>@Model[i].achternaam</td>*@
-                          @*<td>@String.Format("{0:0.00}", Model[i].bedrag)</td> *@
-                          <td>@Model[i].datum</td> 
-                          <td>@Model[i].status</td>                      
-                          <td>@Html.ActionLink("Wijzigen", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
-
-                         </tr>
-                    }
-                            
+                            <td>@Model[i].ID_B</td>
+                            <td>@Model[i].ID_K</td>
+                            <td>@Model[i].voornaam</td>
+                            <td>@Model[i].tussenvoegsel</td>
+                            <td>@Model[i].achternaam</td>
+                            <td>@String.Format("{0:0.00}", Model[i].bedrag)</td>
+                            <td>@Model[i].datum.ToString("dd/MM/yyyy")</td> 
+                            <td>@Model[i].status</td>                      
+                            @if (Model[i].status.Equals("Besteld") || Model[i].status.Equals("besteld")){
+                                <td>@Html.ActionLink("Betaald", "WijzigBesteldeProducten", new { BestellingID = @Model[i].ID_B })</td>
+                            }
+                        </tr>
+                    } 
                 }
             }
         </tbody>

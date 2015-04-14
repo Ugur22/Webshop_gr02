@@ -1647,7 +1647,7 @@ namespace Webshop_gr02.DatabaseControllers
             int aantal = 0;
             double bedrag = 0;
             string status = "";
-            string datum = "";
+            DateTime datum = DateTime.Now;
 
             try
             {
@@ -1659,15 +1659,13 @@ namespace Webshop_gr02.DatabaseControllers
 
                 while (dataReader.Read())
                 {
-                    ID_P = dataReader.GetInt32("productID");
-                    ID_B = dataReader.GetInt32("bestellingID");
-                    productNaam = dataReader.GetString("productNaam");
-                    aantal = dataReader.GetInt32("aantal");
-                    bedrag = dataReader.GetDouble("bedrag");
-                    status = dataReader.GetString("status");
-                    datum = dataReader.GetString("datum");
-
-
+                    ID_P = dataReader.SafeGetInt32("productID");
+                    ID_B = dataReader.SafeGetInt32("bestellingID");
+                    productNaam = dataReader.SafeGetString("productNaam");
+                    aantal = dataReader.SafeGetInt32("aantal");
+                    bedrag = dataReader.SafeGetFloat("bedrag");
+                    status = dataReader.SafeGetString("status");
+                    datum = dataReader.GetDateTime("datum");
 
                     Bestelling bestelling = new Bestelling { status = status, datum = datum };
                     Product product = new Product { naam = productNaam };
@@ -3344,7 +3342,7 @@ namespace Webshop_gr02.DatabaseControllers
             int aantal;
             double bedrag;
             string status;
-            string datum;
+            DateTime datum;
 
             try
             {
@@ -3367,7 +3365,7 @@ namespace Webshop_gr02.DatabaseControllers
                     aantal = dataReader.SafeGetInt32("aantal");
                     bedrag = dataReader.SafeGetFloat("bedrag");
                     status = dataReader.SafeGetString("status");
-                    datum = dataReader.SafeGetString("datum");
+                    datum = dataReader.GetDateTime("datum");
 
 
 
@@ -3516,6 +3514,38 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             return Product;
+        }
+
+        public void setBetaald(int BestellingID)
+        {
+            MySqlTransaction trans = null;
+            try
+            {
+                conn.Open();
+                trans = conn.BeginTransaction();
+                string insertString = @"UPDATE bestelling SET status = 'betaald' WHERE ID_B = @ID_B";
+
+                MySqlCommand cmd = new MySqlCommand(insertString, conn);
+                MySqlParameter idParam = new MySqlParameter("@ID_B", MySqlDbType.Int16);
+
+                idParam.Value = BestellingID;
+
+                cmd.Parameters.Add(idParam);
+
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+                trans.Commit();
+            }
+            catch (MySqlException e)
+            {
+                trans.Rollback();
+                Console.Write("Genre niet upgedate: " + e);
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

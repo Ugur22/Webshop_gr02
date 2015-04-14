@@ -24,9 +24,9 @@ namespace Webshop_gr02.Controllers
 
         private int isExisting(int id)
         {
-            List<Item> cart = (List<Item>)Session["cart"];
+            List<Product> cart = (List<Product>)Session["cart"];
             for (int i = 0; i < cart.Count; i++)
-                if (cart[i].Product.ID_P == id)
+                if (cart[i].ID_P == id)
                     return i;
             return -1;
         }
@@ -34,10 +34,10 @@ namespace Webshop_gr02.Controllers
         public ActionResult Delete(int id)
         {
             int index = isExisting(id);
-            List<Item> cart = (List<Item>)Session["cart"];
+            List<Product> cart = (List<Product>)Session["cart"];
             cart.RemoveAt(index);
             Session["cart"] = cart;
-            return View("Cart");
+            return RedirectToAction("Cart");
         }
 
         public ActionResult OrderNow(int id)
@@ -81,6 +81,8 @@ namespace Webshop_gr02.Controllers
                     }
                 }
             }
+
+            Session.Abandon();
 
             return RedirectToAction("BestellingGelukt", "Bestelling");
         }

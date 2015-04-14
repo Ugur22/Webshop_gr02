@@ -11,24 +11,27 @@
 
 <div class="content_wrap">
 
-    <h2>Cart</h2>
+    <h2>Winkelwagentje</h2>
 
     <table>
         <tr width="100%">
             <th width="43%">Product id</th>
             <th width="43%">Naam</th>
             <th width="43%">Prijs</th>
-            <th>vorraad</th>
+            <th width="43%">verwijderen</th>
         </tr>
 
         @{
-            for (int i = 0; i < sessionlist.Count(); i++ ){
-                <tr>
-                    <td>@sessionlist[i].ID_P</td>
-                    <td>@sessionlist[i].naam</td>
-                    <td>@sessionlist[i].productType.VerkoopPrijs</td>
-                    <td>@sessionlist[i].voorraad</td>
-                </tr>
+            if (sessionlist != null)
+            {
+                for (int i = 0; i < sessionlist.Count(); i++ ){
+                    <tr>
+                        <td>@sessionlist[i].ID_P</td>
+                        <td>@sessionlist[i].naam</td>
+                        <td>@sessionlist[i].productType.VerkoopPrijs</td>
+                        <td>@Html.ActionLink("Verwijder", "Delete", new { id = @sessionlist[i].ID_P })</td>
+                    </tr>
+                }
             }
         }
 
