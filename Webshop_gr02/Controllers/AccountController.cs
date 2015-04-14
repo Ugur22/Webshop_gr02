@@ -122,6 +122,7 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
                 List<GebruikersRollen> gebruikersRollen = authDBController.getAllGebruikersRollen();
                 viewModel.Rollen = new SelectList(gebruikersRollen, "rol_id", "rolnaam");
                 return View(viewModel);
+
             }
             catch (Exception e)
             {
@@ -157,6 +158,9 @@ namespace WorkshopASPNETMVC3_IV_.Controllers
                 }
                 else
                 {
+                    //viewModel.Aanbiedingen = GetAanbiedingen();
+                    List<GebruikersRollen> gebruikersRollen = authDBController.getAllGebruikersRollen();
+                    viewModel.Rollen = new SelectList(gebruikersRollen, "rol_id", "rolnaam");
                     return View(viewModel);
                 }
             }
