@@ -60,5 +60,29 @@ namespace Webshop_gr02.Controllers
             return RedirectToAction("Cart");
         }
 
+        public ActionResult bestellen(string username)
+        {
+            int aantal = 1;
+            var sessionlist = Session["cart"] as List<Product>;
+
+            authDBController.InsertBestelling(username);
+
+            int bestelnummer = authDBController.HaalBestelNummerUitDB(username);
+
+            if (Session != null && Session["cart"] != null)
+            {
+                for (int i = 0; i < sessionlist.Count(); i++)
+                {
+                    authDBController.InsertBestelRegel(bestelnummer, sessionlist[i].ID_P, aantal, sessionlist[i].productType.VerkoopPrijs);
+                    if (sessionlist[i].voorraad > 0)
+                    {
+                        int voorraad = sessionlist[i].voorraad - aantal;
+                        authDBController.WijzigVoorraad(sessionlist[i].ID_P, voorraad);
+                    }
+                }
+            }
+
+            return RedirectToAction("BestellingGelukt", "Bestelling");
+        }
     }
 }

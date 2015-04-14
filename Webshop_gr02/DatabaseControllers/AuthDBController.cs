@@ -2581,17 +2581,13 @@ namespace Webshop_gr02.DatabaseControllers
         {
 
             int ID_K = haalIDK(username);
-            //getID_K uit sessie
-            string status = "basket";
+            string status = "besteld";
             string datum = DateTime.Now.ToString("yyyy-MM-dd");
-
 
             MySqlTransaction trans = null;
             try
             {
                 conn.Open();
-
-
 
                 trans = conn.BeginTransaction();
 
@@ -2609,12 +2605,9 @@ namespace Webshop_gr02.DatabaseControllers
 
                 /* @TODO Korting toevoegen zodra een product getoond wordt aan de klant */
 
-
-
                 cmd.Parameters.Add(ID_KParam);
                 cmd.Parameters.Add(statusParam);
                 cmd.Parameters.Add(datumParam);
-
 
                 cmd.Prepare();
 

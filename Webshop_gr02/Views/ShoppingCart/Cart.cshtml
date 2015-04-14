@@ -18,6 +18,7 @@
             <th width="43%">Product id</th>
             <th width="43%">Naam</th>
             <th width="43%">Prijs</th>
+            <th>vorraad</th>
         </tr>
 
         @{
@@ -26,6 +27,7 @@
                     <td>@sessionlist[i].ID_P</td>
                     <td>@sessionlist[i].naam</td>
                     <td>@sessionlist[i].productType.VerkoopPrijs</td>
+                    <td>@sessionlist[i].voorraad</td>
                 </tr>
             }
         }
@@ -34,6 +36,7 @@
     <br />
     <br />
     @Html.ActionLink("Ga verder met winkelen", "Index", "Home", new{}, new{ @class = "btn btn-primary" })
+    @Html.ActionLink("Bestellen", "Bestellen", new{ username = User.Identity.Name }, new{ @class = "btn btn-primary" })
 </div>
 
 
