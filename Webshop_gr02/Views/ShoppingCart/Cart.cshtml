@@ -39,7 +39,10 @@
     <br />
     <br />
     @Html.ActionLink("Ga verder met winkelen", "Index", "Home", new{}, new{ @class = "btn btn-primary" })
-    @Html.ActionLink("Bestellen", "Bestellen", new{ username = User.Identity.Name }, new{ @class = "btn btn-primary" })
+    @if (sessionlist != null && sessionlist.Any())
+    {
+        @Html.ActionLink("Bestellen", "Bestellen", new{ username = User.Identity.Name }, new{ @class = "btn btn-primary" })
+    }
 </div>
 
 

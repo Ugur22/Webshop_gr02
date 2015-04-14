@@ -15,20 +15,16 @@ namespace Webshop_gr02.Models
 
         public int ID_PT { get; set; }
         [Required(ErrorMessage = "Naam is een verplicht veld")]
-        [RegularExpression("([a-zA-Z z0-9_-]{2,20}\\s*)+", ErrorMessage = "Geen geldige naam voor een product type")]
+        [RegularExpression("([a-zA-Z z0-9_-]{2,40}\\s*)+", ErrorMessage = "Geen geldige naam voor een product type")]
         public String Naam { get; set; }
         [Required(ErrorMessage = "InkoopPrijs is een verplicht veld")]
         public float InkoopPrijs { get; set; }
         [Required(ErrorMessage = "VerkoopPrijs is een verplicht veld")]
         public float VerkoopPrijs { get; set; }
-        [Required(ErrorMessage = "Omschrijving is een verplicht veld")]
-        [DataType(DataType.MultilineText)]
-        [StringLength(255)]
         public String Omschrijving { get; set; }
         [Required(ErrorMessage = "Merk is een verplicht veld")]
-        [RegularExpression("([a-zA-Z]{2,20}\\s*)+", ErrorMessage = "Geen geldige Merk voor een producttype")]
+        [RegularExpression("([a-zA-Z z0-9_-]{2,40}\\s*)+", ErrorMessage = "Geen geldige  Merk voor een producttype")]
         public String Merk { get; set; }
-        [Required(ErrorMessage = "ImagePath is een verplicht veld")]
         [DataType(DataType.ImageUrl)]
         public String ImagePath { get; set; }
         public Boolean Zichtbaar { get; set; }

@@ -12,7 +12,7 @@ namespace Webshop_gr02.Models
         [Key]
         public int ID_P { get; set; }
         [Required(ErrorMessage = "Naam is een verplicht veld")]
-        [RegularExpression("([a-zA-Z z0-9_-]{2,20}\\s*)+", ErrorMessage = "Geen geldige naam voor een product")]
+        [RegularExpression("([a-zA-Z z0-9_-]{2,40}\\s*)+", ErrorMessage = "Geen geldige naam voor een product")]
         public string naam { get; set; }
         [Required(ErrorMessage = "voorraad is een verplicht veld")]
         public int voorraad { get; set; }
