@@ -201,22 +201,17 @@ namespace Webshop_gr02.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    bool auth = authDBController.checkProduct(viewModel.Product.naam, viewModel.Product.ID_P);
 
-                    if (auth)
-                    {
-                        viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
-                        viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
-                        authDBController.UpdateProduct(viewModel.Product);
-                        return RedirectToAction("ProductenOverzicht", "Product");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("productfout", "Product bestaat al voer een andere naam in");
-                        viewModel.Eigenschapwaarde = GetEigenschapwaarde();
-                        viewModel.ProductType = GetProducttype();
-                        return View(viewModel);
-                    }
+
+
+                    viewModel.Product.productType = authDBController.GetProductType(viewModel.SelectedProductTypeID);
+                    viewModel.Product.eigenschapwaarde = authDBController.GetEigenschapWaarde(viewModel.SelectedeigenschapwaardeID);
+                    authDBController.UpdateProduct(viewModel.Product);
+                    return RedirectToAction("ProductenOverzicht", "Product");
+                    viewModel.Eigenschapwaarde = GetEigenschapwaarde();
+                    viewModel.ProductType = GetProducttype();
+                    return View(viewModel);
+
                 }
                 else
                 {
@@ -292,20 +287,13 @@ namespace Webshop_gr02.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    bool auth = authDBController.checkproducttype(viewModel.ProductType.Naam);
+                    viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
+                    authDBController.UpdateProductType(viewModel.ProductType);
+                    return RedirectToAction("ProductTypeOverzicht", "Product");
 
-                    if (!auth)
-                    {
-                        viewModel.ProductType.Aanbieding = authDBController.GetAanbieding(viewModel.SelectedAanbiedingID);
-                        authDBController.UpdateProductType(viewModel.ProductType);
-                        return RedirectToAction("ProductTypeOverzicht", "Product");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("producttypefout", "producttype bestaat al voer een andere naam in");
-                        viewModel.Aanbiedingen = GetAanbiedingen();
-                        return View(viewModel);
-                    }
+                    viewModel.Aanbiedingen = GetAanbiedingen();
+                    return View(viewModel);
+
                 }
                 else
                 {
