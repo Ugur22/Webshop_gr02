@@ -45,7 +45,7 @@
                     <li class="first"><a href="/">Home</a></li>
                     @if (User.IsInRole("MANAGER"))
                     {
-                        <li>@Html.ActionLink("Manager", "../Manager/ManagerHomepage")
+                        <li><a href="#">Manager</a>
                             <ul>
 
                                 <li>@Html.ActionLink("Meestverkocht", "../Manager/MeestVerkocht")</li>
