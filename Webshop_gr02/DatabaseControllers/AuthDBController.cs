@@ -1822,10 +1822,18 @@ namespace Webshop_gr02.DatabaseControllers
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    totaalAankoop = dataReader.GetDouble("sum(br.bedrag)");
-
-
+                    totaalAankoop = dataReader.SafeGetFloat("sum(br.bedrag)");
                 }
+
+                if (totaalAankoop >= max_bedrag)
+                {
+                    gold = true;
+                }
+                else
+                {
+                    gold = false;
+                }
+
             }
             catch (MySqlException e)
             {
@@ -1837,15 +1845,6 @@ namespace Webshop_gr02.DatabaseControllers
             }
 
             //totaalAankoop = 500.01;
-
-            if (totaalAankoop >= max_bedrag)
-            {
-                gold = true;
-            }
-            else
-            {
-                gold = false;
-            }
 
             return gold;
         }
