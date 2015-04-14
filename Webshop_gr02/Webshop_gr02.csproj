@@ -284,10 +284,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
-    <Content Include="Views\Cookie\HaalCookieOpTest.cshtml" />
-    <Content Include="Views\Cookie\Index.cshtml" />
-    <Content Include="Views\Cookie\PlaatsCookieTest.cshtml" />
-    <Content Include="Views\HaalCookieTest\Index.cshtml" />
     <Content Include="Views\Home\Bronze.cshtml" />
     <Content Include="Views\Home\Beheerder.cshtml" />
     <Content Include="Views\Home\Platina.cshtml" />
